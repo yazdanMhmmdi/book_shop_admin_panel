@@ -6,46 +6,48 @@ import 'package:flutter/material.dart';
 class CategoryTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(26),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "موضوعات",
-              style: TextStyle(
-                  color: IColors.black85,
-                  fontSize: 20,
-                  fontFamily: "IranSans",
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 26),
-            Row(
-              children: [
-                CategoryItem(
-                  child: Image.asset(Assets.labTool),
-                  title: "علمی",
-                ),
-                CategoryItem(
-                  child: Image.asset(Assets.medicine),
-                  title: "دارویی",
-                ),
-                CategoryItem(
-                  child: Image.asset(Assets.hourglass),
-                  title: "تاریخی",
-                ),
-                CategoryItem(
-                  child: Image.asset(Assets.auction),
-                  title: "قضایی",
-                ),
-                CategoryItem(
-                  child: Image.asset(Assets.dish),
-                  title: "غذایی",
-                ),
-              ],
-            )
-          ],
+    return SingleChildScrollView(
+          child: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(26),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "موضوعات",
+                style: TextStyle(
+                    color: IColors.black85,
+                    fontSize: 20,
+                    fontFamily: "IranSans",
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 26),
+              Wrap(
+                children: [
+                  CategoryItem(
+                    child: Image.asset(Assets.labTool),
+                    title: "علمی",
+                  ),
+                  CategoryItem(
+                    child: Image.asset(Assets.medicine),
+                    title: "دارویی",
+                  ),
+                  CategoryItem(
+                    child: Image.asset(Assets.hourglass),
+                    title: "تاریخی",
+                  ),
+                  CategoryItem(
+                    child: Image.asset(Assets.auction),
+                    title: "قضایی",
+                  ),
+                  CategoryItem(
+                    child: Image.asset(Assets.dish),
+                    title: "غذایی",
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
