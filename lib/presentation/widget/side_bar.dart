@@ -9,7 +9,7 @@ class SideBar extends StatelessWidget {
       width: 77,
       height: MediaQuery.of(context).size.height - 64,
       color: Colors.transparent,
-      child: child,
+      child: SingleChildScrollView(child: child),
     );
   }
 }
