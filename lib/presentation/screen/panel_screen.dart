@@ -16,7 +16,11 @@ class PanelScreen extends StatelessWidget {
             ActionBar(),
             Row(
               children: [
-                SideBar(),
+                SideBar(
+                  child: Column(
+                    children: [],
+                  ),
+                ),
                 MainPanel(),
               ],
             ),
