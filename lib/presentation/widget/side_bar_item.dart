@@ -17,7 +17,11 @@ class SideBarItem extends StatelessWidget {
           child: child,
         ),
         SizedBox(height: 5),
-        Text(title),
+        Text(title,
+        style: TextStyle(
+          fontFamily: "IranSans",
+        ),
+        ),
       ],
     );
   }
