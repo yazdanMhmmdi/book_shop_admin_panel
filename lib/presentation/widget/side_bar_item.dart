@@ -1,4 +1,5 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
+import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:flutter/material.dart';
 
 class SideBarItem extends StatelessWidget {
@@ -19,6 +20,8 @@ class SideBarItem extends StatelessWidget {
         SizedBox(height: 5),
         Text(title,
         style: TextStyle(
+          fontSize: 16,
+          color: IColors.black85,
           fontFamily: "IranSans",
         ),
         ),

@@ -21,10 +21,21 @@ class PanelScreen extends StatelessWidget {
                 SideBar(
                   child: Column(
                     children: [
-                      
                       SideBarItem(
                         child: Image.asset(Assets.add),
                         title: "افزودن",
+                      ),
+                      SideBarItem(
+                        child: Image.asset(Assets.edit),
+                        title: "ویرایش",
+                      ),
+                       SideBarItem(
+                        child: Image.asset(Assets.delete),
+                        title: "حذف",
+                      ),
+                      SideBarItem(
+                        child: Image.asset(Assets.search),
+                        title: "جستجو",
                       ),
                     ],
                   ),
