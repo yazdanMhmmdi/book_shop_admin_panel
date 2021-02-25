@@ -1,5 +1,6 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/presentation/tab/category_tab.dart';
 import 'package:book_shop_admin_panel/presentation/widget/action_bar.dart';
 import 'package:book_shop_admin_panel/presentation/widget/main_panel.dart';
 import 'package:book_shop_admin_panel/presentation/widget/side_bar.dart';
@@ -29,7 +30,7 @@ class PanelScreen extends StatelessWidget {
                         child: Image.asset(Assets.edit),
                         title: "ویرایش",
                       ),
-                       SideBarItem(
+                      SideBarItem(
                         child: Image.asset(Assets.delete),
                         title: "حذف",
                       ),
@@ -40,7 +41,9 @@ class PanelScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                MainPanel(),
+                MainPanel(
+                  child: CategoryTab(),
+                ),
               ],
             ),
           ],
