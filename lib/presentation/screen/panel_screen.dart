@@ -1,4 +1,5 @@
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/presentation/widget/action_bar.dart';
 import 'package:book_shop_admin_panel/presentation/widget/main_panel.dart';
 import 'package:book_shop_admin_panel/presentation/widget/side_bar.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class PanelScreen extends StatelessWidget {
         textDirection: TextDirection.rtl,
         child: Column(
           children: [
-            Container(height: 64, color: Colors.blue),
+            ActionBar(),
             Row(
               children: [
                 SideBar(),
