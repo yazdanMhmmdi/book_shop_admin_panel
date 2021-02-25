@@ -1,3 +1,4 @@
+import 'package:book_shop_admin_panel/presentation/router/app_router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -5,6 +6,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  AppRouter _appRouter = new AppRouter();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      onGenerateRoute: _appRouter.onGeneratedRoute,
     );
   }
 }
