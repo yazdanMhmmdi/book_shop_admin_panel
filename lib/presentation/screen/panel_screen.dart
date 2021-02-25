@@ -1,4 +1,5 @@
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/presentation/widget/main_panel.dart';
 import 'package:flutter/material.dart';
 
 class PanelScreen extends StatelessWidget {
@@ -19,12 +20,7 @@ class PanelScreen extends StatelessWidget {
                   color: Colors.yellow,
                   child: Text('a'),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width - 77,
-                  height: MediaQuery.of(context).size.height - 64,
-                  color: Colors.red,
-                  child: Text("b"),
-                )
+                MainPanel(),
               ],
             ),
           ],
