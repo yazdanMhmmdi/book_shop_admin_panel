@@ -44,7 +44,7 @@ class AddBookDialog extends StatelessWidget {
                 ),
                 SizedBox(width: 16),
                 TextFieldSpot(
-                  title: "زبان",
+                  title: "زبان  ",
                 ),
               ],
             ),
@@ -54,7 +54,7 @@ class AddBookDialog extends StatelessWidget {
             Wrap(
               children: [
                 TextFieldSpot(
-                  title: "رای",
+                  title: "رای  ",
                 ),
                 SizedBox(width: 16),
                 TextFieldSpot(
