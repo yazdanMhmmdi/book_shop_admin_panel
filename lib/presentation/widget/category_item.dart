@@ -1,5 +1,7 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/presentation/widget/circular_double_tap.dart';
+import 'package:book_shop_admin_panel/presentation/widget/circular_on_tap.dart';
 import 'package:flutter/material.dart';
 
 class CategoryItem extends StatelessWidget {
@@ -17,20 +19,25 @@ class CategoryItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
           color: IColors.lowBoldGreen,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            child,
-            SizedBox(height: 5),
-            Text(
-              title,
-              style: TextStyle(
-                color: IColors.black85,
-                fontFamily: "IranSans",
-                fontSize: 16,
+        child: CircularDoubleTap(
+          onDoubleTap: () {
+            print('Test2');
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              child,
+              SizedBox(height: 5),
+              Text(
+                title,
+                style: TextStyle(
+                  color: IColors.black85,
+                  fontFamily: "IranSans",
+                  fontSize: 16,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
