@@ -1,4 +1,5 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
+import 'package:book_shop_admin_panel/presentation/widget/add_book_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/books_item.dart';
 import 'package:flutter/material.dart';
 
@@ -35,6 +36,26 @@ class _BooksTabState extends State<BooksTab> {
                 setState(() {
                   BooksTab.clickStatus = 0;
                   print('xx1');
+                  showGeneralDialog(
+                    barrierLabel: "Barrier",
+                    barrierDismissible: true,
+                    barrierColor: Colors.black.withOpacity(0.5),
+                    transitionDuration: Duration(milliseconds: 300),
+                    context: context,
+                    pageBuilder: (_, __, ___) {
+                      return Align(
+                        alignment: Alignment.center,
+                        child: AddBookDialog(),
+                      );
+                    },
+                    transitionBuilder: (_, anim, __, child) {
+                      return SlideTransition(
+                        position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
+                            .animate(anim),
+                        child: child,
+                      );
+                    },
+                  );
                 });
               },
             ),
