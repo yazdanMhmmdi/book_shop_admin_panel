@@ -12,13 +12,13 @@ class SideBarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 26),
+        SizedBox(height: 22),
         CircularOnTap(
           child: Column(
             children: [
               Container(
-                width: 45,
-                height: 45,
+                width: 30,
+                height: 30,
                 child: child,
               ),
               SizedBox(height: 5),
