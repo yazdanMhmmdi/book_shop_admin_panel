@@ -33,8 +33,8 @@ class BooksItem extends StatelessWidget {
         duration: Duration(
           milliseconds: 300,
         ),
-        width: 143,
-        height: 253,
+        width: 125,
+        height: 247,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: BooksTab.clickStatus == number
@@ -72,7 +72,7 @@ class BooksItem extends StatelessWidget {
                 ImageHolder(
                   child: image,
                 ),
-                SizedBox(height: 16),
+                SizedBox(height: 12),
                 Text(
                   "${title}",
                   style: TextStyle(
@@ -82,7 +82,6 @@ class BooksItem extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: 8),
                 Text(
                   "${writer}",
                   style: TextStyle(
