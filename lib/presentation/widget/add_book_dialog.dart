@@ -83,10 +83,10 @@ class AddBookDialog extends StatelessWidget {
                 child: Text(
                   "ثبت کتاب",
                   style: TextStyle(
-                    fontFamily: "IranSans",
-                    fontSize: 16,
-                    color: Colors.white70,
-                  ),
+                      fontFamily: "IranSans",
+                      fontSize: 14,
+                      color: Colors.white70,
+                      decoration: TextDecoration.none),
                 ),
               ),
             )

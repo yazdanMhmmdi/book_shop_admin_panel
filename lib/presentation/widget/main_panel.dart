@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class MainPanel extends StatelessWidget {
   Widget child = Text("B");
   MainPanel({this.child});
+
   @override
   Widget build(BuildContext context) {
     return Container(
