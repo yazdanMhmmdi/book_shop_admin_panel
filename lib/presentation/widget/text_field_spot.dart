@@ -13,10 +13,10 @@ class TextFieldSpot extends StatelessWidget {
         Text(
           " ${title}",
           style: TextStyle(
-            fontSize: 16,
-            fontFamily: "IranSans",
-            color: IColors.black85,
-          ),
+              fontSize: 16,
+              fontFamily: "IranSans",
+              color: IColors.black85,
+              decoration: TextDecoration.none),
         ),
         SizedBox(
           height: 8,

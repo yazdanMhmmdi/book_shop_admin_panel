@@ -49,9 +49,8 @@ class _BooksTabState extends State<BooksTab> {
                       );
                     },
                     transitionBuilder: (_, anim, __, child) {
-                      return SlideTransition(
-                        position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
-                            .animate(anim),
+                      return FadeTransition(
+                        opacity: Tween(begin: 0.0, end: 1.0).animate(anim),
                         child: child,
                       );
                     },
