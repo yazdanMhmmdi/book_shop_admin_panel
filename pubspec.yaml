@@ -57,6 +57,7 @@ flutter:
     - assets/images/medicine_1.png
     - assets/images/trophy_1.png
     - assets/images/image_1.png
+    - assets/images/attention_128_1.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

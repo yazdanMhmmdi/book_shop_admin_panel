@@ -10,4 +10,5 @@ class Assets {
   static final String medicine = "assets/images/medicine_1.png";
   static final String trophy = "assets/images/trophy_1.png";
   static final String image_1 = "assets/images/image_1.png";
+  static final String attention = "assets/images/attention_128_1.png";
 }

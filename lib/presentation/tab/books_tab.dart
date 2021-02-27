@@ -1,6 +1,7 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/presentation/widget/add_book_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/books_item.dart';
+import 'package:book_shop_admin_panel/presentation/widget/delete_book_dialog.dart';
 import 'package:flutter/material.dart';
 
 class BooksTab extends StatefulWidget {
@@ -45,7 +46,7 @@ class _BooksTabState extends State<BooksTab> {
                     pageBuilder: (_, __, ___) {
                       return Align(
                         alignment: Alignment.center,
-                        child: AddBookDialog(),
+                        child: DeleteBookDialog(),
                       );
                     },
                     transitionBuilder: (_, anim, __, child) {
