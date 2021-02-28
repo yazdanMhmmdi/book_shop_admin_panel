@@ -4,11 +4,20 @@ import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/category_tab.dart';
 import 'package:book_shop_admin_panel/presentation/widget/action_bar.dart';
 import 'package:book_shop_admin_panel/presentation/widget/main_panel.dart';
+import 'package:book_shop_admin_panel/presentation/widget/search_field_spot.dart';
 import 'package:book_shop_admin_panel/presentation/widget/side_bar.dart';
 import 'package:book_shop_admin_panel/presentation/widget/side_bar_item.dart';
 import 'package:flutter/material.dart';
 
-class PanelScreen extends StatelessWidget {
+class PanelScreen extends StatefulWidget {
+  @override
+  _PanelScreenState createState() => _PanelScreenState();
+}
+
+class _PanelScreenState extends State<PanelScreen> {
+  bool _visiblity = false;
+  double _padding = 0.0;
+  double _opacity = 0.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,12 +47,41 @@ class PanelScreen extends StatelessWidget {
                       SideBarItem(
                         child: Image.asset(Assets.search),
                         title: "جستجو",
+                        onTap: () {
+                          setState(() {
+                            if (_visiblity == false) {
+                              _padding = 57.0;
+                              _visiblity = true;
+                              _opacity = 1.0;
+                            } else {
+                              _padding = 0.0;
+                              _visiblity = false;
+                              _opacity = 0.0;
+                            }
+                          });
+                        },
                       ),
                     ],
                   ),
                 ),
                 MainPanel(
-                  child: BooksTab(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Stack(
+                        children: [
+                          SearchFieldSpot(
+                            visiblity: _visiblity,
+                            opacity: _opacity,
+                          ),
+                          AnimatedPadding(
+                              duration: Duration(milliseconds: 300),
+                              padding: EdgeInsets.only(top: _padding),
+                              child: BooksTab()),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

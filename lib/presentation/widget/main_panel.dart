@@ -8,7 +8,7 @@ class MainPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width - 77,
+      width: MediaQuery.of(context).size.width - 79,
       height: MediaQuery.of(context).size.height - 64,
       decoration: BoxDecoration(
           color: Colors.white,

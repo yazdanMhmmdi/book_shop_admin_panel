@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class SideBarItem extends StatelessWidget {
   Widget child;
   String title;
-  SideBarItem({this.child, this.title});
+  Function onTap;
+  SideBarItem({this.child, this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class SideBarItem extends StatelessWidget {
               ),
             ],
           ),
-          onTap: () => print("Test"),
+          onTap: onTap,
         )
       ],
     );
