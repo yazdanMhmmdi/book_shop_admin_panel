@@ -3,10 +3,10 @@ import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/widget/books_item.dart';
 import 'package:flutter/material.dart';
 
-class TopRightWidget extends StatelessWidget {
+class TopRightBookWidget extends StatelessWidget {
   String id;
   int number;
-  TopRightWidget({@required this.id, @required this.number});
+  TopRightBookWidget({@required this.id, @required this.number});
 
   @override
   Widget build(BuildContext context) {

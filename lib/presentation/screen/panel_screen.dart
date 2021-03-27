@@ -2,6 +2,7 @@ import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/category_tab.dart';
+import 'package:book_shop_admin_panel/presentation/tab/users_tab.dart';
 import 'package:book_shop_admin_panel/presentation/widget/action_bar.dart';
 import 'package:book_shop_admin_panel/presentation/widget/add_book_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/delete_book_dialog.dart';
@@ -88,7 +89,7 @@ class _PanelScreenState extends State<PanelScreen> {
                           AnimatedPadding(
                               duration: Duration(milliseconds: 300),
                               padding: EdgeInsets.only(top: _padding),
-                              child: BooksTab()),
+                              child: UsersTab()),
                         ],
                       ),
                     ],
