@@ -7,6 +7,7 @@ import 'package:book_shop_admin_panel/presentation/widget/action_bar.dart';
 import 'package:book_shop_admin_panel/presentation/widget/add_book_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/delete_book_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/edit_book_dialog.dart';
+import 'package:book_shop_admin_panel/presentation/widget/edit_user_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/main_panel.dart';
 import 'package:book_shop_admin_panel/presentation/widget/post_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/search_field_spot.dart';
@@ -48,7 +49,7 @@ class _PanelScreenState extends State<PanelScreen> {
                         child: Image.asset(Assets.edit),
                         title: "ویرایش",
                         onTap: () =>
-                            ShowDialog.showDialog(context, EditBookDialog()),
+                            ShowDialog.showDialog(context, EditUserDialog()),
                       ),
                       SideBarItem(
                         child: Image.asset(Assets.delete),

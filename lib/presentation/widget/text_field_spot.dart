@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class TextFieldSpot extends StatelessWidget {
   String title;
-  TextFieldSpot({@required this.title});
+  double width;
+  TextFieldSpot({@required this.title, @required this.width});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,7 +24,7 @@ class TextFieldSpot extends StatelessWidget {
         ),
         Container(
           height: 35,
-          width: 377,
+          width: width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: IColors.lowBoldGreen,
