@@ -1,5 +1,6 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/logic/bloc/side_bar_item_selector_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/category_tab.dart';
@@ -25,100 +26,98 @@ GlobalKey<TitleSelectorState> cartKey = GlobalKey();
 
 class PanelScreen extends StatefulWidget {
   TabsliderBloc tabsliderBloc;
+
+  static bool visiblity = false;
+  static double padding = 0.0;
+  static double opacity = 0.0;
   PanelScreen({@required this.tabsliderBloc});
   @override
   _PanelScreenState createState() => _PanelScreenState();
 }
 
 class _PanelScreenState extends State<PanelScreen> {
-  bool _visiblity = false;
-  double _padding = 0.0;
-  double _opacity = 0.0;
   int tab;
+  SideBarItemSelectorBloc _sideBarItemSelectorBloc;
+
+  @override
+  void initState() {
+    _sideBarItemSelectorBloc =
+        BlocProvider.of<SideBarItemSelectorBloc>(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: IColors.lowBoldGreen,
-      body: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Column(
-          children: [
-            ActionBar(
-              tabsliderBloc: widget.tabsliderBloc,
-            ),
-            Row(
-              children: [
-                SideBar(
-                  child: Column(
-                    children: [
-                      SideBarItem(
-                        child: Image.asset(Assets.add),
-                        title: "افزودن",
-                        onTap: () =>
-                            ShowDialog.showDialog(context, PostDialog()),
-                      ),
-                      SideBarItem(
-                        child: Image.asset(Assets.edit),
-                        title: "ویرایش",
-                        onTap: () =>
-                            ShowDialog.showDialog(context, EditUserDialog()),
-                      ),
-                      SideBarItem(
-                        child: Image.asset(Assets.delete),
-                        title: "حذف",
-                        onTap: () =>
-                            ShowDialog.showDialog(context, DeleteBookDialog()),
-                      ),
-                      SideBarItem(
-                        child: Image.asset(Assets.search),
-                        title: "جستجو",
-                        onTap: () {
-                          setState(() {
-                            if (_visiblity == false) {
-                              _padding = 57.0;
-                              _visiblity = true;
-                              _opacity = 1.0;
-                            } else {
-                              _padding = 0.0;
-                              _visiblity = false;
-                              _opacity = 0.0;
-                            }
-                          });
-                        },
-                      ),
-                    ],
+    return BlocListener<TabsliderBloc, TabsliderState>(
+      listener: (context, state) {
+        if (state is TabsliderInitial) {
+          return Container();
+        } else if (state is TabsliderSuccess) {
+          if (state.tab is UsersTab) {
+            print('UsersTab');
+          }
+          if (state.tab is BooksTab) {
+            print('BooksTab');
+          }
+          _sideBarItemSelectorBloc
+              .add(SelectItemEvent(currentTab: state.tab, context: context));
+          return Container();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: IColors.lowBoldGreen,
+        body: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Column(
+            children: [
+              ActionBar(
+                tabsliderBloc: widget.tabsliderBloc,
+              ),
+              Row(
+                children: [
+                  SideBar(child: BlocBuilder<SideBarItemSelectorBloc,
+                      SideBarItemSelectorState>(
+                    builder: (context, state) {
+                      if (state is SideBarItemSelectorInitial) {
+                        return Container();
+                      } else if (state is SideBarItemSelectorSuccess) {
+                        return state.items;
+                      }
+                    },
+                  )),
+                  MainPanel(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Stack(
+                          children: [
+                            SearchFieldSpot(
+                              visiblity: PanelScreen.visiblity,
+                              opacity: PanelScreen.opacity,
+                            ),
+                            AnimatedPadding(
+                                duration: Duration(milliseconds: 300),
+                                padding:
+                                    EdgeInsets.only(top: PanelScreen.padding),
+                                child:
+                                    BlocBuilder<TabsliderBloc, TabsliderState>(
+                                  builder: (context, state) {
+                                    if (state is TabsliderInitial) {
+                                      return Container();
+                                    } else if (state is TabsliderSuccess) {
+                                      return state.tab;
+                                    }
+                                  },
+                                )),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                MainPanel(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          SearchFieldSpot(
-                            visiblity: _visiblity,
-                            opacity: _opacity,
-                          ),
-                          AnimatedPadding(
-                              duration: Duration(milliseconds: 300),
-                              padding: EdgeInsets.only(top: _padding),
-                              child: BlocBuilder<TabsliderBloc, TabsliderState>(
-                                builder: (context, state) {
-                                  if (state is TabsliderInitial) {
-                                    return Container();
-                                  } else if (state is TabsliderSuccess) {
-                                    return state.tab;
-                                  }
-                                },
-                              )),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
