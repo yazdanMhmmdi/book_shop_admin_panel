@@ -11,7 +11,8 @@ abstract class SideBarItemSelectorEvent extends Equatable {
 class SelectItemEvent extends SideBarItemSelectorEvent {
   var currentTab;
   BuildContext context;
-  SelectItemEvent({@required this.currentTab,@required this.context});
+  Function onTap;
+  SelectItemEvent({@required this.currentTab,@required this.context, @required this.onTap});
 
   @override
   // TODO: implement props

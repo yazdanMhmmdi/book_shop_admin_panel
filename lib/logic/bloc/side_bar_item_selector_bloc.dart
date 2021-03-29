@@ -6,6 +6,7 @@ import 'package:book_shop_admin_panel/presentation/screen/panel_screen.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/users_tab.dart';
 import 'package:book_shop_admin_panel/presentation/widget/delete_book_dialog.dart';
+import 'package:book_shop_admin_panel/presentation/widget/edit_book_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/edit_user_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/post_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/show_dialog.dart';
@@ -28,75 +29,14 @@ class SideBarItemSelectorBloc
       yield SideBarItemSelectorInitial();
       if (event.currentTab is UsersTab) {
         yield SideBarItemSelectorSuccess(
-          Column(
-            children: [
-              SideBarItem(
-                child: Image.asset(Assets.edit),
-                title: "ویرایش",
-                onTap: () =>
-                    ShowDialog.showDialog(event.context, EditUserDialog()),
-              ),
-              SideBarItem(
-                child: Image.asset(Assets.delete),
-                title: "حذف",
-                onTap: () =>
-                    ShowDialog.showDialog(event.context, DeleteBookDialog()),
-              ),
-              SideBarItem(
-                child: Image.asset(Assets.search),
-                title: "جستجو",
-                onTap: () {
-                  if (PanelScreen.visiblity == false) {
-                    PanelScreen.padding = 57.0;
-                    PanelScreen.visiblity = true;
-                    PanelScreen.opacity = 1.0;
-                  } else {
-                    PanelScreen.padding = 0.0;
-                    PanelScreen.visiblity = false;
-                    PanelScreen.opacity = 0.0;
-                  }
-                },
-              ),
-            ],
-          ),
-        );
+            add: false,
+            editFunction: () =>
+                ShowDialog.showDialog(event.context, EditUserDialog()));
       } else if (event.currentTab is BooksTab) {
-        yield SideBarItemSelectorSuccess(Column(
-          children: [
-            SideBarItem(
-              child: Image.asset(Assets.add),
-              title: "افزودن",
-              onTap: () => ShowDialog.showDialog(event.context, PostDialog()),
-            ),
-            SideBarItem(
-              child: Image.asset(Assets.edit),
-              title: "ویرایش",
-              onTap: () =>
-                  ShowDialog.showDialog(event.context, EditUserDialog()),
-            ),
-            SideBarItem(
-              child: Image.asset(Assets.delete),
-              title: "حذف",
-              onTap: () =>
-                  ShowDialog.showDialog(event.context, DeleteBookDialog()),
-            ),
-            SideBarItem(
-              child: Image.asset(Assets.search),
-              title: "جستجو",
-              onTap: () {
-                if (PanelScreen.visiblity == false) {
-                  PanelScreen.padding = 57.0;
-                  PanelScreen.visiblity = true;
-                  PanelScreen.opacity = 1.0;
-                } else {
-                  PanelScreen.padding = 0.0;
-                  PanelScreen.visiblity = false;
-                  PanelScreen.opacity = 0.0;
-                }
-              },
-            ),
-          ],
-        ));
+        yield SideBarItemSelectorSuccess(
+            add: true,
+            editFunction: () =>
+                ShowDialog.showDialog(event.context, EditBookDialog()));
       }
     }
   }

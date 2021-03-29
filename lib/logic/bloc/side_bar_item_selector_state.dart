@@ -7,14 +7,13 @@ abstract class SideBarItemSelectorState extends Equatable {
   List<Object> get props => [];
 }
 
-class SideBarItemSelectorInitial extends SideBarItemSelectorState {
-
-}
+class SideBarItemSelectorInitial extends SideBarItemSelectorState {}
 
 class SideBarItemSelectorSuccess extends SideBarItemSelectorState {
-  Widget items;
-  SideBarItemSelectorSuccess(this.items);
+  bool add;
+  Function editFunction;
+  SideBarItemSelectorSuccess({@required this.add, @required this.editFunction});
 
   @override
-  List<Object> get props => [items];
+  List<Object> get props => [add];
 }

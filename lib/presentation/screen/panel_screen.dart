@@ -27,9 +27,6 @@ GlobalKey<TitleSelectorState> cartKey = GlobalKey();
 class PanelScreen extends StatefulWidget {
   TabsliderBloc tabsliderBloc;
 
-  static bool visiblity = false;
-  static double padding = 0.0;
-  static double opacity = 0.0;
   PanelScreen({@required this.tabsliderBloc});
   @override
   _PanelScreenState createState() => _PanelScreenState();
@@ -38,7 +35,9 @@ class PanelScreen extends StatefulWidget {
 class _PanelScreenState extends State<PanelScreen> {
   int tab;
   SideBarItemSelectorBloc _sideBarItemSelectorBloc;
-
+  bool visiblity = false;
+  double padding = 0.0;
+  double opacity = 0.0;
   @override
   void initState() {
     _sideBarItemSelectorBloc =
@@ -59,8 +58,14 @@ class _PanelScreenState extends State<PanelScreen> {
           if (state.tab is BooksTab) {
             print('BooksTab');
           }
-          _sideBarItemSelectorBloc
-              .add(SelectItemEvent(currentTab: state.tab, context: context));
+          _sideBarItemSelectorBloc.add(SelectItemEvent(
+            currentTab: state.tab,
+            context: context,
+            onTap: () {
+              print("XXXX");
+              setState(() {});
+            },
+          ));
           return Container();
         }
       },
@@ -78,10 +83,49 @@ class _PanelScreenState extends State<PanelScreen> {
                   SideBar(child: BlocBuilder<SideBarItemSelectorBloc,
                       SideBarItemSelectorState>(
                     builder: (context, state) {
-                      if (state is SideBarItemSelectorInitial) {
+                      if (state is SideBarItemSelectorInitial)
                         return Container();
-                      } else if (state is SideBarItemSelectorSuccess) {
-                        return state.items;
+                      else if (state is SideBarItemSelectorSuccess) {
+                        return Column(
+                          children: [
+                            Visibility(
+                              visible: state.add,
+                              child: SideBarItem(
+                                child: Image.asset(Assets.add),
+                                title: "افزودن",
+                                onTap: () => ShowDialog.showDialog(
+                                    context, PostDialog()),
+                              ),
+                            ),
+                            SideBarItem(
+                              child: Image.asset(Assets.edit),
+                              title: "ویرایش",
+                              onTap: state.editFunction,
+                            ),
+                            SideBarItem(
+                              child: Image.asset(Assets.delete),
+                              title: "حذف",
+                              onTap: () => ShowDialog.showDialog(
+                                  context, DeleteBookDialog()),
+                            ),
+                            SideBarItem(
+                                child: Image.asset(Assets.search),
+                                title: "جستجو",
+                                onTap: () {
+                                  setState(() {
+                                    if (visiblity == false) {
+                                      padding = 57.0;
+                                      visiblity = true;
+                                      opacity = 1.0;
+                                    } else {
+                                      padding = 0.0;
+                                      visiblity = false;
+                                      opacity = 0.0;
+                                    }
+                                  });
+                                }),
+                          ],
+                        );
                       }
                     },
                   )),
@@ -92,13 +136,12 @@ class _PanelScreenState extends State<PanelScreen> {
                         Stack(
                           children: [
                             SearchFieldSpot(
-                              visiblity: PanelScreen.visiblity,
-                              opacity: PanelScreen.opacity,
+                              visiblity: visiblity,
+                              opacity: opacity,
                             ),
                             AnimatedPadding(
                                 duration: Duration(milliseconds: 300),
-                                padding:
-                                    EdgeInsets.only(top: PanelScreen.padding),
+                                padding: EdgeInsets.only(top: padding),
                                 child:
                                     BlocBuilder<TabsliderBloc, TabsliderState>(
                                   builder: (context, state) {
