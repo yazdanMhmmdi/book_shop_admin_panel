@@ -1,4 +1,7 @@
-
+import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
+import 'package:book_shop_admin_panel/presentation/screen/panel_screen.dart';
+import 'package:book_shop_admin_panel/presentation/widget/main_panel.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'custom_tab_slider.dart';
@@ -6,19 +9,22 @@ import 'custom_tab_slider.dart';
 class TitleSelector extends StatefulWidget {
   List<String> titles;
   int firstTab = 1;
+  int tab;
+  TabsliderBloc tabsliderBloc;
   TitleSelector(
-      {@required this.titles, @required this.firstTab});
+      {@required this.titles,
+      @required this.firstTab,
+      @required this.tabsliderBloc});
   @override
-  _TitleSelectorState createState() => _TitleSelectorState();
+  TitleSelectorState createState() => TitleSelectorState();
 }
 
-class _TitleSelectorState extends State<TitleSelector> {
+class TitleSelectorState extends State<TitleSelector> {
   int _currentIndex = 0;
   bool _isSelected;
   double _rightPadding = 15;
   int temp = 0;
   bool sience = true, medicine = true;
-
   @override
   void initState() {
     widget.firstTab = widget.firstTab - 1;
@@ -72,7 +78,6 @@ class _TitleSelectorState extends State<TitleSelector> {
             if (temp != index) {
               onTapping(index);
             }
-
           },
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -95,7 +100,9 @@ class _TitleSelectorState extends State<TitleSelector> {
     setState(() {
       tabNumber = index + 1;
       _currentIndex = index;
-      print('cu : $_currentIndex and indx: $index temp = $temp');
+      //change tab index in panel screen
+      widget.tabsliderBloc.add(MoveForwardEvent(tab: index));
+      print('ci : $_currentIndex and indx: $index temp = $temp');
       int c = index;
       print(c);
 
@@ -117,6 +124,7 @@ class _TitleSelectorState extends State<TitleSelector> {
       }
       temp = index;
     });
+
     //int blocIndex = _currentIndex + 1;
 
     //print('index; ${blocIndex}');

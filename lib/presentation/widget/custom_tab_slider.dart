@@ -1,9 +1,12 @@
+import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/widget/title_selector.dart';
 import 'package:flutter/material.dart';
 
-int tabNumber = 1; 
+int tabNumber = 1;
 
 class CustomTabSlider extends StatefulWidget {
+  TabsliderBloc tabsliderBloc;
+  CustomTabSlider({@required this.tabsliderBloc});
   @override
   _CustomTabSliderState createState() => _CustomTabSliderState();
 }
@@ -19,8 +22,12 @@ class _CustomTabSliderState extends State<CustomTabSlider> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(right:65),
-              child: TitleSelector(titles: ["کتابها", "کاربران"], firstTab: 1),
+              padding: const EdgeInsets.only(right: 65),
+              child: TitleSelector(
+                titles: ["کتابها", "کاربران"],
+                firstTab: 1,
+                tabsliderBloc: widget.tabsliderBloc,
+              ),
             )
           ],
         ),

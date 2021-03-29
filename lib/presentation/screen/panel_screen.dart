@@ -1,10 +1,12 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/category_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/users_tab.dart';
 import 'package:book_shop_admin_panel/presentation/widget/action_bar.dart';
 import 'package:book_shop_admin_panel/presentation/widget/add_book_dialog.dart';
+import 'package:book_shop_admin_panel/presentation/widget/custom_tab_slider.dart';
 import 'package:book_shop_admin_panel/presentation/widget/delete_book_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/edit_book_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/edit_user_dialog.dart';
@@ -14,9 +16,16 @@ import 'package:book_shop_admin_panel/presentation/widget/search_field_spot.dart
 import 'package:book_shop_admin_panel/presentation/widget/show_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/side_bar.dart';
 import 'package:book_shop_admin_panel/presentation/widget/side_bar_item.dart';
+import 'package:book_shop_admin_panel/presentation/widget/title_selector.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+GlobalKey<TitleSelectorState> cartKey = GlobalKey();
 
 class PanelScreen extends StatefulWidget {
+  TabsliderBloc tabsliderBloc;
+  PanelScreen({@required this.tabsliderBloc});
   @override
   _PanelScreenState createState() => _PanelScreenState();
 }
@@ -25,6 +34,7 @@ class _PanelScreenState extends State<PanelScreen> {
   bool _visiblity = false;
   double _padding = 0.0;
   double _opacity = 0.0;
+  int tab;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +43,9 @@ class _PanelScreenState extends State<PanelScreen> {
         textDirection: TextDirection.rtl,
         child: Column(
           children: [
-            ActionBar(),
+            ActionBar(
+              tabsliderBloc: widget.tabsliderBloc,
+            ),
             Row(
               children: [
                 SideBar(
@@ -90,7 +102,15 @@ class _PanelScreenState extends State<PanelScreen> {
                           AnimatedPadding(
                               duration: Duration(milliseconds: 300),
                               padding: EdgeInsets.only(top: _padding),
-                              child: UsersTab()),
+                              child: BlocBuilder<TabsliderBloc, TabsliderState>(
+                                builder: (context, state) {
+                                  if (state is TabsliderInitial) {
+                                    return Container();
+                                  } else if (state is TabsliderSuccess) {
+                                    return state.tab;
+                                  }
+                                },
+                              )),
                         ],
                       ),
                     ],
