@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 class CategoryItem extends StatelessWidget {
   Widget child;
   String title;
-  CategoryItem({@required this.child, @required this.title});
+  Function onTap;
+  CategoryItem({@required this.child, @required this.title, this.onTap});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,9 +21,7 @@ class CategoryItem extends StatelessWidget {
           color: IColors.lowBoldGreen,
         ),
         child: CircularDoubleTap(
-          onDoubleTap: () {
-            print('Test2');
-          },
+          onDoubleTap: onTap,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

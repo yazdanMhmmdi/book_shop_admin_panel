@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class ApiProvider {
   static const String URL_IP = "localhost";//yazdanmohammadi.ir
-  final String _BASE_URL = "https://$URL_IP/book_shop/api/admin/";
+  final String _BASE_URL = "http://$URL_IP/book_shop/api/admin/";
 
   Future<dynamic> get(String url) async {
     try {
