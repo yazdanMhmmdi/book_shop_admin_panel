@@ -1,3 +1,4 @@
+import 'package:book_shop_admin_panel/data/repository/users_repository.dart';
 import 'package:book_shop_admin_panel/presentation/widget/user_item.dart';
 import 'package:flutter/material.dart';
 
@@ -20,11 +21,14 @@ class _UsersTabState extends State<UsersTab> {
             name: "رضا محمدی",
             username: "Yazdanm68",
             number: 0,
-            onTap: () {
+            onTap: () async {
               setState(() {
                 UsersTab.clickStatus = 0;
                 print('xx1');
               });
+              UsersRepository _repo = new UsersRepository();
+              var res = await _repo.getUsers("1");
+              print(res.users[0].username);
             },
           ),
           UserItem(
