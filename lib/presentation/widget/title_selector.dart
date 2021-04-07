@@ -1,8 +1,10 @@
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/screen/panel_screen.dart';
 import 'package:book_shop_admin_panel/presentation/widget/main_panel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'custom_tab_slider.dart';
 
@@ -11,10 +13,12 @@ class TitleSelector extends StatefulWidget {
   int firstTab = 1;
   int tab;
   TabsliderBloc tabsliderBloc;
+  UsersBloc usersBloc;
   TitleSelector(
       {@required this.titles,
       @required this.firstTab,
-      @required this.tabsliderBloc});
+      @required this.tabsliderBloc,
+      @required this.usersBloc});
   @override
   TitleSelectorState createState() => TitleSelectorState();
 }
@@ -101,8 +105,10 @@ class TitleSelectorState extends State<TitleSelector> {
       tabNumber = index + 1;
       _currentIndex = index;
       //change tab index in panel screen
-      widget.tabsliderBloc.add(
-          MoveForwardEvent(tab: index, tabSliderBloc: widget.tabsliderBloc));
+      widget.tabsliderBloc.add(MoveForwardEvent(
+          tab: index,
+          tabSliderBloc: widget.tabsliderBloc,
+          usersBloc: widget.usersBloc));
       print('ci : $_currentIndex and indx: $index temp = $temp');
       int c = index;
       print(c);

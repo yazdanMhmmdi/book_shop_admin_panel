@@ -9,10 +9,21 @@ abstract class UsersState extends Equatable {
 
 class UsersInitial extends UsersState {}
 
-class UsersSuccess extends UsersState {}
+class UsersSuccess extends UsersState {
+  UsersModel usersModel;
+  UsersSuccess({@required this.usersModel});
+
+  @override
+  List<Object> get props => [this.usersModel];
+}
 
 class UsersLoading extends UsersState {}
 
-class UsersLazyLoading extends UsersState {}
+class UsersLazyLoading extends UsersState {
+  UsersModel usersModel;
+  UsersLazyLoading({@required this.usersModel});
+  @override
+  List<Object> get props => [this.usersModel];
+}
 
-class UsersFailurex extends UsersState {}
+class UsersFailure extends UsersState {}

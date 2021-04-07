@@ -3,6 +3,7 @@ import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:book_shop_admin_panel/logic/bloc/category_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/side_bar_item_selector_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/category_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/users_tab.dart';
@@ -38,6 +39,7 @@ class _PanelScreenState extends State<PanelScreen> {
 
   SideBarItemSelectorBloc _sideBarItemSelectorBloc;
   CategoryBloc _categoryBloc;
+  UsersBloc _usersBloc;
   bool visiblity = false;
   double padding = 0.0;
   double opacity = 0.0;
@@ -46,18 +48,8 @@ class _PanelScreenState extends State<PanelScreen> {
     _sideBarItemSelectorBloc =
         BlocProvider.of<SideBarItemSelectorBloc>(context);
     _categoryBloc = BlocProvider.of<CategoryBloc>(context);
+    _usersBloc = BlocProvider.of<UsersBloc>(context);
     scrollController = new ScrollController();
-    scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        if (scrollController.position.pixels == 0) {
-          // You're at the top.
-        } else {
-          // You're at the bottom.
-          _categoryBloc.add(GetCategoryEvent(category_id: "1"));
-          print("BOTTOM");
-        }
-      }
-    });
 
     super.initState();
   }
@@ -69,11 +61,33 @@ class _PanelScreenState extends State<PanelScreen> {
         if (state is TabsliderInitial) {
           return Container();
         } else if (state is TabsliderSuccess) {
-          if (state.tab is UsersTab) {
+          if (state.orginalTab is UsersTab) {
             print('UsersTab');
+            scrollController.addListener(() {
+              if (scrollController.position.atEdge) {
+                if (scrollController.position.pixels == 0) {
+                  // You're at the top.
+                } else {
+                  // You're at the bottom.
+                  _usersBloc.add(GetUsersEvent());
+                  print("BOTTOM");
+                }
+              }
+            });
           }
-          if (state.tab is BooksTab) {
+          if (state.orginalTab is BooksTab) {
             print('BooksTab');
+            scrollController.addListener(() {
+              if (scrollController.position.atEdge) {
+                if (scrollController.position.pixels == 0) {
+                  // You're at the top.
+                } else {
+                  // You're at the bottom.
+                  _categoryBloc.add(GetCategoryEvent(category_id: "1"));
+                  print("BOTTOM");
+                }
+              }
+            });
           }
           _sideBarItemSelectorBloc.add(SelectItemEvent(
             currentTab: state.tab,
@@ -95,6 +109,7 @@ class _PanelScreenState extends State<PanelScreen> {
             children: [
               ActionBar(
                 tabsliderBloc: widget.tabsliderBloc,
+                usersBloc: _usersBloc,
               ),
               Row(
                 children: [

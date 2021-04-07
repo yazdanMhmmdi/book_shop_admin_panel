@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/category_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/category_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/users_tab.dart';
@@ -14,7 +15,6 @@ part 'tabslider_state.dart';
 
 class TabsliderBloc extends Bloc<TabsliderEvent, TabsliderState> {
   TabsliderBloc() : super(TabsliderInitial());
-
   @override
   Stream<TabsliderState> mapEventToState(
     TabsliderEvent event,
@@ -27,7 +27,12 @@ class TabsliderBloc extends Bloc<TabsliderEvent, TabsliderState> {
             ], child: CategoryTab()),
             CategoryTab());
       else if (event.tab == 1)
-        yield TabsliderSuccess(UsersTab(), UsersTab());
+        yield TabsliderSuccess(
+            BlocProvider.value(
+              value: event.usersBloc,
+              child: UsersTab(),
+            ),
+            UsersTab());
       else if (event.tab == 2) {
         yield TabsliderSuccess(
             MultiBlocProvider(providers: [
