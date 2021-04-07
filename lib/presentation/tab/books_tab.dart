@@ -48,7 +48,7 @@ class _BooksTabState extends State<BooksTab> {
               state.categoryModel.books.forEach((element) {
                 items.add(
                   BooksItem(
-                    number: 1,
+                    number: int.parse(element.id),
                     image: "http://localhost${element.pictureThumb}",
                     title: element.name,
                     writer: element.writer,
@@ -56,7 +56,7 @@ class _BooksTabState extends State<BooksTab> {
                     id: element.id,
                     onTap: () {
                       setState(() {
-                        BooksTab.clickStatus = 1;
+                        BooksTab.clickStatus = int.parse(element.id);
                         print('xx2');
                       });
                     },
@@ -69,7 +69,7 @@ class _BooksTabState extends State<BooksTab> {
               state.categoryModel.books.forEach((element) {
                 items.add(
                   BooksItem(
-                    number: 1,
+                    number: int.parse(element.id),
                     image: "http://localhost${element.pictureThumb}",
                     title: element.name,
                     writer: element.writer,
@@ -77,7 +77,7 @@ class _BooksTabState extends State<BooksTab> {
                     id: element.id,
                     onTap: () {
                       setState(() {
-                        BooksTab.clickStatus = 1;
+                        BooksTab.clickStatus = int.parse(element.id);
                         print('xx2');
                       });
                     },
