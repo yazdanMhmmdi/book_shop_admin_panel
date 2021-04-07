@@ -101,7 +101,8 @@ class TitleSelectorState extends State<TitleSelector> {
       tabNumber = index + 1;
       _currentIndex = index;
       //change tab index in panel screen
-      widget.tabsliderBloc.add(MoveForwardEvent(tab: index));
+      widget.tabsliderBloc.add(
+          MoveForwardEvent(tab: index, tabSliderBloc: widget.tabsliderBloc));
       print('ci : $_currentIndex and indx: $index temp = $temp');
       int c = index;
       print(c);

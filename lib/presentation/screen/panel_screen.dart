@@ -1,5 +1,6 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/logic/bloc/category_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/side_bar_item_selector_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
@@ -26,7 +27,6 @@ GlobalKey<TitleSelectorState> cartKey = GlobalKey();
 
 class PanelScreen extends StatefulWidget {
   TabsliderBloc tabsliderBloc;
-
   PanelScreen({@required this.tabsliderBloc});
   @override
   _PanelScreenState createState() => _PanelScreenState();
@@ -34,7 +34,10 @@ class PanelScreen extends StatefulWidget {
 
 class _PanelScreenState extends State<PanelScreen> {
   int tab;
+  ScrollController scrollController;
+
   SideBarItemSelectorBloc _sideBarItemSelectorBloc;
+  CategoryBloc _categoryBloc;
   bool visiblity = false;
   double padding = 0.0;
   double opacity = 0.0;
@@ -42,6 +45,20 @@ class _PanelScreenState extends State<PanelScreen> {
   void initState() {
     _sideBarItemSelectorBloc =
         BlocProvider.of<SideBarItemSelectorBloc>(context);
+    _categoryBloc = BlocProvider.of<CategoryBloc>(context);
+    scrollController = new ScrollController();
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels == 0) {
+          // You're at the top.
+        } else {
+          // You're at the bottom.
+          _categoryBloc.add(GetCategoryEvent(category_id: "1"));
+          print("BOTTOM");
+        }
+      }
+    });
+
     super.initState();
   }
 
@@ -130,31 +147,54 @@ class _PanelScreenState extends State<PanelScreen> {
                     },
                   )),
                   MainPanel(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Stack(
-                          children: [
-                            SearchFieldSpot(
-                              visiblity: visiblity,
-                              opacity: opacity,
-                            ),
-                            AnimatedPadding(
-                                duration: Duration(milliseconds: 300),
-                                padding: EdgeInsets.only(top: padding),
-                                child:
-                                    BlocBuilder<TabsliderBloc, TabsliderState>(
-                                  builder: (context, state) {
-                                    if (state is TabsliderInitial) {
-                                      return Container();
-                                    } else if (state is TabsliderSuccess) {
-                                      return state.tab;
-                                    }
-                                  },
-                                )),
-                          ],
-                        ),
-                      ],
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      physics: BouncingScrollPhysics(),
+                      controller: scrollController,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Stack(
+                            children: [
+                              SearchFieldSpot(
+                                visiblity: visiblity,
+                                opacity: opacity,
+                              ),
+                              AnimatedPadding(
+                                  duration: Duration(milliseconds: 300),
+                                  padding: EdgeInsets.only(top: padding),
+                                  child: BlocBuilder<TabsliderBloc,
+                                      TabsliderState>(
+                                    builder: (context, state) {
+                                      if (state is TabsliderInitial) {
+                                        return Container();
+                                      } else if (state is TabsliderSuccess) {
+                                        return state.tab;
+                                      }
+                                    },
+                                  )),
+                            ],
+                          ),
+                          BlocBuilder<CategoryBloc, CategoryState>(
+                            builder: (context, state) {
+                              if (state is CategoryInitial) {
+                                return Container();
+                              } else if (state is CategoryLazyLoading) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else if (state is CategorySuccess) {
+                                return Container();
+                              } else if (state is CategoryLoading) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else if (state is CategoryFailure) {
+                                return Container();
+                              }
+                            },
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],

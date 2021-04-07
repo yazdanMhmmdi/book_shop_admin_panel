@@ -2,10 +2,30 @@ import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:book_shop_admin_panel/data/model/category_model.dart';
 import 'package:book_shop_admin_panel/data/repository/category_repository.dart';
+import 'package:book_shop_admin_panel/logic/bloc/category_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/widget/category_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CategoryTab extends StatelessWidget {
+class CategoryTab extends StatefulWidget {
+  @override
+  _CategoryTabState createState() => _CategoryTabState();
+}
+
+class _CategoryTabState extends State<CategoryTab> {
+  TabsliderBloc _tabsliderBloc;
+  CategoryBloc _categoryBloc;
+  @override
+  void initState() {
+    _tabsliderBloc = BlocProvider.of<TabsliderBloc>(context);
+    _categoryBloc = BlocProvider.of<CategoryBloc>(context);
+
+    _tabsliderBloc.add(MoveForwardEvent(
+        tab: 0, tabSliderBloc: _tabsliderBloc, categoryBloc: _categoryBloc));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -29,15 +49,25 @@ class CategoryTab extends StatelessWidget {
                   CategoryItem(
                       child: Image.asset(Assets.labTool),
                       title: "علمی",
-                      onTap: () async {
-                        CategoryRepository _ca = new CategoryRepository();
-                        CategoryModel _model =
-                            await _ca.getBooksCategory("1", "1");
-                        print(_model.data.currentPage);
+                      onTap: () {
+                        _tabsliderBloc.add(MoveForwardEvent(
+                            tab: 2,
+                            tabSliderBloc: _tabsliderBloc,
+                            categoryBloc: _categoryBloc));
+                        _categoryBloc.add(DisposeCategoryEvent());
+                        _categoryBloc.add(GetCategoryEvent(category_id: "1"));
                       }),
                   CategoryItem(
                     child: Image.asset(Assets.medicine),
                     title: "دارویی",
+                    onTap: () {
+                      _tabsliderBloc.add(MoveForwardEvent(
+                          tab: 2,
+                          tabSliderBloc: _tabsliderBloc,
+                          categoryBloc: _categoryBloc));
+                      _categoryBloc.add(DisposeCategoryEvent());
+                      _categoryBloc.add(GetCategoryEvent(category_id: "2"));
+                    },
                   ),
                   CategoryItem(
                     child: Image.asset(Assets.hourglass),

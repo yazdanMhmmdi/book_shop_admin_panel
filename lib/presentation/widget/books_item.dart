@@ -9,7 +9,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'regular_item_bar.dart';
 
 class BooksItem extends StatelessWidget {
-  Widget image;
+  String image;
   String title, writer;
   double rate;
   String id;
@@ -70,7 +70,7 @@ class BooksItem extends StatelessWidget {
                   height: 8,
                 ),
                 ImageHolder(
-                  child: image,
+                  address: image,
                 ),
                 SizedBox(height: 12),
                 Text(

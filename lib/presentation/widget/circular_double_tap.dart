@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class CircularDoubleTap extends StatelessWidget {
   Widget child;
-  Function onDoubleTap;
-  CircularDoubleTap({@required this.child, @required this.onDoubleTap});
+  Function onTap;
+  CircularDoubleTap({@required this.child, @required this.onTap});
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -12,7 +12,7 @@ class CircularDoubleTap extends StatelessWidget {
       child: InkWell(
         splashColor: IColors.black15,
         borderRadius: BorderRadius.circular(18),
-        onDoubleTap: onDoubleTap,
+        onTap: onTap,
         child: child,
       ),
     );

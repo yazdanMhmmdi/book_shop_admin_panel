@@ -9,8 +9,13 @@ abstract class TabsliderEvent extends Equatable {
 
 class MoveForwardEvent extends TabsliderEvent {
   int tab;
-  MoveForwardEvent({this.tab});
+  TabsliderBloc tabSliderBloc;
+  CategoryBloc categoryBloc;
+  MoveForwardEvent(
+      {@required this.tab,
+      @required this.tabSliderBloc,
+      @required this.categoryBloc});
 
   @override
-  List<Object> get props => [tab];
+  List<Object> get props => [this.tab, this.tabSliderBloc, this.categoryBloc];
 }

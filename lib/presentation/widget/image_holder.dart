@@ -3,8 +3,8 @@ import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:flutter/material.dart';
 
 class ImageHolder extends StatelessWidget {
-  Widget child;
-  ImageHolder({@required this.child});
+  String address;
+  ImageHolder({@required this.address});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ImageHolder extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
         ),
-        child: child,
+        child: Image.network(address),
       ),
     );
   }

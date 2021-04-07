@@ -21,7 +21,7 @@ class CategoryItem extends StatelessWidget {
           color: IColors.lowBoldGreen,
         ),
         child: CircularDoubleTap(
-          onDoubleTap: onTap,
+          onTap: onTap,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
