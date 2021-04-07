@@ -11,7 +11,8 @@ class TabsliderInitial extends TabsliderState {}
 
 class TabsliderSuccess extends TabsliderState {
   var tab;
-  TabsliderSuccess(this.tab);
+  var orginalTab;
+  TabsliderSuccess(this.tab, this.orginalTab);
   @override
-  List<Object> get props => [tab];
+  List<Object> get props => [tab, orginalTab];
 }

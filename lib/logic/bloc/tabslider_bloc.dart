@@ -21,19 +21,22 @@ class TabsliderBloc extends Bloc<TabsliderEvent, TabsliderState> {
   ) async* {
     if (event is MoveForwardEvent) {
       if (event.tab == 0)
-        yield TabsliderSuccess(MultiBlocProvider(providers: [
-          BlocProvider.value(value: event.tabSliderBloc),
-          
-        ], child: CategoryTab()));
+        yield TabsliderSuccess(
+            MultiBlocProvider(providers: [
+              BlocProvider.value(value: event.tabSliderBloc),
+            ], child: CategoryTab()),
+            CategoryTab());
       else if (event.tab == 1)
-        yield TabsliderSuccess(UsersTab());
+        yield TabsliderSuccess(UsersTab(), UsersTab());
       else if (event.tab == 2) {
-        yield TabsliderSuccess(MultiBlocProvider(providers: [
-          BlocProvider.value(value: event.tabSliderBloc),
-          BlocProvider.value(
-            value: event.categoryBloc,
-          )
-        ], child: BooksTab()));
+        yield TabsliderSuccess(
+            MultiBlocProvider(providers: [
+              BlocProvider.value(value: event.tabSliderBloc),
+              BlocProvider.value(
+                value: event.categoryBloc,
+              )
+            ], child: BooksTab()),
+            BooksTab());
       }
     }
   }

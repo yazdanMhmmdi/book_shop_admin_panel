@@ -11,11 +11,15 @@ class MoveForwardEvent extends TabsliderEvent {
   int tab;
   TabsliderBloc tabSliderBloc;
   CategoryBloc categoryBloc;
+  var orginalTab;
+
   MoveForwardEvent(
       {@required this.tab,
       @required this.tabSliderBloc,
-      @required this.categoryBloc});
+      @required this.categoryBloc,
+      @required this.orginalTab});
 
   @override
-  List<Object> get props => [this.tab, this.tabSliderBloc, this.categoryBloc];
+  List<Object> get props =>
+      [this.tab, this.tabSliderBloc, this.categoryBloc, this.orginalTab];
 }

@@ -78,6 +78,7 @@ class _PanelScreenState extends State<PanelScreen> {
           _sideBarItemSelectorBloc.add(SelectItemEvent(
             currentTab: state.tab,
             context: context,
+            orginalTab: state.orginalTab,
             onTap: () {
               print("XXXX");
               setState(() {});

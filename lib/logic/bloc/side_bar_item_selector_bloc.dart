@@ -27,12 +27,12 @@ class SideBarItemSelectorBloc
   ) async* {
     if (event is SelectItemEvent) {
       yield SideBarItemSelectorInitial();
-      if (event.currentTab is UsersTab) {
+      if (event.orginalTab is UsersTab) {
         yield SideBarItemSelectorSuccess(
             add: false,
             editFunction: () =>
                 ShowDialog.showDialog(event.context, EditUserDialog()));
-      } else if (event.currentTab is BooksTab) {
+      } else if (event.orginalTab is BooksTab) {
         yield SideBarItemSelectorSuccess(
             add: true,
             editFunction: () =>
