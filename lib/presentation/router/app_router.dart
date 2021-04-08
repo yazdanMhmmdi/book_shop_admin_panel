@@ -12,6 +12,7 @@ class AppRouter {
   final TabsliderBloc _tabsliderBloc = new TabsliderBloc();
   final CategoryBloc _categoryBloc = new CategoryBloc();
   final UsersBloc _usersBloc = new UsersBloc();
+  // final BooksFuncBloc _booksFuncBloc
   //final UsersBloc _usersBloc = new UsersBloc();
   Route onGeneratedRoute(RouteSettings settings) {
     switch (settings.name) {
