@@ -1,6 +1,6 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
-import 'package:book_shop_admin_panel/logic/bloc/category_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/side_bar_item_selector_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
@@ -28,6 +28,7 @@ GlobalKey<TitleSelectorState> cartKey = GlobalKey();
 
 class PanelScreen extends StatefulWidget {
   TabsliderBloc tabsliderBloc;
+  static int status;
   PanelScreen({@required this.tabsliderBloc});
   @override
   _PanelScreenState createState() => _PanelScreenState();
@@ -38,8 +39,9 @@ class _PanelScreenState extends State<PanelScreen> {
   ScrollController scrollController;
 
   SideBarItemSelectorBloc _sideBarItemSelectorBloc;
-  CategoryBloc _categoryBloc;
+  BookBloc _bookBloc;
   UsersBloc _usersBloc;
+  String tabStatus = "category";
   bool visiblity = false;
   double padding = 0.0;
   double opacity = 0.0;
@@ -47,7 +49,7 @@ class _PanelScreenState extends State<PanelScreen> {
   void initState() {
     _sideBarItemSelectorBloc =
         BlocProvider.of<SideBarItemSelectorBloc>(context);
-    _categoryBloc = BlocProvider.of<CategoryBloc>(context);
+    _bookBloc = BlocProvider.of<BookBloc>(context);
     _usersBloc = BlocProvider.of<UsersBloc>(context);
     scrollController = new ScrollController();
 
@@ -63,6 +65,8 @@ class _PanelScreenState extends State<PanelScreen> {
         } else if (state is TabsliderSuccess) {
           if (state.orginalTab is UsersTab) {
             print('UsersTab');
+            tabStatus = "users";
+
             scrollController.addListener(() {
               if (scrollController.position.atEdge) {
                 if (scrollController.position.pixels == 0) {
@@ -77,13 +81,16 @@ class _PanelScreenState extends State<PanelScreen> {
           }
           if (state.orginalTab is BooksTab) {
             print('BooksTab');
+            setState(() {
+              tabStatus = "books";
+            });
             scrollController.addListener(() {
               if (scrollController.position.atEdge) {
                 if (scrollController.position.pixels == 0) {
                   // You're at the top.
                 } else {
                   // You're at the bottom.
-                  _categoryBloc.add(GetCategoryEvent(category_id: "1"));
+                  _bookBloc.add(GetBookEvent(category_id: "1"));
                   print("BOTTOM");
                 }
               }
@@ -139,7 +146,17 @@ class _PanelScreenState extends State<PanelScreen> {
                               child: Image.asset(Assets.delete),
                               title: "حذف",
                               onTap: () => ShowDialog.showDialog(
-                                  context, DeleteBookDialog()),
+                                  context,
+                                  MultiBlocProvider(
+                                      providers: [
+                                        BlocProvider.value(value: _bookBloc),
+                                        BlocProvider.value(
+                                            value: widget.tabsliderBloc)
+                                      ],
+                                      child: DeleteBookDialog(
+                                        tabStatus: tabStatus,
+                                        status: getStatus(),
+                                      ))),
                             ),
                             SideBarItem(
                                 child: Image.asset(Assets.search),
@@ -192,19 +209,19 @@ class _PanelScreenState extends State<PanelScreen> {
                                   )),
                             ],
                           ),
-                          BlocBuilder<CategoryBloc, CategoryState>(
+                          BlocBuilder<BookBloc, BookState>(
                             builder: (context, state) {
-                              if (state is CategoryInitial) {
+                              if (state is BookInitial) {
                                 return Container();
-                              } else if (state is CategoryLazyLoading) {
+                              } else if (state is BookLazyLoading) {
                                 return Center(
                                     child: CircularProgressIndicator());
-                              } else if (state is CategorySuccess) {
+                              } else if (state is BookSuccess) {
                                 return Container();
-                              } else if (state is CategoryLoading) {
+                              } else if (state is BookLoading) {
                                 return Center(
                                     child: CircularProgressIndicator());
-                              } else if (state is CategoryFailure) {
+                              } else if (state is BookFailure) {
                                 return Container();
                               }
                             },
@@ -220,5 +237,9 @@ class _PanelScreenState extends State<PanelScreen> {
         ),
       ),
     );
+  }
+
+  String getStatus() {
+    return PanelScreen.status.toString();
   }
 }

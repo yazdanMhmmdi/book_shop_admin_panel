@@ -1,12 +1,12 @@
-class CategoryModel {
+class BookModel {
   List<Books> books;
   String error;
   String errorMessage;
   Data data;
 
-  CategoryModel({this.books, this.error, this.errorMessage, this.data});
+  BookModel({this.books, this.error, this.errorMessage, this.data});
 
-  CategoryModel.fromJson(Map<String, dynamic> json) {
+  BookModel.fromJson(Map<String, dynamic> json) {
     if (json['books'] != null) {
       books = new List<Books>();
       json['books'].forEach((v) {

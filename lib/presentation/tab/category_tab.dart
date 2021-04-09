@@ -1,8 +1,8 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
-import 'package:book_shop_admin_panel/data/model/category_model.dart';
-import 'package:book_shop_admin_panel/data/repository/category_repository.dart';
-import 'package:book_shop_admin_panel/logic/bloc/category_bloc.dart';
+import 'package:book_shop_admin_panel/data/model/book_model.dart';
+import 'package:book_shop_admin_panel/data/repository/book_repository.dart';
+import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/widget/category_item.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +15,14 @@ class CategoryTab extends StatefulWidget {
 
 class _CategoryTabState extends State<CategoryTab> {
   TabsliderBloc _tabsliderBloc;
-  CategoryBloc _categoryBloc;
+  BookBloc _bookBloc;
   @override
   void initState() {
     _tabsliderBloc = BlocProvider.of<TabsliderBloc>(context);
-    _categoryBloc = BlocProvider.of<CategoryBloc>(context);
+    _bookBloc = BlocProvider.of<BookBloc>(context);
 
     _tabsliderBloc.add(MoveForwardEvent(
-        tab: 0, tabSliderBloc: _tabsliderBloc, categoryBloc: _categoryBloc));
+        tab: 0, tabSliderBloc: _tabsliderBloc, bookBloc: _bookBloc));
     super.initState();
   }
 
@@ -53,9 +53,9 @@ class _CategoryTabState extends State<CategoryTab> {
                         _tabsliderBloc.add(MoveForwardEvent(
                             tab: 2,
                             tabSliderBloc: _tabsliderBloc,
-                            categoryBloc: _categoryBloc));
-                        _categoryBloc.add(DisposeCategoryEvent());
-                        _categoryBloc.add(GetCategoryEvent(category_id: "1"));
+                            bookBloc: _bookBloc));
+                        _bookBloc.add(DisposeBookEvent());
+                        _bookBloc.add(GetBookEvent(category_id: "1"));
                       }),
                   CategoryItem(
                     child: Image.asset(Assets.medicine),
@@ -64,9 +64,9 @@ class _CategoryTabState extends State<CategoryTab> {
                       _tabsliderBloc.add(MoveForwardEvent(
                           tab: 2,
                           tabSliderBloc: _tabsliderBloc,
-                          categoryBloc: _categoryBloc));
-                      _categoryBloc.add(DisposeCategoryEvent());
-                      _categoryBloc.add(GetCategoryEvent(category_id: "2"));
+                          bookBloc: _bookBloc));
+                      _bookBloc.add(DisposeBookEvent());
+                      _bookBloc.add(GetBookEvent(category_id: "2"));
                     },
                   ),
                   CategoryItem(

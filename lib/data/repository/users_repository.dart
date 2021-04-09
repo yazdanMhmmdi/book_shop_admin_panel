@@ -1,4 +1,4 @@
-import 'package:book_shop_admin_panel/data/model/category_model.dart';
+import 'package:book_shop_admin_panel/data/model/book_model.dart';
 import 'package:book_shop_admin_panel/data/model/users_model.dart';
 import 'package:book_shop_admin_panel/networking/api_provider.dart';
 import 'package:http/http.dart';

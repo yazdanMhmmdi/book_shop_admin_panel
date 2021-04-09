@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:book_shop_admin_panel/logic/bloc/category_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/category_tab.dart';
@@ -38,7 +38,7 @@ class TabsliderBloc extends Bloc<TabsliderEvent, TabsliderState> {
             MultiBlocProvider(providers: [
               BlocProvider.value(value: event.tabSliderBloc),
               BlocProvider.value(
-                value: event.categoryBloc,
+                value: event.bookBloc,
               )
             ], child: BooksTab()),
             BooksTab());

@@ -10,14 +10,14 @@ abstract class TabsliderEvent extends Equatable {
 class MoveForwardEvent extends TabsliderEvent {
   int tab;
   TabsliderBloc tabSliderBloc;
-  CategoryBloc categoryBloc;
+  BookBloc bookBloc;
   UsersBloc usersBloc;
   var orginalTab;
 
   MoveForwardEvent(
       {@required this.tab,
       @required this.tabSliderBloc,
-      @required this.categoryBloc,
+      @required this.bookBloc,
       this.usersBloc,
        this.orginalTab});
 
@@ -25,7 +25,7 @@ class MoveForwardEvent extends TabsliderEvent {
   List<Object> get props => [
         this.tab,
         this.tabSliderBloc,
-        this.categoryBloc,
+        this.bookBloc,
         this.usersBloc,
         this.orginalTab
       ];

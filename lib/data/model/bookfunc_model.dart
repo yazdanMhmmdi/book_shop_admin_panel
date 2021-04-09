@@ -1,11 +1,11 @@
-class BooksFuncModel {
+class BookfuncModel {
   String error;
   String errorMessage;
   String status;
 
-  BooksFuncModel({this.error, this.errorMessage, this.status});
+  BookfuncModel({this.error, this.errorMessage, this.status});
 
-  BooksFuncModel.fromJson(Map<String, dynamic> json) {
+  BookfuncModel.fromJson(Map<String, dynamic> json) {
     error = json['error'];
     errorMessage = json['error_message'];
     status = json['status'];

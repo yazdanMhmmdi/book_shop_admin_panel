@@ -1,9 +1,10 @@
 import 'dart:ffi';
 
 import 'package:book_shop_admin_panel/constants/assets.dart';
-import 'package:book_shop_admin_panel/data/model/category_model.dart';
-import 'package:book_shop_admin_panel/logic/bloc/category_bloc.dart';
+import 'package:book_shop_admin_panel/data/model/book_model.dart';
+import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/networking/api_provider.dart';
+import 'package:book_shop_admin_panel/presentation/screen/panel_screen.dart';
 import 'package:book_shop_admin_panel/presentation/widget/add_book_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/books_item.dart';
 import 'package:book_shop_admin_panel/presentation/widget/delete_book_dialog.dart';
@@ -20,11 +21,11 @@ class BooksTab extends StatefulWidget {
 }
 
 class _BooksTabState extends State<BooksTab> {
-  CategoryBloc _categoryBloc;
+  BookBloc _bookBloc;
   ApiProvider _apiProvider = new ApiProvider();
   @override
   void initState() {
-    _categoryBloc = BlocProvider.of<CategoryBloc>(context);
+    _bookBloc = BlocProvider.of<BookBloc>(context);
 
     widget.a.add(0);
     widget.a.add(1);
@@ -32,20 +33,41 @@ class _BooksTabState extends State<BooksTab> {
 
   @override
   Widget build(BuildContext context) {
-    _categoryBloc = BlocProvider.of<CategoryBloc>(context);
 
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(26),
-        child: BlocBuilder<CategoryBloc, CategoryState>(
+        child: BlocBuilder<BookBloc, BookState>(
           builder: (context, state) {
-            if (state is CategoryInitial) {
+            if (state is BookInitial) {
               return Container();
-            } else if (state is CategoryLoading) {
+            } else if (state is BookLoading) {
               return Container();
-            } else if (state is CategorySuccess) {
+            } else if (state is BookSuccess) {
               List items = new List<Widget>();
-              state.categoryModel.books.forEach((element) {
+              state.bookModel.books.forEach((element) {
+                items.add(
+                  BooksItem(
+                    number: int.parse(element.id),
+                    image: "http://localhost${element.pictureThumb}",
+                    title: element.name,
+                    writer: element.writer,
+                    rate: double.parse(element.voteCount),
+                    id: element.id,
+                    onTap: () {
+                      setState(() {
+                        BooksTab.clickStatus = int.parse(element.id);
+                        PanelScreen.status = int.parse(element.id);
+                        print('selected book: ${PanelScreen.status}');
+                      });
+                    },
+                  ),
+                );
+              });
+              return Wrap(children: items);
+            } else if (state is BookLazyLoading) {
+              List items = new List<Widget>();
+              state.bookModel.books.forEach((element) {
                 items.add(
                   BooksItem(
                     number: int.parse(element.id),
@@ -64,28 +86,7 @@ class _BooksTabState extends State<BooksTab> {
                 );
               });
               return Wrap(children: items);
-            } else if (state is CategoryLazyLoading) {
-              List items = new List<Widget>();
-              state.categoryModel.books.forEach((element) {
-                items.add(
-                  BooksItem(
-                    number: int.parse(element.id),
-                    image: "http://localhost${element.pictureThumb}",
-                    title: element.name,
-                    writer: element.writer,
-                    rate: double.parse(element.voteCount),
-                    id: element.id,
-                    onTap: () {
-                      setState(() {
-                        BooksTab.clickStatus = int.parse(element.id);
-                        print('xx2');
-                      });
-                    },
-                  ),
-                );
-              });
-              return Wrap(children: items);
-            } else if (state is CategoryFailure) {
+            } else if (state is BookFailure) {
               return Container();
             }
           },
