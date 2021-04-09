@@ -34,7 +34,7 @@ class TopRightBookWidget extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
           child: Text(
-            '23',
+            '${id}',
           ),
         ),
       ),
