@@ -22,10 +22,12 @@ class AddBookDialog extends StatelessWidget {
             Wrap(
               children: [
                 TextFieldSpot(
+                  width: 377,
                   title: "نویسنده",
                 ),
                 SizedBox(width: 16),
                 TextFieldSpot(
+                  width: 377,
                   title: "موضوع کتاب",
                 ),
               ],
@@ -40,10 +42,12 @@ class AddBookDialog extends StatelessWidget {
             Wrap(
               children: [
                 TextFieldSpot(
+                  width: 377,
                   title: "نوع جلد",
                 ),
                 SizedBox(width: 16),
                 TextFieldSpot(
+                  width: 377,
                   title: "زبان  ",
                 ),
               ],
@@ -54,10 +58,12 @@ class AddBookDialog extends StatelessWidget {
             Wrap(
               children: [
                 TextFieldSpot(
+                  width: 377,
                   title: "رای  ",
                 ),
                 SizedBox(width: 16),
                 TextFieldSpot(
+                  width: 377,
                   title: "تعداد صفحات",
                 ),
                 SizedBox(
