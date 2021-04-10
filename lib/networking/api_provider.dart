@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class ApiProvider {
   static const String URL_IP = "localhost"; //yazdanmohammadi.ir
@@ -16,6 +18,39 @@ class ApiProvider {
     }
   }
 
+  Future<dynamic> post(String url, File file) async {
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(_BASE_URL + url));
+      Map<String, String> headers = {"Content-type": "multipart/form-data"};
+      request.files.add(
+        http.MultipartFile(
+          'picture',
+          file.readAsBytes().asStream(),
+          file.lengthSync(),
+          filename: 'xxsaxas.jpg',
+        ),
+      );
+      request.headers.addAll(headers);
+      request.fields.addAll({
+        'name': 'BOOK',
+        'language': "FARSI",
+        'description': "SEC",
+        'cover_type': "HARD",
+        'pages_count': '21',
+        'category_id': '1',
+        'vote_count': '1',
+        'writer': "tony",
+      });
+      print("request: " + request.toString());
+      var res = await request.send();
+      Response response = await http.Response.fromStream(res);
+      print("response: ${response.body}");
+
+      return await decodeResponse(response);
+    } catch (_) {
+      print('connection failure $_BASE_URL' + url);
+    }
+  }
 
   dynamic decodeResponse(response) {
     try {
