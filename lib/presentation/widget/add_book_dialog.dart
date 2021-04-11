@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/data/repository/book_repository.dart';
 import 'package:book_shop_admin_panel/networking/api_provider.dart';
 import 'package:book_shop_admin_panel/presentation/widget/multi_text_field_spot.dart';
 import 'package:book_shop_admin_panel/presentation/widget/text_field_spot.dart';
@@ -147,22 +148,17 @@ class _AddBookDialogState extends State<AddBookDialog> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () async {
-                  ApiProvider _api = ApiProvider();
-                  print("name: ${name}");
-                  Map<String, String> params = {
-                    'name': '${name}',
-                    'language': "${language}",
-                    'description': "${description}",
-                    'cover_type': "${coverType}",
-                    'pages_count': '${pageCount}',
-                    'category_id': '1',
-                    'vote_count': "${vote}",
-                    'writer': "${writer}",
-                  };
-
-                  ApiProvider apiProvider = ApiProvider();
-                  apiProvider.post(
-                      'admin_add_books.php', AddBookDialog.file, params);
+                  BookRepository _repo = BookRepository();
+                  await _repo.addBook(
+                      file: AddBookDialog.file,
+                      name: name,
+                      language: language,
+                      description: description,
+                      coverType: coverType,
+                      pageCount: pageCount,
+                      category_id: "1",
+                      vote: vote,
+                      writer: writer);
                   // if (AddBookDialog.file != null) {
 
                   //   Response res = await _api.post("admin_add_books.php", file);

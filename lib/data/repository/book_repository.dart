@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:book_shop_admin_panel/data/model/book_model.dart';
 import 'package:book_shop_admin_panel/networking/api_provider.dart';
 import 'package:book_shop_admin_panel/data/model/bookfunc_model.dart';
@@ -16,6 +18,32 @@ class BookRepository {
   Future<BookfuncModel> deleteBook(String book_id) async {
     final response =
         await _apiProvider.get("admin_delete_books.php?book_id=${book_id}");
+    return BookfuncModel.fromJson(response);
+  }
+
+  Future<BookfuncModel> addBook(
+      {File file,
+      String name,
+      String language,
+      String description,
+      String coverType,
+      String pageCount,
+      String category_id,
+      String vote,
+      String writer}) async {
+    Map<String, String> params = {
+      'name': '${name}',
+      'language': "${language}",
+      'description': "${description}",
+      'cover_type': "${coverType}",
+      'pages_count': '${pageCount}',
+      'category_id': '${category_id}',
+      'vote_count': "${vote}",
+      'writer': "${writer}",
+    };
+
+    final response =
+        await _apiProvider.post('admin_add_books.php', file, params);
     return BookfuncModel.fromJson(response);
   }
 }
