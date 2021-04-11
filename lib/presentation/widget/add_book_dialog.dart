@@ -35,16 +35,19 @@ class _AddBookDialogState extends State<AddBookDialog> {
                 TextFieldSpot(
                   width: 377,
                   title: "نویسنده",
+                  maxLengh: 50,
                 ),
                 SizedBox(width: 16),
                 TextFieldSpot(
                   width: 377,
                   title: "موضوع کتاب",
+                  maxLengh: 82,
                 ),
               ],
             ),
             SizedBox(height: 16),
             MultiTextFieldSpot(
+              maxLengh: 560,
               title: "توضیحات",
             ),
             SizedBox(
@@ -55,11 +58,13 @@ class _AddBookDialogState extends State<AddBookDialog> {
                 TextFieldSpot(
                   width: 377,
                   title: "نوع جلد",
+                  maxLengh: 10,
                 ),
                 SizedBox(width: 16),
                 TextFieldSpot(
                   width: 377,
                   title: "زبان  ",
+                  maxLengh: 15,
                 ),
               ],
             ),
@@ -71,11 +76,13 @@ class _AddBookDialogState extends State<AddBookDialog> {
                 TextFieldSpot(
                   width: 377,
                   title: "رای  ",
+                  maxLengh: 6,
                 ),
                 SizedBox(width: 16),
                 TextFieldSpot(
                   width: 377,
                   title: "تعداد صفحات",
+                  maxLengh: 5,
                 ),
                 SizedBox(
                   height: 16,
