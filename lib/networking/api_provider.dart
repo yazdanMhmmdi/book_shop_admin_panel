@@ -18,7 +18,8 @@ class ApiProvider {
     }
   }
 
-  Future<dynamic> post(String url, File file) async {
+  Future<dynamic> post(
+      String url, File file, Map<String, String> params) async {
     try {
       var request = http.MultipartRequest('POST', Uri.parse(_BASE_URL + url));
       Map<String, String> headers = {"Content-type": "multipart/form-data"};
@@ -31,16 +32,7 @@ class ApiProvider {
         ),
       );
       request.headers.addAll(headers);
-      request.fields.addAll({
-        'name': 'BOOK',
-        'language': "FARSI",
-        'description': "SEC",
-        'cover_type': "HARD",
-        'pages_count': '21',
-        'category_id': '1',
-        'vote_count': '1',
-        'writer': "tony",
-      });
+      request.fields.addAll(params);
       print("request: " + request.toString());
       var res = await request.send();
       Response response = await http.Response.fromStream(res);
@@ -48,7 +40,7 @@ class ApiProvider {
 
       return await decodeResponse(response);
     } catch (_) {
-      print('connection failure $_BASE_URL' + url);
+      print('${_.toString()} connection failure $_BASE_URL' + url);
     }
   }
 

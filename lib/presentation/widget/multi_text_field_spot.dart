@@ -5,7 +5,11 @@ import 'package:flutter/services.dart';
 class MultiTextFieldSpot extends StatelessWidget {
   String title;
   int maxLengh = 100;
-  MultiTextFieldSpot({@required this.title, @required this.maxLengh});
+  Function(String) onChanged;
+  MultiTextFieldSpot(
+      {@required this.title,
+      @required this.maxLengh,
+      @required this.onChanged});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,6 +39,7 @@ class MultiTextFieldSpot extends StatelessWidget {
             child: Directionality(
               textDirection: TextDirection.rtl,
               child: TextField(
+                onChanged: onChanged,
                 maxLines: 3,
                 inputFormatters: <TextInputFormatter>[
                   LengthLimitingTextInputFormatter(maxLengh),

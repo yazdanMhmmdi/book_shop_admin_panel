@@ -6,8 +6,12 @@ class TextFieldSpot extends StatelessWidget {
   String title;
   double width;
   int maxLengh;
+  Function(String) onChanged;
   TextFieldSpot(
-      {@required this.title, @required this.width, @required this.maxLengh});
+      {@required this.title,
+      @required this.width,
+      @required this.maxLengh,
+      @required this.onChanged});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,6 +41,7 @@ class TextFieldSpot extends StatelessWidget {
               textDirection: TextDirection.rtl,
               child: Center(
                 child: TextField(
+                  onChanged: onChanged,
                   maxLines: 2,
                   inputFormatters: <TextInputFormatter>[
                     LengthLimitingTextInputFormatter(maxLengh),

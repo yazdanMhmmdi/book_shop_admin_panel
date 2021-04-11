@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
@@ -17,6 +18,13 @@ class AddBookDialog extends StatefulWidget {
 }
 
 class _AddBookDialogState extends State<AddBookDialog> {
+  String name;
+  String writer;
+  String description;
+  String language;
+  String coverType;
+  String pageCount;
+  String vote;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,12 +41,22 @@ class _AddBookDialogState extends State<AddBookDialog> {
             Wrap(
               children: [
                 TextFieldSpot(
+                  onChanged: (value) {
+                    setState(() {
+                      writer = value;
+                    });
+                  },
                   width: 377,
                   title: "نویسنده",
                   maxLengh: 50,
                 ),
                 SizedBox(width: 16),
                 TextFieldSpot(
+                  onChanged: (value) {
+                    setState(() {
+                      name = value;
+                    });
+                  },
                   width: 377,
                   title: "موضوع کتاب",
                   maxLengh: 82,
@@ -47,6 +65,11 @@ class _AddBookDialogState extends State<AddBookDialog> {
             ),
             SizedBox(height: 16),
             MultiTextFieldSpot(
+              onChanged: (value) {
+                setState(() {
+                  description = value;
+                });
+              },
               maxLengh: 560,
               title: "توضیحات",
             ),
@@ -56,12 +79,22 @@ class _AddBookDialogState extends State<AddBookDialog> {
             Wrap(
               children: [
                 TextFieldSpot(
+                  onChanged: (value) {
+                    setState(() {
+                      coverType = value;
+                    });
+                  },
                   width: 377,
                   title: "نوع جلد",
                   maxLengh: 10,
                 ),
                 SizedBox(width: 16),
                 TextFieldSpot(
+                  onChanged: (value) {
+                    setState(() {
+                      language = value;
+                    });
+                  },
                   width: 377,
                   title: "زبان  ",
                   maxLengh: 15,
@@ -74,12 +107,22 @@ class _AddBookDialogState extends State<AddBookDialog> {
             Wrap(
               children: [
                 TextFieldSpot(
+                  onChanged: (value) {
+                    setState(() {
+                      vote = value;
+                    });
+                  },
                   width: 377,
                   title: "رای  ",
                   maxLengh: 6,
                 ),
                 SizedBox(width: 16),
                 TextFieldSpot(
+                  onChanged: (value) {
+                    setState(() {
+                      pageCount = value;
+                    });
+                  },
                   width: 377,
                   title: "تعداد صفحات",
                   maxLengh: 5,
@@ -105,9 +148,21 @@ class _AddBookDialogState extends State<AddBookDialog> {
               child: InkWell(
                 onTap: () async {
                   ApiProvider _api = ApiProvider();
+                  print("name: ${name}");
+                  Map<String, String> params = {
+                    'name': '${name}',
+                    'language': "${language}",
+                    'description': "${description}",
+                    'cover_type': "${coverType}",
+                    'pages_count': '${pageCount}',
+                    'category_id': '1',
+                    'vote_count': "${vote}",
+                    'writer': "${writer}",
+                  };
 
                   ApiProvider apiProvider = ApiProvider();
-                  apiProvider.post('admin_add_books.php', AddBookDialog.file);
+                  apiProvider.post(
+                      'admin_add_books.php', AddBookDialog.file, params);
                   // if (AddBookDialog.file != null) {
 
                   //   Response res = await _api.post("admin_add_books.php", file);
