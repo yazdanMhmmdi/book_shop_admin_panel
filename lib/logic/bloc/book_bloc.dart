@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:book_shop_admin_panel/data/model/book_model.dart';
@@ -21,6 +22,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
     BookEvent event,
   ) async* {
     if (event is GetBookEvent) {
+      // _model = null;
       try {
         counterPage++;
         if (counterPage == 1) {
@@ -65,6 +67,30 @@ class BookBloc extends Bloc<BookEvent, BookState> {
         }
       } catch (err) {
         yield BookFailure(error_message: "");
+      }
+    } else if (event is AddBookEvent) {
+      yield BookLoading();
+
+      try {
+        BookfuncModel _fundModel = await _repository.addBook(
+            file: event.file,
+            name: event.name,
+            language: event.language,
+            description: event.description,
+            coverType: event.coverType,
+            pageCount: event.pageCount,
+            category_id: event.category_id,
+            vote: event.vote,
+            writer: event.writer);
+        if (_fundModel.status == "1") {
+          //TODO: needs id,picture_thumb, picture from server api;
+          print(_model.books[(_model.books.length - 1)].name);
+          yield BookSuccess(bookModel: _model);
+        } else {
+          yield BookFailure(error_message: "error add book");
+        }
+      } catch (err) {
+        yield BookFailure(error_message: "null");
       }
     }
   }

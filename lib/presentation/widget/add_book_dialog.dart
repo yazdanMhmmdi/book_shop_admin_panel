@@ -3,10 +3,12 @@ import 'dart:io';
 
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:book_shop_admin_panel/data/repository/book_repository.dart';
+import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/networking/api_provider.dart';
 import 'package:book_shop_admin_panel/presentation/widget/multi_text_field_spot.dart';
 import 'package:book_shop_admin_panel/presentation/widget/text_field_spot.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 
 import 'image_picker_spot.dart';
@@ -19,6 +21,7 @@ class AddBookDialog extends StatefulWidget {
 }
 
 class _AddBookDialogState extends State<AddBookDialog> {
+  BookBloc _bookBloc;
   String name;
   String writer;
   String description;
@@ -26,6 +29,12 @@ class _AddBookDialogState extends State<AddBookDialog> {
   String coverType;
   String pageCount;
   String vote;
+  @override
+  void initState() {
+    _bookBloc = BlocProvider.of<BookBloc>(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -148,17 +157,19 @@ class _AddBookDialogState extends State<AddBookDialog> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () async {
-                  BookRepository _repo = BookRepository();
-                  await _repo.addBook(
-                      file: AddBookDialog.file,
-                      name: name,
-                      language: language,
-                      description: description,
-                      coverType: coverType,
-                      pageCount: pageCount,
-                      category_id: "1",
-                      vote: vote,
-                      writer: writer);
+                  _bookBloc.add(AddBookEvent(
+                    category_id: "1",
+                    name: name,
+                    language: language,
+                    description: description,
+                    coverType: coverType,
+                    vote: vote,
+                    file: AddBookDialog.file,
+                    pageCount: pageCount,
+                    writer: writer,
+                  ));
+                  _bookBloc.add(DisposeBookEvent());
+                  _bookBloc.add(GetBookEvent(category_id: "1"));
                   // if (AddBookDialog.file != null) {
 
                   //   Response res = await _api.post("admin_add_books.php", file);

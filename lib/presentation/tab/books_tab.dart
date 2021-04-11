@@ -48,16 +48,16 @@ class _BooksTabState extends State<BooksTab> {
               state.bookModel.books.forEach((element) {
                 items.add(
                   BooksItem(
-                    number: int.parse(element.id),
+                    number: int.tryParse(element.id),
                     image: "http://localhost${element.pictureThumb}",
                     title: element.name,
                     writer: element.writer,
-                    rate: double.parse(element.voteCount),
+                    rate: double.tryParse(element.voteCount),
                     id: element.id,
                     onTap: () {
                       setState(() {
-                        BooksTab.clickStatus = int.parse(element.id);
-                        PanelScreen.status = int.parse(element.id);
+                        BooksTab.clickStatus = int.tryParse(element.id);
+                        PanelScreen.status = int.tryParse(element.id);
                         print('selected book: ${PanelScreen.status}');
                       });
                     },

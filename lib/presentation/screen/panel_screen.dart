@@ -134,7 +134,11 @@ class _PanelScreenState extends State<PanelScreen> {
                                 child: Image.asset(Assets.add),
                                 title: "افزودن",
                                 onTap: () => ShowDialog.showDialog(
-                                    context, AddBookDialog()),
+                                    context,
+                                    BlocProvider.value(
+                                        value:
+                                            BlocProvider.of<BookBloc>(context),
+                                        child: AddBookDialog())),
                               ),
                             ),
                             SideBarItem(
