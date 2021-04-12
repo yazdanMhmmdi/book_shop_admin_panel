@@ -46,4 +46,30 @@ class BookRepository {
         await _apiProvider.post('admin_add_books.php', file, params);
     return BookfuncModel.fromJson(response);
   }
+
+  Future<BookfuncModel> editBook(
+      {File file,
+      String name,
+      String language,
+      String description,
+      String coverType,
+      String pageCount,
+      String book_id,
+      String vote,
+      String writer}) async {
+    Map<String, String> params = {
+      'name': '${name}',
+      'language': "${language}",
+      'description': "${description}",
+      'cover_type': "${coverType}",
+      'pages_count': '${pageCount}',
+      'book_id': '${book_id}',
+      'vote_count': "${vote}",
+      'writer': "${writer}",
+    };
+
+    final response =
+        await _apiProvider.post('admin_edit_books.php', file, params);
+    return BookfuncModel.fromJson(response);
+  }
 }

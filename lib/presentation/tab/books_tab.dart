@@ -33,7 +33,6 @@ class _BooksTabState extends State<BooksTab> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(26),
@@ -46,44 +45,19 @@ class _BooksTabState extends State<BooksTab> {
             } else if (state is BookSuccess) {
               List items = new List<Widget>();
               state.bookModel.books.forEach((element) {
-                items.add(
-                  BooksItem(
-                    number: int.tryParse(element.id),
-                    image: "http://localhost${element.pictureThumb}",
-                    title: element.name,
-                    writer: element.writer,
-                    rate: double.tryParse(element.voteCount),
-                    id: element.id,
-                    onTap: () {
-                      setState(() {
-                        BooksTab.clickStatus = int.tryParse(element.id);
-                        PanelScreen.status = int.tryParse(element.id);
-                        print('selected book: ${PanelScreen.status}');
-                      });
-                    },
-                  ),
-                );
+                items.add(returnCard(element));
               });
               return Wrap(children: items);
             } else if (state is BookLazyLoading) {
               List items = new List<Widget>();
               state.bookModel.books.forEach((element) {
-                items.add(
-                  BooksItem(
-                    number: int.parse(element.id),
-                    image: "http://localhost${element.pictureThumb}",
-                    title: element.name,
-                    writer: element.writer,
-                    rate: double.parse(element.voteCount),
-                    id: element.id,
-                    onTap: () {
-                      setState(() {
-                        BooksTab.clickStatus = int.parse(element.id);
-                        print('xx2');
-                      });
-                    },
-                  ),
-                );
+                items.add(returnCard(element));
+              });
+              return Wrap(children: items);
+            } else if (state is BookSelectedReturn) {
+              List items = new List<Widget>();
+              state.bookModel.books.forEach((element) {
+                items.add(returnCard(element));
               });
               return Wrap(children: items);
             } else if (state is BookFailure) {
@@ -92,6 +66,26 @@ class _BooksTabState extends State<BooksTab> {
           },
         ),
       ),
+    );
+  }
+
+  Widget returnCard(var element) {
+    return BooksItem(
+      number: int.tryParse(element.id),
+      image: "http://localhost${element.pictureThumb}",
+      title: element.name,
+      writer: element.writer,
+      rate: double.tryParse(element.voteCount),
+      id: element.id,
+      onTap: () {
+        setState(() {
+          BooksTab.clickStatus = int.tryParse(element.id);
+          PanelScreen.status = int.tryParse(element.id);
+          //selected book that user choosed it.
+          _bookBloc.add(SelectBookEvent(book_id: element.id.toString()));
+          print('selected book: ${PanelScreen.status}');
+        });
+      },
     );
   }
 }

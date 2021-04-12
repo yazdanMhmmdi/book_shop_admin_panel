@@ -100,6 +100,7 @@ class _PanelScreenState extends State<PanelScreen> {
             currentTab: state.tab,
             context: context,
             orginalTab: state.orginalTab,
+            bookBloc: _bookBloc,
             onTap: () {
               print("XXXX");
               setState(() {});
@@ -226,6 +227,8 @@ class _PanelScreenState extends State<PanelScreen> {
                                 return Center(
                                     child: CircularProgressIndicator());
                               } else if (state is BookFailure) {
+                                return Container();
+                              } else {
                                 return Container();
                               }
                             },

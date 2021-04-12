@@ -59,4 +59,49 @@ class AddBookEvent extends BookEvent {
       ];
 }
 
+class EditBookEvent extends BookEvent {
+  File file;
+  String name;
+  String language;
+  String description;
+  String coverType;
+  String pageCount;
+  String vote;
+  String writer;
+  String book_id;
+  EditBookEvent(
+      {this.file,
+      this.name,
+      this.language,
+      this.description,
+      this.coverType,
+      this.pageCount,
+      this.book_id,
+      this.vote,
+      this.writer});
+  @override
+  // TODO: implement props
+  List<Object> get props => [
+        file,
+        name,
+        language,
+        description,
+        coverType,
+        pageCount,
+        book_id,
+        vote,
+        writer
+      ];
+}
+
+class SelectBookEvent extends BookEvent {
+  String book_id;
+  SelectBookEvent({@required this.book_id});
+  @override
+  // TODO: implement props
+  List<Object> get props => [this.book_id];
+}
+
+class ReturnSelectedBookEvent extends BookEvent {}
+
 class DisposeBookEvent extends BookEvent {}

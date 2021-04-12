@@ -5,11 +5,14 @@ import 'package:flutter/services.dart';
 class MultiTextFieldSpot extends StatelessWidget {
   String title;
   int maxLengh = 100;
+  String initialValue;
+
   Function(String) onChanged;
   MultiTextFieldSpot(
       {@required this.title,
       @required this.maxLengh,
-      @required this.onChanged});
+      @required this.onChanged,
+      this.initialValue});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -38,18 +41,32 @@ class MultiTextFieldSpot extends StatelessWidget {
             ),
             child: Directionality(
               textDirection: TextDirection.rtl,
-              child: TextField(
-                onChanged: onChanged,
-                maxLines: 3,
-                inputFormatters: <TextInputFormatter>[
-                  LengthLimitingTextInputFormatter(maxLengh),
-                ],
-                style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(
-                        bottom: 11, right: 16, left: 16, top: 11)),
-              ),
+              child: initialValue != null
+                  ? TextFormField(
+                      onChanged: onChanged,
+                      maxLines: 3,
+                      initialValue: initialValue,
+                      inputFormatters: <TextInputFormatter>[
+                        LengthLimitingTextInputFormatter(maxLengh),
+                      ],
+                      style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                              bottom: 11, right: 16, left: 16, top: 11)),
+                    )
+                  : TextFormField(
+                      onChanged: onChanged,
+                      maxLines: 3,
+                      inputFormatters: <TextInputFormatter>[
+                        LengthLimitingTextInputFormatter(maxLengh),
+                      ],
+                      style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                              bottom: 11, right: 16, left: 16, top: 11)),
+                    ),
             ),
           ),
         ),

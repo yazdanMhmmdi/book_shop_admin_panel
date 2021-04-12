@@ -28,6 +28,32 @@ class BookLazyLoading extends BookState {
   List<Object> get props => [this.bookModel];
 }
 
+class BookSelectedReturn extends BookState {
+  String name, language, description, writer, voteCount, pageCount, coverType;
+  BookModel bookModel;
+  BookSelectedReturn(
+      {this.description,
+      this.language,
+      this.name,
+      this.writer,
+      this.bookModel,
+      this.pageCount,
+      this.voteCount,
+      this.coverType});
+  @override
+  // TODO: implement props
+  List<Object> get props => [
+        this.description,
+        this.language,
+        this.name,
+        this.writer,
+        this.bookModel,
+        this.pageCount,
+        this.voteCount,
+        this.coverType
+      ];
+}
+
 class BookFailure extends BookState {
   String error_message;
   BookFailure({@required this.error_message});

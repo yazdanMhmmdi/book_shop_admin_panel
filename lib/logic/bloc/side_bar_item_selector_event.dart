@@ -12,13 +12,15 @@ class SelectItemEvent extends SideBarItemSelectorEvent {
   var orginalTab;
   BuildContext context;
   Function onTap;
+  BookBloc bookBloc;
   SelectItemEvent(
       {@required this.currentTab,
       @required this.context,
       @required this.onTap,
-      @required this.orginalTab});
+      @required this.orginalTab,
+      @required this.bookBloc});
 
   @override
   // TODO: implement props
-  List<Object> get props => [currentTab];
+  List<Object> get props => [currentTab, bookBloc];
 }

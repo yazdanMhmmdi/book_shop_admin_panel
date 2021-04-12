@@ -17,81 +17,130 @@ class BookBloc extends Bloc<BookEvent, BookState> {
   BookRepository _repository = new BookRepository();
   int counterPage = 0, totalPage;
   BookModel _model;
+  String selectedBookId;
   @override
   Stream<BookState> mapEventToState(
     BookEvent event,
   ) async* {
-    if (event is GetBookEvent) {
-      // _model = null;
-      try {
-        counterPage++;
-        if (counterPage == 1) {
-          yield BookLoading();
+    try {
+      if (event is GetBookEvent) {
+        // _model = null;
+        try {
+          counterPage++;
+          if (counterPage == 1) {
+            yield BookLoading();
 
-          //first time caching
-          _model = await _repository.getBooks(
-              counterPage.toString(), event.category_id);
-          totalPage = _model.data.totalPages;
-          print("CATEG PAGE 1");
-          yield BookSuccess(bookModel: _model);
-        } else if (counterPage <= totalPage) {
-          yield BookLazyLoading(bookModel: _model);
-          // page 2 to bigger pages cache
-          BookModel _res = await _repository.getBooks(
-              counterPage.toString(), event.category_id);
-          _res.books.forEach((e) {
-            _model.books.add(e);
-          });
-          print("CATEG PAGE X");
+            //first time caching
+            _model = await _repository.getBooks(
+                counterPage.toString(), event.category_id);
+            totalPage = _model.data.totalPages;
+            print("CATEG PAGE 1");
+            yield BookSuccess(bookModel: _model);
+          } else if (counterPage <= totalPage) {
+            yield BookLazyLoading(bookModel: _model);
+            // page 2 to bigger pages cache
+            BookModel _res = await _repository.getBooks(
+                counterPage.toString(), event.category_id);
+            _res.books.forEach((e) {
+              _model.books.add(e);
+            });
+            print("CATEG PAGE X");
 
-          yield BookSuccess(bookModel: _model);
-        } else {
-          print("CATEG PAGE END");
+            yield BookSuccess(bookModel: _model);
+          } else {
+            print("CATEG PAGE END");
+          }
+        } catch (err) {
+          yield BookFailure(error_message: "");
         }
-      } catch (err) {
-        yield BookFailure(error_message: "");
-      }
-    } else if (event is DisposeBookEvent) {
-      _model = new BookModel();
-      totalPage = 0;
-      counterPage = 0;
-    } else if (event is DeleteBookEvent) {
-      yield BookLoading();
-      try {
-        BookfuncModel _funcModel = await _repository.deleteBook(event.book_id);
-        if (_funcModel.status == "1") {
-          _model.books.removeWhere((book) => book.id == event.book_id);
-          yield BookSuccess(bookModel: _model);
-        } else {
-          yield BookFailure(error_message: "error delete book");
+      } else if (event is DisposeBookEvent) {
+        _model = new BookModel();
+        totalPage = 0;
+        counterPage = 0;
+      } else if (event is DeleteBookEvent) {
+        yield BookLoading();
+        try {
+          BookfuncModel _funcModel =
+              await _repository.deleteBook(event.book_id);
+          if (_funcModel.status == "1") {
+            _model.books.removeWhere((book) => book.id == event.book_id);
+            yield BookSuccess(bookModel: _model);
+          } else {
+            yield BookFailure(error_message: "error delete book");
+          }
+        } catch (err) {
+          yield BookFailure(error_message: "");
         }
-      } catch (err) {
-        yield BookFailure(error_message: "");
-      }
-    } else if (event is AddBookEvent) {
-      yield BookLoading();
+      } else if (event is AddBookEvent) {
+        yield BookLoading();
 
-      try {
-        BookfuncModel _fundModel = await _repository.addBook(
-            file: event.file,
-            name: event.name,
-            language: event.language,
-            description: event.description,
-            coverType: event.coverType,
-            pageCount: event.pageCount,
-            category_id: event.category_id,
-            vote: event.vote,
-            writer: event.writer);
-        if (_fundModel.status == "1") {
-          //TODO: needs id,picture_thumb, picture from server api;
-          print(_model.books[(_model.books.length - 1)].name);
-          yield BookSuccess(bookModel: _model);
-        } else {
-          yield BookFailure(error_message: "error add book");
+        try {
+          BookfuncModel _fundModel = await _repository.addBook(
+              file: event.file,
+              name: event.name,
+              language: event.language,
+              description: event.description,
+              coverType: event.coverType,
+              pageCount: event.pageCount,
+              category_id: event.category_id,
+              vote: event.vote,
+              writer: event.writer);
+          if (_fundModel.status == "1") {
+            //TODO: needs id,picture_thumb, picture from server api;
+            print(_model.books[(_model.books.length - 1)].name);
+            yield BookSuccess(bookModel: _model);
+          } else {
+            yield BookFailure(error_message: "error add book");
+          }
+        } catch (err) {
+          yield BookFailure(error_message: "null");
         }
-      } catch (err) {
-        yield BookFailure(error_message: "null");
+      } else if (event is EditBookEvent) {
+        yield BookLoading();
+
+        try {
+          BookfuncModel _fundModel = await _repository.editBook(
+              file: event.file,
+              name: event.name,
+              language: event.language,
+              description: event.description,
+              coverType: event.coverType,
+              pageCount: event.pageCount,
+              book_id: event.book_id,
+              vote: event.vote,
+              writer: event.writer);
+          if (_fundModel.status == "1") {
+            //TODO: needs id,picture_thumb, picture from server api;
+            print(_model.books[(_model.books.length - 1)].name);
+            yield BookSuccess(bookModel: _model);
+          } else {
+            yield BookFailure(error_message: "error add book");
+          }
+        } catch (err) {
+          yield BookFailure(error_message: "null");
+        }
+      } else if (event is SelectBookEvent) {
+        selectedBookId = event.book_id;
+
+        print('Selected book in bookBloc is : ${selectedBookId}');
+      } else if (event is ReturnSelectedBookEvent) {
+        for (int i = 0; i < _model.books.length; i++) {
+          if (_model.books[i].id == selectedBookId) {
+            print("Data: " + _model.books[i].name);
+            yield BookSelectedReturn(
+                name: _model.books[i].name,
+                language: _model.books[i].language,
+                description: _model.books[i].description,
+                writer: _model.books[i].writer,
+                bookModel: _model,
+                pageCount: _model.books[i].pagesCount,
+                voteCount: _model.books[i].voteCount,
+                coverType: _model.books[i].coverType);
+          }
+        }
       }
+    } catch (e) {
+      print("ERROR ${e.toString()}");
     }
   }
 }

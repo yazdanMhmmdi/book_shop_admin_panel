@@ -44,6 +44,16 @@ class ApiProvider {
     }
   }
 
+  Future<dynamic> postWithNoFile(String url, Map<String, String> params) async {
+    try {
+      final res = await http.post(url, body: params);
+
+      return await decodeResponse(res);
+    } catch (_) {
+      print('${_.toString()} connection failure $_BASE_URL' + url);
+    }
+  }
+
   dynamic decodeResponse(response) {
     try {
       return json.decode(response.body);

@@ -6,12 +6,14 @@ class TextFieldSpot extends StatelessWidget {
   String title;
   double width;
   int maxLengh;
+  String initialValue;
   Function(String) onChanged;
   TextFieldSpot(
       {@required this.title,
       @required this.width,
       @required this.maxLengh,
-      @required this.onChanged});
+      @required this.onChanged,
+      this.initialValue});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -40,18 +42,32 @@ class TextFieldSpot extends StatelessWidget {
             child: Directionality(
               textDirection: TextDirection.rtl,
               child: Center(
-                child: TextField(
-                  onChanged: onChanged,
-                  maxLines: 2,
-                  inputFormatters: <TextInputFormatter>[
-                    LengthLimitingTextInputFormatter(maxLengh),
-                  ],
-                  style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding:
-                          EdgeInsets.only(bottom: 4, right: 16, left: 16)),
-                ),
+                child: initialValue != null
+                    ? TextFormField(
+                        initialValue: "${initialValue}",
+                        onChanged: onChanged,
+                        maxLines: 2,
+                        inputFormatters: <TextInputFormatter>[
+                          LengthLimitingTextInputFormatter(maxLengh),
+                        ],
+                        style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(
+                                bottom: 4, right: 16, left: 16)),
+                      )
+                    : TextFormField(
+                        onChanged: onChanged,
+                        maxLines: 2,
+                        inputFormatters: <TextInputFormatter>[
+                          LengthLimitingTextInputFormatter(maxLengh),
+                        ],
+                        style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(
+                                bottom: 4, right: 16, left: 16)),
+                      ),
               ),
             ),
           ),
