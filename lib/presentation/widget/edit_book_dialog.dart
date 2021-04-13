@@ -54,188 +54,190 @@ class _EditBookDialogState extends State<EditBookDialog> {
               color: IColors.black15,
             ),
           ]),
-      child: BlocBuilder<BookBloc, BookState>(builder: (context, state) {
-        if (state is BookInitial) {
-          return Container();
-        } else if (state is BookSelectedReturn) {
-          return Padding(
-            padding: const EdgeInsets.all(22),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Wrap(
+      child: BlocBuilder<BookBloc, BookState>(
+          cubit: _bookBloc,
+          builder: (context, state) {
+            if (state is BookInitial) {
+              return Container();
+            } else if (state is BookSelectedReturn) {
+              return Padding(
+                padding: const EdgeInsets.all(22),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    TextFieldSpot(
-                      onChanged: (value) {
-                        setState(() {
-                          writer = value;
-                        });
-                      },
-                      initialValue: state.writer,
-                      title: "نویسنده",
-                      maxLengh: 50,
-                      width: 377,
+                    Wrap(
+                      children: [
+                        new TextFieldSpot(
+                          onChanged: (value) {
+                            setState(() {
+                              writer = value;
+                            });
+                          },
+                          initialValue: state.writer,
+                          title: "نویسنده",
+                          maxLengh: 50,
+                          width: 377,
+                        ),
+                        SizedBox(width: 16),
+                        TextFieldSpot(
+                          initialValue: state.name,
+                          onChanged: (value) {
+                            setState(() {
+                              name = value;
+                            });
+                          },
+                          width: 377,
+                          title: "موضوع کتاب",
+                          maxLengh: 82,
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 16),
-                    TextFieldSpot(
-                      initialValue: state.name,
+                    SizedBox(height: 16),
+                    MultiTextFieldSpot(
+                      initialValue: state.description,
                       onChanged: (value) {
                         setState(() {
-                          name = value;
+                          description = value;
                         });
                       },
-                      width: 377,
-                      title: "موضوع کتاب",
-                      maxLengh: 82,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16),
-                MultiTextFieldSpot(
-                  initialValue: state.description,
-                  onChanged: (value) {
-                    setState(() {
-                      description = value;
-                    });
-                  },
-                  maxLengh: 560,
-                  title: "توضیحات",
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Wrap(
-                  children: [
-                    TextFieldSpot(
-                      initialValue: state.coverType,
-                      onChanged: (value) {
-                        setState(() {
-                          coverType = value;
-                        });
-                      },
-                      maxLengh: 10,
-                      width: 377,
-                      title: "نوع جلد",
-                    ),
-                    SizedBox(width: 16),
-                    TextFieldSpot(
-                      initialValue: state.language,
-                      onChanged: (value) {
-                        setState(() {
-                          language = value;
-                        });
-                      },
-                      maxLengh: 15,
-                      width: 377,
-                      title: "زبان  ",
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Wrap(
-                  children: [
-                    TextFieldSpot(
-                      initialValue: state.voteCount,
-                      width: 377,
-                      title: "رای  ",
-                      onChanged: (value) {
-                        setState(() {
-                          vote = value;
-                        });
-                      },
-                      maxLengh: 6,
-                    ),
-                    SizedBox(width: 16),
-                    TextFieldSpot(
-                      initialValue: state.pageCount,
-                      width: 377,
-                      title: "تعداد صفحات",
-                      onChanged: (value) {
-                        setState(() {
-                          pageCount = value;
-                        });
-                      },
-                      maxLengh: 5,
+                      maxLengh: 560,
+                      title: "توضیحات",
                     ),
                     SizedBox(
                       height: 16,
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                ImagePickerSpot(
-                  onFilePicked: (file) {
-                    EditBookDialog.file = file;
-                  },
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  "اگر عکسی انتخاب نکنید عکس قبلی به عنوان پیش فرض قرار خواهد گرفت.",
-                  style: TextStyle(
-                      color: IColors.black35,
-                      fontSize: 14,
-                      fontFamily: "IranSans",
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Container(
-                  height: 38,
-                  width: 770,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: IColors.boldGreen,
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      splashColor: Colors.black26,
-                      borderRadius: BorderRadius.circular(8),
-                      onTap: () {
-                        _bookBloc.add(EditBookEvent(
-                          book_id: PanelScreen.status.toString(),
-                          name: name,
-                          language: language,
-                          description: description,
-                          coverType: coverType,
-                          vote: vote,
-                          file: EditBookDialog.file,
-                          pageCount: pageCount,
-                          writer: writer,
-                        ));
-                        _bookBloc.add(DisposeBookEvent());
-                        _bookBloc.add(GetBookEvent(category_id: "1"));
+                    Wrap(
+                      children: [
+                        TextFieldSpot(
+                          initialValue: state.coverType,
+                          onChanged: (value) {
+                            setState(() {
+                              coverType = value;
+                            });
+                          },
+                          maxLengh: 10,
+                          width: 377,
+                          title: "نوع جلد",
+                        ),
+                        SizedBox(width: 16),
+                        TextFieldSpot(
+                          initialValue: state.language,
+                          onChanged: (value) {
+                            setState(() {
+                              language = value;
+                            });
+                          },
+                          maxLengh: 15,
+                          width: 377,
+                          title: "زبان  ",
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Wrap(
+                      children: [
+                        TextFieldSpot(
+                          initialValue: state.voteCount,
+                          width: 377,
+                          title: "رای  ",
+                          onChanged: (value) {
+                            setState(() {
+                              vote = value;
+                            });
+                          },
+                          maxLengh: 6,
+                        ),
+                        SizedBox(width: 16),
+                        TextFieldSpot(
+                          initialValue: state.pageCount,
+                          width: 377,
+                          title: "تعداد صفحات",
+                          onChanged: (value) {
+                            setState(() {
+                              pageCount = value;
+                            });
+                          },
+                          maxLengh: 5,
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    ImagePickerSpot(
+                      onFilePicked: (file) {
+                        EditBookDialog.file = file;
                       },
-                      child: Center(
-                        child: Text(
-                          "ثبت کتاب",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFamily: "IranSans",
-                              fontSize: 16,
-                              color: Colors.white70,
-                              decoration: TextDecoration.none),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      "اگر عکسی انتخاب نکنید عکس قبلی به عنوان پیش فرض قرار خواهد گرفت.",
+                      style: TextStyle(
+                          color: IColors.black35,
+                          fontSize: 14,
+                          fontFamily: "IranSans",
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                      height: 38,
+                      width: 770,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: IColors.boldGreen,
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          splashColor: Colors.black26,
+                          borderRadius: BorderRadius.circular(8),
+                          onTap: () {
+                            _bookBloc.add(EditBookEvent(
+                              book_id: PanelScreen.status.toString(),
+                              name: name,
+                              language: language,
+                              description: description,
+                              coverType: coverType,
+                              vote: vote,
+                              file: EditBookDialog.file,
+                              pageCount: pageCount,
+                              writer: writer,
+                            ));
+                            _bookBloc.add(DisposeBookEvent());
+                            _bookBloc.add(GetBookEvent(category_id: "1"));
+                          },
+                          child: Center(
+                            child: Text(
+                              "ثبت کتاب",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "IranSans",
+                                  fontSize: 16,
+                                  color: Colors.white70,
+                                  decoration: TextDecoration.none),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
-        } else {
-          return Container();
-        }
-      }),
+                    )
+                  ],
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
     );
   }
 

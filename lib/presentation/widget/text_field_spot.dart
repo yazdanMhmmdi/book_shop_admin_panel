@@ -2,7 +2,7 @@ import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class TextFieldSpot extends StatelessWidget {
+class TextFieldSpot extends StatefulWidget {
   String title;
   double width;
   int maxLengh;
@@ -14,6 +14,18 @@ class TextFieldSpot extends StatelessWidget {
       @required this.maxLengh,
       @required this.onChanged,
       this.initialValue});
+
+  @override
+  _TextFieldSpotState createState() => _TextFieldSpotState();
+}
+
+class _TextFieldSpotState extends State<TextFieldSpot> {
+  @override
+  void initState() {
+    print("textField: ${widget.initialValue}");
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,7 +33,7 @@ class TextFieldSpot extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          " ${title}",
+          " ${widget.title}",
           style: TextStyle(
               fontSize: 16,
               fontFamily: "IranSans",
@@ -34,7 +46,7 @@ class TextFieldSpot extends StatelessWidget {
         Material(
           child: Container(
             height: 35,
-            width: width,
+            width: widget.width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: IColors.lowBoldGreen,
@@ -42,37 +54,30 @@ class TextFieldSpot extends StatelessWidget {
             child: Directionality(
               textDirection: TextDirection.rtl,
               child: Center(
-                child: initialValue != null
-                    ? TextFormField(
-                        initialValue: "${initialValue}",
-                        onChanged: onChanged,
-                        maxLines: 2,
-                        inputFormatters: <TextInputFormatter>[
-                          LengthLimitingTextInputFormatter(maxLengh),
-                        ],
-                        style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.only(
-                                bottom: 4, right: 16, left: 16)),
-                      )
-                    : TextFormField(
-                        onChanged: onChanged,
-                        maxLines: 2,
-                        inputFormatters: <TextInputFormatter>[
-                          LengthLimitingTextInputFormatter(maxLengh),
-                        ],
-                        style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.only(
-                                bottom: 4, right: 16, left: 16)),
-                      ),
-              ),
+                  child: TextField(
+                controller:
+                    TextEditingController(text: "${widget.initialValue}"),
+                onChanged: widget.onChanged,
+                maxLines: 2,
+                inputFormatters: <TextInputFormatter>[
+                  LengthLimitingTextInputFormatter(widget.maxLengh),
+                ],
+                style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.only(bottom: 4, right: 16, left: 16)),
+              )),
             ),
           ),
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    widget.initialValue = "";
+    super.dispose();
   }
 }

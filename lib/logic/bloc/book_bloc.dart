@@ -136,6 +136,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
                 pageCount: _model.books[i].pagesCount,
                 voteCount: _model.books[i].voteCount,
                 coverType: _model.books[i].coverType);
+            break;
           }
         }
       }
