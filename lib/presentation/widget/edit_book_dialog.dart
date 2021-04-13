@@ -71,7 +71,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
                         new TextFieldSpot(
                           onChanged: (value) {
                             setState(() {
-                              writer = value;
+                              writer = value.toString();
                             });
                           },
                           initialValue: state.writer,
@@ -84,7 +84,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
                           initialValue: state.name,
                           onChanged: (value) {
                             setState(() {
-                              name = value;
+                              name = value.toString();
                             });
                           },
                           width: 377,
@@ -98,7 +98,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
                       initialValue: state.description,
                       onChanged: (value) {
                         setState(() {
-                          description = value;
+                          description = value.toString();
                         });
                       },
                       maxLengh: 560,
@@ -113,7 +113,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
                           initialValue: state.coverType,
                           onChanged: (value) {
                             setState(() {
-                              coverType = value;
+                              coverType = value.toString();
                             });
                           },
                           maxLengh: 10,
@@ -125,7 +125,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
                           initialValue: state.language,
                           onChanged: (value) {
                             setState(() {
-                              language = value;
+                              language = value.toString();
                             });
                           },
                           maxLengh: 15,
@@ -145,7 +145,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
                           title: "رای  ",
                           onChanged: (value) {
                             setState(() {
-                              vote = value;
+                              vote = value.toString();
                             });
                           },
                           maxLengh: 6,
@@ -157,7 +157,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
                           title: "تعداد صفحات",
                           onChanged: (value) {
                             setState(() {
-                              pageCount = value;
+                              pageCount = value.toString();
                             });
                           },
                           maxLengh: 5,

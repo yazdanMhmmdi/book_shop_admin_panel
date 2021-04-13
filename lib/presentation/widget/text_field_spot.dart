@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +9,7 @@ class TextFieldSpot extends StatefulWidget {
   double width;
   int maxLengh;
   String initialValue;
-  Function(String) onChanged;
+  final Function(dynamic) onChanged;
   TextFieldSpot(
       {@required this.title,
       @required this.width,
@@ -20,9 +22,13 @@ class TextFieldSpot extends StatefulWidget {
 }
 
 class _TextFieldSpotState extends State<TextFieldSpot> {
+  StreamController streamController = StreamController<String>();
+  TextEditingController controller;
   @override
   void initState() {
+    controller = TextEditingController(text: "${widget.initialValue}");
     print("textField: ${widget.initialValue}");
+    streamController.stream.listen(widget.onChanged);
     super.initState();
   }
 
@@ -55,9 +61,14 @@ class _TextFieldSpotState extends State<TextFieldSpot> {
               textDirection: TextDirection.rtl,
               child: Center(
                   child: TextField(
-                controller:
-                    TextEditingController(text: "${widget.initialValue}"),
-                onChanged: widget.onChanged,
+                controller: controller,
+                onChanged: (val) {
+                  print("onChanged: ${val}");
+                  //widget.onChanged(val);
+                  //widget.onChanged(val);
+                  streamController.sink.add(val);
+                  controller.text = val;
+                },
                 maxLines: 2,
                 inputFormatters: <TextInputFormatter>[
                   LengthLimitingTextInputFormatter(widget.maxLengh),
