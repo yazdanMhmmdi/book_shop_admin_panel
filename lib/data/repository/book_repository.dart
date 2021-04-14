@@ -67,9 +67,13 @@ class BookRepository {
       'vote_count': "${vote}",
       'writer': "${writer}",
     };
-
-    final response =
-        await _apiProvider.post('admin_edit_books.php', file, params);
+    var response;
+    if (file != null) {
+      response = await _apiProvider.post('admin_edit_books.php', file, params);
+    } else {
+      response =
+          await _apiProvider.postWithNoFile('admin_edit_books.php', params);
+    }
     return BookfuncModel.fromJson(response);
   }
 }

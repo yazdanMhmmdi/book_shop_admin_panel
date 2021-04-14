@@ -68,118 +68,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
             if (state is BookInitial) {
               return Container();
             } else if (state is BookSelectedReturn) {
-              return Padding(
-                padding: const EdgeInsets.all(22),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Wrap(
-                      children: [
-                        textField("نویسنده", 377,
-                            _writerController..text = state.writer, 50),
-                        SizedBox(width: 16),
-                        textField("موضوع کتاب", 377,
-                            _nameController..text = state.name, 50)
-                      ],
-                    ),
-                    SizedBox(height: 16),
-                    multiTextField("توضیحات",
-                        _descriptionController..text = state.description, 560),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Wrap(
-                      children: [
-                        textField("نوع جلد", 377,
-                            _coverTypeController..text = state.coverType, 10),
-                        SizedBox(width: 16),
-                        textField("زبان  ", 377,
-                            _languageController..text = state.language, 15),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Wrap(
-                      children: [
-                        textField("رای  ", 377,
-                            _voteCountController..text = state.voteCount, 6),
-                        SizedBox(width: 16),
-                        textField("تعداد صفحات", 377,
-                            _pageCountController..text = state.pageCount, 5),
-                        SizedBox(
-                          height: 16,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    ImagePickerSpot(
-                      onFilePicked: (file) {
-                        EditBookDialog.file = file;
-                      },
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      "اگر عکسی انتخاب نکنید عکس قبلی به عنوان پیش فرض قرار خواهد گرفت.",
-                      style: TextStyle(
-                          color: IColors.black35,
-                          fontSize: 14,
-                          fontFamily: "IranSans",
-                          fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Container(
-                      height: 38,
-                      width: 770,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: IColors.boldGreen,
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          splashColor: Colors.black26,
-                          borderRadius: BorderRadius.circular(8),
-                          onTap: () {
-                            _bookBloc.add(EditBookEvent(
-                              book_id: PanelScreen.status.toString(),
-                              name: name,
-                              language: language,
-                              description: description,
-                              coverType: coverType,
-                              vote: vote,
-                              file: EditBookDialog.file,
-                              pageCount: pageCount,
-                              writer: writer,
-                            ));
-                            _bookBloc.add(DisposeBookEvent());
-                            _bookBloc.add(GetBookEvent(category_id: "1"));
-                          },
-                          child: Center(
-                            child: Text(
-                              "ثبت کتاب",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: "IranSans",
-                                  fontSize: 16,
-                                  color: Colors.white70,
-                                  decoration: TextDecoration.none),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              );
+              return objects(state);
             } else {
               return Container();
             }
@@ -191,6 +80,125 @@ class _EditBookDialogState extends State<EditBookDialog> {
     setState(() {
       EditBookDialog.file = newFile;
     });
+  }
+
+  Widget objects(dynamic state) {
+    return Padding(
+      padding: const EdgeInsets.all(22),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Wrap(
+            children: [
+              textField(
+                  "نویسنده", 377, _writerController..text = state.writer, 50),
+              SizedBox(width: 16),
+              textField(
+                  "موضوع کتاب", 377, _nameController..text = state.name, 50)
+            ],
+          ),
+          SizedBox(height: 16),
+          multiTextField(
+              "توضیحات", _descriptionController..text = state.description, 560),
+          SizedBox(
+            height: 16,
+          ),
+          Wrap(
+            children: [
+              textField("نوع جلد", 377,
+                  _coverTypeController..text = state.coverType, 10),
+              SizedBox(width: 16),
+              textField("زبان  ", 377,
+                  _languageController..text = state.language, 15),
+            ],
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Wrap(
+            children: [
+              textField("رای  ", 377,
+                  _voteCountController..text = state.voteCount, 6),
+              SizedBox(width: 16),
+              textField("تعداد صفحات", 377,
+                  _pageCountController..text = state.pageCount, 5),
+              SizedBox(
+                height: 16,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          ImagePickerSpot(
+            onFilePicked: (file) {
+              EditBookDialog.file = file;
+            },
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Text(
+            "اگر عکسی انتخاب نکنید عکس قبلی به عنوان پیش فرض قرار خواهد گرفت.",
+            style: TextStyle(
+                color: IColors.black35,
+                fontSize: 14,
+                fontFamily: "IranSans",
+                fontWeight: FontWeight.normal,
+                decoration: TextDecoration.none),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Container(
+            height: 38,
+            width: 770,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: IColors.boldGreen,
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                splashColor: Colors.black26,
+                borderRadius: BorderRadius.circular(8),
+                onTap: () {
+                  _bookBloc.add(EditBookEvent(
+                    book_id: PanelScreen.status.toString(),
+                    name: _nameController.text,
+                    language: _languageController.text,
+                    description: _descriptionController.text,
+                    coverType: _coverTypeController.text,
+                    vote: _voteCountController.text,
+                    file: EditBookDialog.file,
+                    pageCount: _pageCountController.text,
+                    writer: _writerController.text,
+                  ));
+                  _bookBloc.add(DisposeBookEvent());
+                  _bookBloc.add(GetBookEvent(category_id: "1"));
+                  setState(() {
+                    EditBookDialog.file = null;
+                  });
+                  Navigator.pop(context);
+                },
+                child: Center(
+                  child: Text(
+                    "ثبت کتاب",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "IranSans",
+                        fontSize: 16,
+                        color: Colors.white70,
+                        decoration: TextDecoration.none),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Widget textField(

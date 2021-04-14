@@ -46,11 +46,11 @@ class ApiProvider {
 
   Future<dynamic> postWithNoFile(String url, Map<String, String> params) async {
     try {
-      final res = await http.post(url, body: params);
+      final res = await http.post(_BASE_URL + url, body: params);
 
       return await decodeResponse(res);
     } catch (_) {
-      print('${_.toString()} connection failure $_BASE_URL' + url);
+      print('${_.toString()} connection failure $_BASE_URL' + _BASE_URL + url);
     }
   }
 
