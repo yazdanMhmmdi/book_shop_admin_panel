@@ -41,7 +41,6 @@ class BookSelectedReturn extends BookState {
       this.voteCount,
       this.coverType});
   @override
-  // TODO: implement props
   List<Object> get props => [
         this.description,
         this.language,

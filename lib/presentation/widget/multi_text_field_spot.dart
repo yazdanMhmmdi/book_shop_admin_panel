@@ -15,62 +15,6 @@ class MultiTextFieldSpot extends StatelessWidget {
       this.initialValue});
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          " ${title}",
-          style: TextStyle(
-              fontSize: 16,
-              fontFamily: "IranSans",
-              color: IColors.black85,
-              decoration: TextDecoration.none),
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        Material(
-          color: Colors.transparent,
-          child: Container(
-            height: 92,
-            width: 770,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: IColors.lowBoldGreen,
-            ),
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: initialValue != null
-                  ? TextFormField(
-                      onChanged: onChanged,
-                      maxLines: 3,
-                      initialValue: initialValue,
-                      inputFormatters: <TextInputFormatter>[
-                        LengthLimitingTextInputFormatter(maxLengh),
-                      ],
-                      style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.only(
-                              bottom: 11, right: 16, left: 16, top: 11)),
-                    )
-                  : TextFormField(
-                      onChanged: onChanged,
-                      maxLines: 3,
-                      inputFormatters: <TextInputFormatter>[
-                        LengthLimitingTextInputFormatter(maxLengh),
-                      ],
-                      style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.only(
-                              bottom: 11, right: 16, left: 16, top: 11)),
-                    ),
-            ),
-          ),
-        ),
-      ],
-    );
+    return Container();
   }
 }

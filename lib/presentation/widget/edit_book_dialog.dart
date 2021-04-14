@@ -6,6 +6,7 @@ import 'package:book_shop_admin_panel/presentation/screen/panel_screen.dart';
 import 'package:book_shop_admin_panel/presentation/widget/multi_text_field_spot.dart';
 import 'package:book_shop_admin_panel/presentation/widget/text_field_spot.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'image_picker_spot.dart';
@@ -32,7 +33,14 @@ class _EditBookDialogState extends State<EditBookDialog> {
   String pageCount;
 
   String vote;
+  TextEditingController _nameController = new TextEditingController();
+  TextEditingController _writerController = new TextEditingController();
+  TextEditingController _coverTypeController = new TextEditingController();
+  TextEditingController _languageController = new TextEditingController();
 
+  TextEditingController _descriptionController = new TextEditingController();
+  TextEditingController _voteCountController = new TextEditingController();
+  TextEditingController _pageCountController = new TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -68,70 +76,26 @@ class _EditBookDialogState extends State<EditBookDialog> {
                   children: [
                     Wrap(
                       children: [
-                        new TextFieldSpot(
-                          onChanged: (value) {
-                            setState(() {
-                              writer = value.toString();
-                            });
-                          },
-                          initialValue: state.writer,
-                          title: "نویسنده",
-                          maxLengh: 50,
-                          width: 377,
-                        ),
+                        textField("نویسنده", 377,
+                            _writerController..text = state.writer, 50),
                         SizedBox(width: 16),
-                        TextFieldSpot(
-                          initialValue: state.name,
-                          onChanged: (value) {
-                            setState(() {
-                              name = value.toString();
-                            });
-                          },
-                          width: 377,
-                          title: "موضوع کتاب",
-                          maxLengh: 82,
-                        ),
+                        textField("موضوع کتاب", 377,
+                            _nameController..text = state.name, 50)
                       ],
                     ),
                     SizedBox(height: 16),
-                    MultiTextFieldSpot(
-                      initialValue: state.description,
-                      onChanged: (value) {
-                        setState(() {
-                          description = value.toString();
-                        });
-                      },
-                      maxLengh: 560,
-                      title: "توضیحات",
-                    ),
+                    multiTextField("توضیحات",
+                        _descriptionController..text = state.description, 560),
                     SizedBox(
                       height: 16,
                     ),
                     Wrap(
                       children: [
-                        TextFieldSpot(
-                          initialValue: state.coverType,
-                          onChanged: (value) {
-                            setState(() {
-                              coverType = value.toString();
-                            });
-                          },
-                          maxLengh: 10,
-                          width: 377,
-                          title: "نوع جلد",
-                        ),
+                        textField("نوع جلد", 377,
+                            _coverTypeController..text = state.coverType, 10),
                         SizedBox(width: 16),
-                        TextFieldSpot(
-                          initialValue: state.language,
-                          onChanged: (value) {
-                            setState(() {
-                              language = value.toString();
-                            });
-                          },
-                          maxLengh: 15,
-                          width: 377,
-                          title: "زبان  ",
-                        ),
+                        textField("زبان  ", 377,
+                            _languageController..text = state.language, 15),
                       ],
                     ),
                     SizedBox(
@@ -139,29 +103,11 @@ class _EditBookDialogState extends State<EditBookDialog> {
                     ),
                     Wrap(
                       children: [
-                        TextFieldSpot(
-                          initialValue: state.voteCount,
-                          width: 377,
-                          title: "رای  ",
-                          onChanged: (value) {
-                            setState(() {
-                              vote = value.toString();
-                            });
-                          },
-                          maxLengh: 6,
-                        ),
+                        textField("رای  ", 377,
+                            _voteCountController..text = state.voteCount, 6),
                         SizedBox(width: 16),
-                        TextFieldSpot(
-                          initialValue: state.pageCount,
-                          width: 377,
-                          title: "تعداد صفحات",
-                          onChanged: (value) {
-                            setState(() {
-                              pageCount = value.toString();
-                            });
-                          },
-                          maxLengh: 5,
-                        ),
+                        textField("تعداد صفحات", 377,
+                            _pageCountController..text = state.pageCount, 5),
                         SizedBox(
                           height: 16,
                         ),
@@ -245,5 +191,110 @@ class _EditBookDialogState extends State<EditBookDialog> {
     setState(() {
       EditBookDialog.file = newFile;
     });
+  }
+
+  Widget textField(
+      String title, double width, TextEditingController controller, maxLengh) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          " ${title}",
+          style: TextStyle(
+              fontSize: 16,
+              fontFamily: "IranSans",
+              color: IColors.black85,
+              decoration: TextDecoration.none),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Material(
+          child: Container(
+            height: 35,
+            width: width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: IColors.lowBoldGreen,
+            ),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Center(
+                  child: TextField(
+                controller: controller,
+                onChanged: (val) {
+                  // //widget.onChanged(val);
+                  // //widget.onChanged(val);
+                  // setState(() {
+                  //   controller.text = val;
+                  // });
+                },
+                maxLines: 2,
+                inputFormatters: <TextInputFormatter>[
+                  LengthLimitingTextInputFormatter(maxLengh),
+                ],
+                style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.only(bottom: 4, right: 16, left: 16)),
+              )),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget multiTextField(
+      String title, TextEditingController controller, int maxLengh) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          " ${title}",
+          style: TextStyle(
+              fontSize: 16,
+              fontFamily: "IranSans",
+              color: IColors.black85,
+              decoration: TextDecoration.none),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Material(
+          color: Colors.transparent,
+          child: Container(
+            height: 92,
+            width: 770,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: IColors.lowBoldGreen,
+            ),
+            child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: TextField(
+                  maxLines: 3,
+                  controller: controller,
+                  inputFormatters: <TextInputFormatter>[
+                    LengthLimitingTextInputFormatter(maxLengh),
+                  ],
+                  style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.only(
+                          bottom: 11, right: 16, left: 16, top: 11)),
+                )),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
