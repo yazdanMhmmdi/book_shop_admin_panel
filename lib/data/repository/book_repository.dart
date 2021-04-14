@@ -76,4 +76,11 @@ class BookRepository {
     }
     return BookfuncModel.fromJson(response);
   }
+
+  Future<BookModel> searcBook(
+      {String search, String category_id, String page}) async {
+    final response = await _apiProvider.get(
+        "admin_search_books.php?category_id=${category_id}&search=${search}&page=${page}");
+    return BookModel.fromJson(response);
+  }
 }

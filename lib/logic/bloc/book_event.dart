@@ -105,3 +105,14 @@ class SelectBookEvent extends BookEvent {
 class ReturnSelectedBookEvent extends BookEvent {}
 
 class DisposeBookEvent extends BookEvent {}
+
+class SearchBookEvent extends BookEvent {
+  String search, category_id;
+  bool isLazyLoad = false;
+
+  SearchBookEvent({this.category_id, this.search, this.isLazyLoad});
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [this.search, this.category_id];
+}

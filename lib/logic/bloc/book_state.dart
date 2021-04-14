@@ -13,7 +13,8 @@ class BookLoading extends BookState {}
 
 class BookSuccess extends BookState {
   BookModel bookModel;
-  BookSuccess({this.bookModel});
+  bool isSearch;
+  BookSuccess({this.bookModel,this.isSearch});
 
   @override
   List<Object> get props => [this.bookModel];
@@ -23,6 +24,15 @@ class BookLazyLoading extends BookState {
   BookModel bookModel;
 
   BookLazyLoading({@required this.bookModel});
+
+  @override
+  List<Object> get props => [this.bookModel];
+}
+
+class BookSearchLazyLoading extends BookState {
+  BookModel bookModel;
+
+  BookSearchLazyLoading({@required this.bookModel});
 
   @override
   List<Object> get props => [this.bookModel];

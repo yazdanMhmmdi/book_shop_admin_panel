@@ -45,6 +45,7 @@ class _PanelScreenState extends State<PanelScreen> {
   bool visiblity = false;
   double padding = 0.0;
   double opacity = 0.0;
+  bool isSearch = false;
   @override
   void initState() {
     _sideBarItemSelectorBloc =
@@ -90,8 +91,12 @@ class _PanelScreenState extends State<PanelScreen> {
                   // You're at the top.
                 } else {
                   // You're at the bottom.
-                  _bookBloc.add(GetBookEvent(category_id: "1"));
-                  print("BOTTOM");
+                  if (isSearch) {
+                    _bookBloc.add(SearchBookEvent(isLazyLoad: true));
+                  } else {
+                    _bookBloc.add(GetBookEvent(category_id: "1"));
+                    print("BOTTOM");
+                  }
                 }
               }
             });
@@ -195,9 +200,12 @@ class _PanelScreenState extends State<PanelScreen> {
                         children: [
                           Stack(
                             children: [
-                              SearchFieldSpot(
-                                visiblity: visiblity,
-                                opacity: opacity,
+                              BlocProvider.value(
+                                value: _bookBloc,
+                                child: SearchFieldSpot(
+                                  visiblity: visiblity,
+                                  opacity: opacity,
+                                ),
                               ),
                               AnimatedPadding(
                                   duration: Duration(milliseconds: 300),
@@ -221,7 +229,11 @@ class _PanelScreenState extends State<PanelScreen> {
                               } else if (state is BookLazyLoading) {
                                 return Center(
                                     child: CircularProgressIndicator());
+                              } else if (state is BookSearchLazyLoading) {
+                                return Center(
+                                    child: CircularProgressIndicator());
                               } else if (state is BookSuccess) {
+                                isSearch = state.isSearch;
                                 return Container();
                               } else if (state is BookLoading) {
                                 return Center(

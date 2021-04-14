@@ -18,6 +18,10 @@ class BookBloc extends Bloc<BookEvent, BookState> {
   int counterPage = 0, totalPage;
   BookModel _model;
   String selectedBookId;
+  bool isSearch = false;
+  String cacheSerach;
+  String cachePage;
+  String cacheCategory_id;
   @override
   Stream<BookState> mapEventToState(
     BookEvent event,
@@ -35,7 +39,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
                 counterPage.toString(), event.category_id);
             totalPage = _model.data.totalPages;
             print("CATEG PAGE 1");
-            yield BookSuccess(bookModel: _model);
+            yield BookSuccess(bookModel: _model, isSearch: false);
           } else if (counterPage <= totalPage) {
             yield BookLazyLoading(bookModel: _model);
             // page 2 to bigger pages cache
@@ -138,6 +142,43 @@ class BookBloc extends Bloc<BookEvent, BookState> {
                 coverType: _model.books[i].coverType);
             break;
           }
+        }
+      } else if (event is SearchBookEvent) {
+        if (!event.isLazyLoad) {
+          if (event.search == "") {
+            this.add(DisposeBookEvent());
+            this.add(GetBookEvent(category_id: event.category_id));
+          }
+        }
+        try {
+          counterPage++;
+          if (counterPage == 1) {
+            yield BookLoading();
+            _model = await _repository.searcBook(
+                search: event.search,
+                category_id: event.category_id,
+                page: counterPage.toString());
+            totalPage = _model.data.totalPages;
+            //caching
+            cacheSerach = event.search;
+            cachePage = counterPage.toString();
+            cacheCategory_id = event.category_id;
+
+            yield BookSuccess(bookModel: _model, isSearch: true);
+          } else if (counterPage <= totalPage) {
+            yield BookSearchLazyLoading(bookModel: _model);
+            BookModel _res = await _repository.searcBook(
+                search: cacheSerach,
+                category_id: cacheCategory_id,
+                page: counterPage.toString());
+            _res.books.forEach((e) {
+              _model.books.add(e);
+            });
+            yield BookSuccess(bookModel: _model);
+          }
+        } catch (err) {
+          yield BookFailure(
+              error_message: "SearchBookEvent -> BoolFailure: ${err}");
         }
       }
     } catch (e) {

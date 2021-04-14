@@ -54,6 +54,12 @@ class _BooksTabState extends State<BooksTab> {
                 items.add(returnCard(element));
               });
               return Wrap(children: items);
+            } else if (state is BookSearchLazyLoading) {
+              List items = new List<Widget>();
+              state.bookModel.books.forEach((element) {
+                items.add(returnCard(element));
+              });
+              return Wrap(children: items);
             } else if (state is BookSelectedReturn) {
               List items = new List<Widget>();
               state.bookModel.books.forEach((element) {
