@@ -17,4 +17,10 @@ class UsersRepository {
         "admin_edit_users.php?user_id=${user_id}&username=${username}&password=${password}");
     return UsersModel.fromJson(response);
   }
+
+  Future<UsersModel> deleteUsers(String user_id) async {
+    final response =
+        await _apiProvider.get("admin_delete_users.php?user_id=${user_id}");
+    return UsersModel.fromJson(response);
+  }
 }
