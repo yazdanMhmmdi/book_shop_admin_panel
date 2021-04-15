@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:book_shop_admin_panel/data/model/book_model.dart';
 import 'package:book_shop_admin_panel/data/model/users_model.dart';
 import 'package:book_shop_admin_panel/data/repository/users_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -66,6 +67,20 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           event.user_id, event.username, event.password);
       if (_ml.error == "0") {
         yield UsersSuccess(usersModel: _model);
+      }
+    } else if (event is DeleteUserEvent) {
+      yield UsersLoading();
+      UsersModel _ml = await _repository.deleteUsers(selectedUserId);
+      if (_ml.error == "0") {
+        // _model.users.removeWhere((user) => user.id == selectedUserId);
+        for (int i = 0; i < _model.users.length; i++) {
+          if (_model.users[i].id == selectedUserId) {
+            _model.users.removeAt(i);
+            yield UsersSuccess(usersModel: _model);
+          }
+        }
+      } else {
+        yield UsersFailure();
       }
     }
   }

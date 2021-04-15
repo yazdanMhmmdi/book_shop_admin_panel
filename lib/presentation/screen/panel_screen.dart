@@ -164,7 +164,8 @@ class _PanelScreenState extends State<PanelScreen> {
                                       providers: [
                                         BlocProvider.value(value: _bookBloc),
                                         BlocProvider.value(
-                                            value: widget.tabsliderBloc)
+                                            value: widget.tabsliderBloc),
+                                        BlocProvider.value(value: _usersBloc),
                                       ],
                                       child: DeleteBookDialog(
                                         tabStatus: tabStatus,

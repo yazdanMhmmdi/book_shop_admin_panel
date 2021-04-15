@@ -27,6 +27,7 @@ class _UsersTabState extends State<UsersTab> {
     return Padding(
       padding: const EdgeInsets.all(26.0),
       child: BlocBuilder<UsersBloc, UsersState>(
+        cubit: _usersBloc,
         builder: (context, state) {
           if (state is UsersInitial) {
             return Container();

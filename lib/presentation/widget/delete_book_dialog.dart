@@ -3,6 +3,7 @@ import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/side_bar_item_selector_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -86,7 +87,11 @@ class _DeleteBookDialogState extends State<DeleteBookDialog> {
                             if (widget.tabStatus == "books") {
                               BlocProvider.of<BookBloc>(context)
                                   .add(DeleteBookEvent(book_id: widget.status));
-                                  Navigator.pop(context);
+                              Navigator.pop(context);
+                            } else if (widget.tabStatus == "users") {
+                              BlocProvider.of<UsersBloc>(context)
+                                  .add(DeleteUserEvent());
+                              Navigator.pop(context);
                             }
                           },
                           borderRadius: BorderRadius.circular(8),

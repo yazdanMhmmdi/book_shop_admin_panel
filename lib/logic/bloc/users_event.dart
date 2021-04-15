@@ -25,10 +25,13 @@ class ReturnSelectedEvent extends UsersEvent {
   // TODO: implement props
   List<Object> get props => [];
 }
+
 class EditUsersEvent extends UsersEvent {
   String user_id, username, password;
-  EditUsersEvent({this.user_id,this.username, this.password});
+  EditUsersEvent({this.user_id, this.username, this.password});
   @override
   // TODO: implement props
   List<Object> get props => [this.user_id, this.username, this.password];
 }
+
+class DeleteUserEvent extends UsersEvent {}
