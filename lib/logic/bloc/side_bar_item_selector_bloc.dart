@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/screen/panel_screen.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/users_tab.dart';
@@ -34,7 +35,9 @@ class SideBarItemSelectorBloc
         yield SideBarItemSelectorSuccess(
             add: false,
             editFunction: () =>
-                ShowDialog.showDialog(event.context, EditUserDialog()));
+                ShowDialog.showDialog(event.context, BlocProvider.value(
+                  value: event.usersBloc,
+                  child: EditUserDialog())));
       } else if (event.orginalTab is BooksTab) {
         _bookBloc = event.bookBloc;
         yield SideBarItemSelectorSuccess(

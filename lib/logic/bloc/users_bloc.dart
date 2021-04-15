@@ -47,12 +47,20 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       }
     } else if (event is SelectUsersEvent) {
       selectedUserId = event.user_id;
-    }
-    
-     else if (event is DisposeUsersEvent) {
+    } else if (event is DisposeUsersEvent) {
       _model = new UsersModel();
       totalPage = 0;
       counterPage = 0;
+    } else if (event is ReturnSelectedEvent) {
+      for (int i = 0; i < _model.users.length; i++) {
+        if (_model.users[i].id == selectedUserId) {
+          yield ReturnSelectedUser(
+              user_id: _model.users[i].id,
+              username: _model.users[i].username,
+              password: _model.users[i].password,
+              usersModel: _model);
+        }
+      }
     }
   }
 }

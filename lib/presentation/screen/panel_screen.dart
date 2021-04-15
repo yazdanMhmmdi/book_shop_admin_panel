@@ -108,6 +108,7 @@ class _PanelScreenState extends State<PanelScreen> {
             context: context,
             orginalTab: state.orginalTab,
             bookBloc: _bookBloc,
+            usersBloc: _usersBloc,
             onTap: () {
               print("XXXX");
               setState(() {});

@@ -11,7 +11,8 @@ class UsersInitial extends UsersState {}
 
 class UsersSuccess extends UsersState {
   UsersModel usersModel;
-  UsersSuccess({@required this.usersModel});
+  String selectedUserId;
+  UsersSuccess({@required this.usersModel, this.selectedUserId});
 
   @override
   List<Object> get props => [this.usersModel];
@@ -24,6 +25,14 @@ class UsersLazyLoading extends UsersState {
   UsersLazyLoading({@required this.usersModel});
   @override
   List<Object> get props => [this.usersModel];
+}
+
+class ReturnSelectedUser extends UsersState {
+  String username, password, user_id;
+  UsersModel usersModel;
+  ReturnSelectedUser({this.password, this.username, this.user_id,this.usersModel});
+  @override
+  List<Object> get props => [this.username, this.password];
 }
 
 class UsersFailure extends UsersState {}

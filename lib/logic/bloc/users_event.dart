@@ -18,3 +18,10 @@ class SelectUsersEvent extends UsersEvent {
   // TODO: implement props
   List<Object> get props => [this.user_id];
 }
+
+class ReturnSelectedEvent extends UsersEvent {
+  ReturnSelectedEvent();
+  @override
+  // TODO: implement props
+  List<Object> get props => [];
+}

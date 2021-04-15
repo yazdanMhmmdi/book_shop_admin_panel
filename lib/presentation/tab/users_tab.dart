@@ -61,8 +61,29 @@ class _UsersTabState extends State<UsersTab> {
                 onTap: () async {
                   setState(() {
                     UsersTab.clickStatus = int.parse(element.id);
+
                     print('xx1');
                   });
+                  _usersBloc.add(SelectUsersEvent(user_id: element.id));
+                },
+              ));
+            });
+            return Wrap(children: items);
+          } else if (state is ReturnSelectedUser) {
+            List items = new List<Widget>();
+            state.usersModel.users.forEach((element) {
+              items.add(UserItem(
+                id: "0",
+                name: "${element.username}",
+                username: "${element.password}",
+                number: int.parse(element.id),
+                onTap: () async {
+                  setState(() {
+                    UsersTab.clickStatus = int.parse(element.id);
+
+                    print('xx1');
+                  });
+                  _usersBloc.add(SelectUsersEvent(user_id: element.id));
                 },
               ));
             });
