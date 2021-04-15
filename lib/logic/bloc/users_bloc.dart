@@ -61,6 +61,12 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
               usersModel: _model);
         }
       }
+    } else if (event is EditUsersEvent) {
+      UsersModel _ml = await _repository.editUsers(
+          event.user_id, event.username, event.password);
+      if (_ml.error == "0") {
+        yield UsersSuccess(usersModel: _model);
+      }
     }
   }
 }

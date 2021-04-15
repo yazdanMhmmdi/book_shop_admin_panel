@@ -16,6 +16,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
 
   TextEditingController _passwordController = new TextEditingController();
   UsersBloc _usersBloc;
+  String user_id;
   @override
   void initState() {
     _usersBloc = BlocProvider.of<UsersBloc>(context);
@@ -42,7 +43,14 @@ class _EditUserDialogState extends State<EditUserDialog> {
         child: BlocBuilder<UsersBloc, UsersState>(
           builder: (context, state) {
             if (state is ReturnSelectedUser) {
+              user_id = state.user_id;
               return objects(state);
+            } else if (state is UsersFailure) {
+              return Container();
+            } else if (state is UsersSuccess) {
+              return Container();
+            } else {
+              return Container();
             }
           },
         ),
@@ -73,7 +81,15 @@ class _EditUserDialogState extends State<EditUserDialog> {
             child: InkWell(
               splashColor: Colors.black26,
               borderRadius: BorderRadius.circular(8),
-              onTap: () {},
+              onTap: () {
+                _usersBloc.add(EditUsersEvent(
+                    user_id: user_id,
+                    username: _usernameController.text,
+                    password: _passwordController.text));
+                _usersBloc.add(DisposeUsersEvent());
+                _usersBloc.add(GetUsersEvent());
+                Navigator.pop(context);
+              },
               child: Center(
                 child: Text(
                   "ویرایش کاربر",

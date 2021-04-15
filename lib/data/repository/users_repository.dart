@@ -10,4 +10,11 @@ class UsersRepository {
     final response = await _apiProvider.get("admin_get_users.php?page=${page}");
     return UsersModel.fromJson(response);
   }
+
+  Future<UsersModel> editUsers(
+      String user_id, String username, String password) async {
+    final response = await _apiProvider.get(
+        "admin_edit_users.php?user_id=${user_id}&username=${username}&password=${password}");
+    return UsersModel.fromJson(response);
+  }
 }
