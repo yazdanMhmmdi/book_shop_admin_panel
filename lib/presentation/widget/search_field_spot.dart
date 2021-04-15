@@ -19,7 +19,7 @@ class SearchFieldSpot extends StatefulWidget {
 }
 
 class _SearchFieldSpotState extends State<SearchFieldSpot> {
-  TextEditingController controller = new TextEditingController();
+  final TextEditingController controller = new TextEditingController();
   BookBloc _bookBloc;
   bool iconStatus; //true : X, false: search
   @override
@@ -54,9 +54,9 @@ class _SearchFieldSpotState extends State<SearchFieldSpot> {
                   onPressed: () {
                     _bookBloc.add(DisposeBookEvent());
                     _bookBloc.add(GetBookEvent(category_id: "1"));
+                    controller.clear();
 
                     setState(() {
-                      controller..text = "";
                       iconStatus = false;
                     });
                   },
@@ -84,7 +84,7 @@ class _SearchFieldSpotState extends State<SearchFieldSpot> {
                             _bookBloc.add(DisposeBookEvent());
                             _bookBloc.add(SearchBookEvent(
                                 category_id: "1",
-                                search: controller.text,
+                                search: val,
                                 isLazyLoad: false));
                           },
                           controller: controller,

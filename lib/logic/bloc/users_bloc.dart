@@ -15,6 +15,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
   int counterPage = 0, totalPage;
   UsersModel _model;
+  String selectedUserId;
 
   @override
   Stream<UsersState> mapEventToState(
@@ -44,7 +45,11 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       } catch (err) {
         yield UsersFailure();
       }
-    } else if (event is DisposeUsersEvent) {
+    } else if (event is SelectUsersEvent) {
+      selectedUserId = event.user_id;
+    }
+    
+     else if (event is DisposeUsersEvent) {
       _model = new UsersModel();
       totalPage = 0;
       counterPage = 0;

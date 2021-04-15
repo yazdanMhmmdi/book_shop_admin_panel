@@ -36,7 +36,7 @@ class _UsersTabState extends State<UsersTab> {
             List items = new List<Widget>();
             state.usersModel.users.forEach((element) {
               items.add(UserItem(
-                id: "0",
+                id: "${element.id}",
                 name: "${element.username}",
                 username: "${element.password}",
                 number: int.parse(element.id),
@@ -45,6 +45,7 @@ class _UsersTabState extends State<UsersTab> {
                     UsersTab.clickStatus = int.parse(element.id);
                     print('xx1');
                   });
+                  _usersBloc.add(SelectUsersEvent(user_id: element.id));
                 },
               ));
             });

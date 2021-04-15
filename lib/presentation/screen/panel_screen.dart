@@ -22,6 +22,7 @@ import 'package:book_shop_admin_panel/presentation/widget/side_bar_item.dart';
 import 'package:book_shop_admin_panel/presentation/widget/title_selector.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 GlobalKey<TitleSelectorState> cartKey = GlobalKey();
@@ -37,6 +38,7 @@ class PanelScreen extends StatefulWidget {
 class _PanelScreenState extends State<PanelScreen> {
   int tab;
   ScrollController scrollController;
+  TextEditingController searchController = new TextEditingController();
 
   SideBarItemSelectorBloc _sideBarItemSelectorBloc;
   BookBloc _bookBloc;
@@ -200,13 +202,7 @@ class _PanelScreenState extends State<PanelScreen> {
                         children: [
                           Stack(
                             children: [
-                              BlocProvider.value(
-                                value: _bookBloc,
-                                child: SearchFieldSpot(
-                                  visiblity: visiblity,
-                                  opacity: opacity,
-                                ),
-                              ),
+                              searchFieldSpot(searchController),
                               AnimatedPadding(
                                   duration: Duration(milliseconds: 300),
                                   padding: EdgeInsets.only(top: padding),
@@ -252,6 +248,93 @@ class _PanelScreenState extends State<PanelScreen> {
                 ],
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget searchFieldSpot(TextEditingController controller) {
+    bool iconStatus; //true : X, false: search
+
+    return AnimatedOpacity(
+      duration: Duration(milliseconds: 300),
+      opacity: opacity,
+      child: Visibility(
+        visible: visiblity,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 22, left: 22, right: 22),
+          child: Container(
+            height: 43,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: IColors.lowBoldGreen,
+            ),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 8,
+                ),
+                IconButton(
+                  icon: Icon(isSearch == true ? Icons.close : Icons.search),
+                  color: IColors.boldGreen,
+                  onPressed: () {
+                    _bookBloc.add(DisposeBookEvent());
+                    _bookBloc.add(GetBookEvent(category_id: "1"));
+
+                    setState(() {
+                      controller.text = "";
+                      controller.clear();
+                      controller.value = TextEditingValue(text: "");
+                      isSearch = false;
+                    });
+                  },
+                ),
+                Container(
+                  height: 43,
+                  width: MediaQuery.of(context).size.width - 185,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: TextField(
+                          maxLines: 3,
+                          onChanged: (val) {
+                            if (val != "") {
+                              setState(() {
+                                isSearch = true;
+                              });
+                            } else {
+                              setState(() {
+                                isSearch = false;
+                              });
+                            }
+                            _bookBloc.add(DisposeBookEvent());
+                            _bookBloc.add(SearchBookEvent(
+                                category_id: "1",
+                                search: val,
+                                isLazyLoad: false));
+                          },
+                          controller: controller,
+                          style:
+                              TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "نام کتاب را جستجو کنید...",
+                            hintStyle:
+                                TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            contentPadding: EdgeInsets.only(
+                              top: 11,
+                            ),
+                          ))),
+                ),
+              ],
+            ),
           ),
         ),
       ),
