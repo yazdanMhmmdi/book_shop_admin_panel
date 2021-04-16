@@ -20,6 +20,7 @@ import 'package:book_shop_admin_panel/presentation/widget/show_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/side_bar.dart';
 import 'package:book_shop_admin_panel/presentation/widget/side_bar_item.dart';
 import 'package:book_shop_admin_panel/presentation/widget/title_selector.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,6 +49,7 @@ class _PanelScreenState extends State<PanelScreen> {
   double padding = 0.0;
   double opacity = 0.0;
   bool isSearch = false;
+  String hintText = "";
   @override
   void initState() {
     _sideBarItemSelectorBloc =
@@ -57,6 +59,22 @@ class _PanelScreenState extends State<PanelScreen> {
     scrollController = new ScrollController();
 
     super.initState();
+  }
+
+  void restartSearchField() {
+    if (visiblity == true) {
+      setState(() {
+        if (visiblity == false) {
+          padding = 57.0;
+          visiblity = true;
+          opacity = 1.0;
+        } else {
+          padding = 0.0;
+          visiblity = false;
+          opacity = 0.0;
+        }
+      });
+    }
   }
 
   @override
@@ -69,7 +87,7 @@ class _PanelScreenState extends State<PanelScreen> {
           if (state.orginalTab is UsersTab) {
             print('UsersTab');
             tabStatus = "users";
-
+            restartSearchField();
             scrollController.addListener(() {
               if (scrollController.position.atEdge) {
                 if (scrollController.position.pixels == 0) {
@@ -84,6 +102,8 @@ class _PanelScreenState extends State<PanelScreen> {
           }
           if (state.orginalTab is BooksTab) {
             print('BooksTab');
+
+            restartSearchField();
             setState(() {
               tabStatus = "books";
             });
@@ -102,6 +122,9 @@ class _PanelScreenState extends State<PanelScreen> {
                 }
               }
             });
+          }
+          if (state.orginalTab is CategoryTab) {
+            restartSearchField();
           }
           _sideBarItemSelectorBloc.add(SelectItemEvent(
             currentTab: state.tab,
@@ -187,6 +210,15 @@ class _PanelScreenState extends State<PanelScreen> {
                                       opacity = 0.0;
                                     }
                                   });
+                                  if (tabStatus == "books") {
+                                    setState(() {
+                                      hintText =
+                                          "نام کتاب مورد نظر را جستجو کنید...";
+                                    });
+                                  } else if (tabStatus == "users") {
+                                    hintText =
+                                        "نام کاربر مورد نظر خود را جستجو کنید...";
+                                  }
                                 }),
                           ],
                         );
@@ -204,7 +236,25 @@ class _PanelScreenState extends State<PanelScreen> {
                         children: [
                           Stack(
                             children: [
-                              searchFieldSpot(searchController),
+                              searchFieldSpot(
+                                searchController,
+                                (val) {
+                                  if (val != "") {
+                                    setState(() {
+                                      isSearch = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      isSearch = false;
+                                    });
+                                  }
+                                  _bookBloc.add(DisposeBookEvent());
+                                  _bookBloc.add(SearchBookEvent(
+                                      category_id: "1",
+                                      search: val,
+                                      isLazyLoad: false));
+                                },
+                              ),
                               AnimatedPadding(
                                   duration: Duration(milliseconds: 300),
                                   padding: EdgeInsets.only(top: padding),
@@ -256,7 +306,8 @@ class _PanelScreenState extends State<PanelScreen> {
     );
   }
 
-  Widget searchFieldSpot(TextEditingController controller) {
+  Widget searchFieldSpot(
+      TextEditingController controller, Function(String) function) {
     bool iconStatus; //true : X, false: search
 
     return AnimatedOpacity(
@@ -302,28 +353,13 @@ class _PanelScreenState extends State<PanelScreen> {
                       textDirection: TextDirection.rtl,
                       child: TextField(
                           maxLines: 3,
-                          onChanged: (val) {
-                            if (val != "") {
-                              setState(() {
-                                isSearch = true;
-                              });
-                            } else {
-                              setState(() {
-                                isSearch = false;
-                              });
-                            }
-                            _bookBloc.add(DisposeBookEvent());
-                            _bookBloc.add(SearchBookEvent(
-                                category_id: "1",
-                                search: val,
-                                isLazyLoad: false));
-                          },
+                          onChanged: function,
                           controller: controller,
                           style:
                               TextStyle(fontFamily: 'IranSans', fontSize: 16),
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: "نام کتاب را جستجو کنید...",
+                            hintText: hintText,
                             hintStyle:
                                 TextStyle(fontFamily: 'IranSans', fontSize: 16),
                             focusedBorder: InputBorder.none,
