@@ -23,4 +23,10 @@ class UsersRepository {
         await _apiProvider.get("admin_delete_users.php?user_id=${user_id}");
     return UsersModel.fromJson(response);
   }
+
+  Future<UsersModel> searcUsers({String search, String page}) async {
+    final response = await _apiProvider
+        .get("admin_search_users.php?search=${search}&page=${page}");
+    return UsersModel.fromJson(response);
+  }
 }

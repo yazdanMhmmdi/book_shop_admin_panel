@@ -34,4 +34,14 @@ class EditUsersEvent extends UsersEvent {
   List<Object> get props => [this.user_id, this.username, this.password];
 }
 
+class SearchUsersEvent extends UsersEvent {
+  String page, search;
+  bool isLazyLoad = false;
+
+  SearchUsersEvent({this.search, this.page, this.isLazyLoad});
+  @override
+  // TODO: implement props
+  List<Object> get props => [this.page, this.search, this.isLazyLoad];
+}
+
 class DeleteUserEvent extends UsersEvent {}

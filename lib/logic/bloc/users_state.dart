@@ -12,7 +12,10 @@ class UsersInitial extends UsersState {}
 class UsersSuccess extends UsersState {
   UsersModel usersModel;
   String selectedUserId;
-  UsersSuccess({@required this.usersModel, this.selectedUserId}) {
+  bool isSearch;
+
+  UsersSuccess(
+      {@required this.usersModel, this.selectedUserId, this.isSearch}) {
     print('UsersSuccess');
   }
 
@@ -41,5 +44,12 @@ class ReturnSelectedUser extends UsersState {
   @override
   List<Object> get props => [this.username, this.password];
 }
+class UsersSearchLazyLoading extends UsersState {
+  UsersModel usersModel;
 
+  UsersSearchLazyLoading({@required this.usersModel});
+
+  @override
+  List<Object> get props => [this.usersModel];
+}
 class UsersFailure extends UsersState {}

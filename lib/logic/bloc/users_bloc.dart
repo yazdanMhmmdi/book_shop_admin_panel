@@ -17,6 +17,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
   int counterPage = 0, totalPage;
   UsersModel _model;
   String selectedUserId;
+  String cacheSearch, cachePage;
 
   @override
   Stream<UsersState> mapEventToState(
@@ -80,6 +81,37 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           }
         }
       } else {
+        yield UsersFailure();
+      }
+    } else if (event is SearchUsersEvent) {
+      if (!event.isLazyLoad) {
+        if (event.search == "") {
+          this.add(DisposeUsersEvent());
+          this.add(GetUsersEvent());
+        }
+      }
+      try {
+        counterPage++;
+        if (counterPage == 1) {
+          yield UsersLoading();
+          _model = await _repository.searcUsers(
+              search: event.search, page: counterPage.toString());
+          totalPage = _model.data.totalPages;
+          //caching
+          cacheSearch = event.search;
+          cachePage = counterPage.toString();
+
+          yield UsersSuccess(usersModel: _model, isSearch: true);
+        } else if (counterPage <= totalPage) {
+          yield UsersSearchLazyLoading(usersModel: _model);
+          UsersModel _res = await _repository.searcUsers(
+              search: cacheSearch, page: counterPage.toString());
+          _res.users.forEach((e) {
+            _model.users.add(e);
+          });
+          yield UsersSuccess(usersModel: _model);
+        }
+      } catch (err) {
         yield UsersFailure();
       }
     }

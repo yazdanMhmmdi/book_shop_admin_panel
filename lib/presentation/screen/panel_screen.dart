@@ -50,6 +50,7 @@ class _PanelScreenState extends State<PanelScreen> {
   double opacity = 0.0;
   bool isSearch = false;
   String hintText = "";
+  Function(String) searchOnChange;
   @override
   void initState() {
     _sideBarItemSelectorBloc =
@@ -212,10 +213,42 @@ class _PanelScreenState extends State<PanelScreen> {
                                   });
                                   if (tabStatus == "books") {
                                     setState(() {
+                                      searchOnChange = (val) {
+                                        if (val != "") {
+                                          setState(() {
+                                            isSearch = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            isSearch = false;
+                                          });
+                                        }
+                                        _bookBloc.add(DisposeBookEvent());
+                                        _bookBloc.add(SearchBookEvent(
+                                            category_id: "1",
+                                            search: val,
+                                            isLazyLoad: false));
+                                      };
                                       hintText =
                                           "نام کتاب مورد نظر را جستجو کنید...";
                                     });
                                   } else if (tabStatus == "users") {
+                                    setState(() {
+                                      searchOnChange = (val) {
+                                        if (val != "") {
+                                          setState(() {
+                                            isSearch = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            isSearch = false;
+                                          });
+                                        }
+                                        _usersBloc.add(DisposeUsersEvent());
+                                        _usersBloc.add(SearchUsersEvent(
+                                            search: val, isLazyLoad: false));
+                                      };
+                                    });
                                     hintText =
                                         "نام کاربر مورد نظر خود را جستجو کنید...";
                                   }
@@ -236,25 +269,7 @@ class _PanelScreenState extends State<PanelScreen> {
                         children: [
                           Stack(
                             children: [
-                              searchFieldSpot(
-                                searchController,
-                                (val) {
-                                  if (val != "") {
-                                    setState(() {
-                                      isSearch = true;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      isSearch = false;
-                                    });
-                                  }
-                                  _bookBloc.add(DisposeBookEvent());
-                                  _bookBloc.add(SearchBookEvent(
-                                      category_id: "1",
-                                      search: val,
-                                      isLazyLoad: false));
-                                },
-                              ),
+                              searchFieldSpot(searchController, searchOnChange),
                               AnimatedPadding(
                                   duration: Duration(milliseconds: 300),
                                   padding: EdgeInsets.only(top: padding),
@@ -332,9 +347,13 @@ class _PanelScreenState extends State<PanelScreen> {
                   icon: Icon(isSearch == true ? Icons.close : Icons.search),
                   color: IColors.boldGreen,
                   onPressed: () {
-                    _bookBloc.add(DisposeBookEvent());
-                    _bookBloc.add(GetBookEvent(category_id: "1"));
-
+                    if (tabStatus == "books") {
+                      _bookBloc.add(DisposeBookEvent());
+                      _bookBloc.add(GetBookEvent(category_id: "1"));
+                    } else if (tabStatus == "users") {
+                      _usersBloc.add(DisposeUsersEvent());
+                      _usersBloc.add(GetUsersEvent());
+                    }
                     setState(() {
                       controller.text = "";
                       controller.clear();
