@@ -95,7 +95,13 @@ class _PanelScreenState extends State<PanelScreen> {
                   // You're at the top.
                 } else {
                   // You're at the bottom.
-                  _usersBloc.add(GetUsersEvent());
+                  if (isSearch) {
+                    _usersBloc.add(SearchUsersEvent(isLazyLoad: true));
+                  } else {
+                    _usersBloc.add(GetUsersEvent());
+
+                    print("BOTTOM");
+                  }
                   print("BOTTOM");
                 }
               }
