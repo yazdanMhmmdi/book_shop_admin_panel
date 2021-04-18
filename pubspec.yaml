@@ -34,6 +34,8 @@ dependencies:
   http: ^0.12.2
   scrollerview: ^0.0.4
   filepicker_windows: ^1.0.0
+  progress_state_button: ^1.0.1  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
