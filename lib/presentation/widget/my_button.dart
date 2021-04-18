@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/presentation/widget/progress_button.dart';
 import 'package:flutter/material.dart';
-import 'package:progress_state_button/progress_button.dart';
 
 class MyButton extends StatefulWidget {
   String text;

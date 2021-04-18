@@ -1,4 +1,6 @@
+
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/login_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/side_bar_item_selector_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
@@ -18,6 +20,12 @@ class AppRouter {
     switch (settings.name) {
       case "/":
         return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => LoginBloc(),
+                  child: LoginScreen(),
+                ));
+      case "/panel":
+        return MaterialPageRoute(
             builder: (_) => MultiBlocProvider(
                   providers: [
                     BlocProvider.value(value: _tabsliderBloc),
@@ -28,16 +36,15 @@ class AppRouter {
                     BlocProvider.value(value: _bookBloc),
                     BlocProvider.value(value: _usersBloc),
                   ],
-                  child: LoginScreen(),
-                  // PanelScreen(
-                  //   tabsliderBloc: _tabsliderBloc
-                  //     ..add(MoveForwardEvent(
-                  //         tab: 0,
-                  //         tabSliderBloc: _tabsliderBloc,
-                  //         bookBloc: _bookBloc,
-                  //         usersBloc: _usersBloc,
-                  //         orginalTab: CategoryTab())),
-                  // ),
+                  child: PanelScreen(
+                    tabsliderBloc: _tabsliderBloc
+                      ..add(MoveForwardEvent(
+                          tab: 0,
+                          tabSliderBloc: _tabsliderBloc,
+                          bookBloc: _bookBloc,
+                          usersBloc: _usersBloc,
+                          orginalTab: CategoryTab())),
+                  ),
                 ));
         break;
 
