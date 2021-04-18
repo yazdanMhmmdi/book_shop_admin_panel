@@ -1,19 +1,21 @@
+import 'package:book_shop_admin_panel/constants/assets.dart';
+import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/presentation/widget/background_shapes.dart';
 import 'package:flutter/material.dart';
 
-
-
-class LoginPage extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: IColors.green,
       body: Stack(
         children: [
-          
+          BackgroundShapes(),
         ],
       ),
     );
