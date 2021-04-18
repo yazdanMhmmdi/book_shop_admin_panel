@@ -13,4 +13,9 @@ class Assets {
   static final String attention = "assets/images/attention_128_1.png";
   static final String image_2 = "assets/images/image_2.png";
   static final String user_ico = "assets/images/user_ico.png";
+  
+  static final String circle_1 = "assets/images/circle_1.png";
+  static final String circle_2 = "assets/images/circle_2.png";
+  static final String circle_3 = "assets/images/circle_3.png";
+  static final String circle_4 = "assets/images/circle_4.png";
 }
