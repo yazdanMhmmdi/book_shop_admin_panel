@@ -63,7 +63,6 @@ class _EditBookDialogState extends State<EditBookDialog> {
             ),
           ]),
       child: BlocBuilder<BookBloc, BookState>(
-          cubit: _bookBloc,
           builder: (context, state) {
             if (state is BookInitial) {
               return Container();

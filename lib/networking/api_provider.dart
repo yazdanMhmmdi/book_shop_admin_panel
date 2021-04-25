@@ -11,7 +11,7 @@ class ApiProvider {
 
   Future<dynamic> get(String url) async {
     try {
-      final response = await http.get(_BASE_URL + url);
+      final response = await http.get(Uri.parse((_BASE_URL + url)));
       return await decodeResponse(response);
     } catch (_) {
       print('connection failure $_BASE_URL' + url);
@@ -46,7 +46,7 @@ class ApiProvider {
 
   Future<dynamic> postWithNoFile(String url, Map<String, String> params) async {
     try {
-      final res = await http.post(_BASE_URL + url, body: params);
+      final res = await http.post(Uri.parse(_BASE_URL + url), body: params);
 
       return await decodeResponse(res);
     } catch (_) {

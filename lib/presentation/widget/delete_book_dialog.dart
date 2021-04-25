@@ -22,7 +22,6 @@ class _DeleteBookDialogState extends State<DeleteBookDialog> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<TabsliderBloc, TabsliderState>(
-      cubit: BlocProvider.of<TabsliderBloc>(context),
       listener: (context, state) {
         if (state is TabsliderSuccess) {
           if (state.orginalTab is BooksTab) {

@@ -32,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
-        cubit: _loginBloc,
         listener: (context, state) {
           if (state is LoginInitial) {}
           if (state is LoginSuccess) {
