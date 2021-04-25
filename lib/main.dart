@@ -2,6 +2,8 @@ import 'package:book_shop_admin_panel/presentation/router/app_router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MyApp());
 }
 
