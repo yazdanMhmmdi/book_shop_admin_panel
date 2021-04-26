@@ -73,21 +73,31 @@ class BooksItem extends StatelessWidget {
                   address: image,
                 ),
                 SizedBox(height: 12),
-                Text(
-                  "${title}",
-                  style: TextStyle(
-                    fontFamily: "IranSans",
-                    fontSize: 16,
-                    color: IColors.black85,
-                    fontWeight: FontWeight.w700,
+                Container(
+                  width: 95,
+                  child: Text(
+                    "${title}",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: "IranSans",
+                      fontSize: 16,
+                      color: IColors.black85,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
-                Text(
-                  "${writer}",
-                  style: TextStyle(
-                    fontFamily: "IranSans",
-                    fontSize: 14,
-                    color: IColors.black35,
+                Container(
+                  width: 95,
+                  child: Text(
+                    "${writer}",
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: "IranSans",
+                      fontSize: 14,
+                      color: IColors.black35,
+                    ),
                   ),
                 ),
                 SizedBox(
