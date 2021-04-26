@@ -118,6 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 16,
                   ),
                   LoginTextField(
+                    lengthLimiting: 20,
                     hintText: "نام کاربری...",
                     textEditingController: _userController,
                   ),
@@ -125,6 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 16,
                   ),
                   LoginTextField(
+                    lengthLimiting: 12,
                     hintText: "رمزعبور...",
                     textEditingController: _passwordController,
                   ),
