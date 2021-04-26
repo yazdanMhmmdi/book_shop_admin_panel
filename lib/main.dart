@@ -1,8 +1,10 @@
 import 'package:book_shop_admin_panel/presentation/router/app_router.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  GestureBinding.instance.resamplingEnabled = true; // Set this flag.
 
   runApp(MyApp());
 }
