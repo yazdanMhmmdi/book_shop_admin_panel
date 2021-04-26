@@ -55,6 +55,9 @@ class _PanelScreenState extends State<PanelScreen> {
   Function(String) searchOnChange;
   bool bookSelected;
   bool isAnyBookSelected = false;
+  String selectedBookId="0";
+  bool isAnyUserSelected = false;
+  String selectedUserId="0";
   @override
   void initState() {
     _sideBarItemSelectorBloc =
@@ -92,7 +95,9 @@ class _PanelScreenState extends State<PanelScreen> {
           } else if (state is TabsliderSuccess) {
             if (state.orginalTab is UsersTab) {
               print('UsersTab');
-              tabStatus = "users";
+              setState(() {
+                tabStatus = "users";
+              });
               restartSearchField();
               scrollController.addListener(() {
                 if (scrollController.position.atEdge) {
@@ -157,8 +162,25 @@ class _PanelScreenState extends State<PanelScreen> {
             setState(() {
               isAnyBookSelected = true;
             });
-          } else {}
+          } else if (state is BookSuccess) {
+            setState(() {
+              selectedBookId = state.selectedBookId;
+              print("selected: ${selectedBookId}");
+            });
+          }
         }),
+        BlocListener<UsersBloc, UsersState>(listener: (context, state) {
+          if (state is GetSelectedUser) {
+            setState(() {
+              isAnyUserSelected = true;
+            });
+          } else if (state is UsersSuccess) {
+            setState(() {
+              selectedUserId = state.selectedUserId;
+              print("selected: ${selectedBookId}");
+            });
+          }
+        })
       ],
       child: OKToast(
         child: Scaffold(
@@ -202,7 +224,7 @@ class _PanelScreenState extends State<PanelScreen> {
                                   child: Image.asset(Assets.delete),
                                   title: "حذف",
                                   onTap: () {
-                                    if (isAnyBookSelected)
+                                    if (selectedBookId != "0") {
                                       ShowDialog.showDialog(
                                           context,
                                           MultiBlocProvider(
@@ -219,13 +241,26 @@ class _PanelScreenState extends State<PanelScreen> {
                                                 tabStatus: tabStatus,
                                                 status: getStatus(),
                                               )));
-                                    else {
-                                      showToastWidget(
-                                          ToastWidget(),
-                                          context: context,
-                                          position: ToastPosition.bottom
-                                          );
-                                    }
+                                    } else if (selectedUserId != "0") {
+                                      ShowDialog.showDialog(
+                                          context,
+                                          MultiBlocProvider(
+                                              providers: [
+                                                BlocProvider.value(
+                                                    value: _bookBloc),
+                                                BlocProvider.value(
+                                                    value:
+                                                        widget.tabsliderBloc),
+                                                BlocProvider.value(
+                                                    value: _usersBloc),
+                                              ],
+                                              child: DeleteBookDialog(
+                                                tabStatus: tabStatus,
+                                                status: getStatus(),
+                                              )));
+                                    } else
+                                      showToastWidget(ToastWidget(),
+                                          context: context);
                                   }),
                               SideBarItem(
                                   child: Image.asset(Assets.search),
@@ -438,5 +473,3 @@ class _PanelScreenState extends State<PanelScreen> {
     return PanelScreen.status.toString();
   }
 }
-
-

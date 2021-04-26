@@ -76,7 +76,7 @@ class _UsersTabState extends State<UsersTab> {
             List items = new List<Widget>();
             state.usersModel.users.forEach((element) {
               items.add(UserItem(
-                id: "0",
+                id: "${element.id}",
                 name: "${element.username}",
                 username: "${element.password}",
                 number: int.parse(element.id),

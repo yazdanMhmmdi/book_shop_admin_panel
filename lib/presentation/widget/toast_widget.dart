@@ -16,7 +16,7 @@ class ToastWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
-          'لطفا یک کتاب را برای حذف کردن انتخاب کنید',
+          'لطفا یک ایتم را برای حذف کردن انتخاب کنید',
           style: TextStyle(
             decoration: TextDecoration.none,
             fontFamily: "IranSans",

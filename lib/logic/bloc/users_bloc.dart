@@ -16,7 +16,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
   int counterPage = 0, totalPage;
   UsersModel _model;
-  String selectedUserId;
+  String selectedUserId = "0";
   String cacheSearch, cachePage;
 
   @override
@@ -33,7 +33,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           _model = await _repository.getUsers(counterPage.toString());
           totalPage = _model.data.totalPages;
 
-          yield UsersSuccess(usersModel: _model);
+          yield UsersSuccess(usersModel: _model,selectedUserId: selectedUserId);
         } else if (counterPage <= totalPage) {
           yield UsersLazyLoading(usersModel: _model);
           // page 2 to bigger pages cache
@@ -49,6 +49,8 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       }
     } else if (event is SelectUsersEvent) {
       selectedUserId = event.user_id;
+      yield GetSelectedUser();
+      yield UsersSuccess(usersModel: _model, selectedUserId: selectedUserId);
     } else if (event is DisposeUsersEvent) {
       _model = new UsersModel();
       totalPage = 0;
@@ -77,7 +79,8 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         for (int i = 0; i < _model.users.length; i++) {
           if (_model.users[i].id == selectedUserId) {
             _model.users.removeAt(i);
-            yield UsersSuccess(usersModel: _model);
+            selectedUserId = "0";
+            yield UsersSuccess(usersModel: _model, selectedUserId: selectedUserId);
           }
         }
       } else {

@@ -5,8 +5,10 @@ import 'package:book_shop_admin_panel/logic/bloc/side_bar_item_selector_bloc.dar
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
+import 'package:book_shop_admin_panel/presentation/widget/toast_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oktoast/oktoast.dart';
 
 class DeleteBookDialog extends StatefulWidget {
   String tabStatus;
@@ -18,6 +20,14 @@ class DeleteBookDialog extends StatefulWidget {
 
 class _DeleteBookDialogState extends State<DeleteBookDialog> {
   Function onTap;
+  bool isAnyBookSelected = false;
+  BookBloc _bookBloc;
+  @override
+  void initState() {
+    _bookBloc = BlocProvider.of<BookBloc>(context);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +36,13 @@ class _DeleteBookDialogState extends State<DeleteBookDialog> {
         if (state is TabsliderSuccess) {
           if (state.orginalTab is BooksTab) {
             print('it is');
+            _bookBloc.stream.listen((state) {
+              if (state is GetSelectedItem) {
+                setState(() {
+                  isAnyBookSelected = true;
+                });
+              }
+            });
           }
         }
       },

@@ -17,7 +17,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
   BookRepository _repository = new BookRepository();
   int counterPage = 0, totalPage;
   BookModel _model;
-  String selectedBookId;
+  String selectedBookId = "0";
   bool isSearch = false;
   String cacheSerach;
   String cachePage;
@@ -83,11 +83,13 @@ class BookBloc extends Bloc<BookEvent, BookState> {
             //indicate that there is no other book left in model
             if (_model.books.length == 0)
               yield BookEmpty();
-            else
+            else {
+              selectedBookId = "0";
               yield BookSuccess(
                   bookModel: _model,
                   isSearch: false,
                   selectedBookId: selectedBookId);
+            }
           } else {
             yield BookFailure(error_message: "error delete book");
           }
