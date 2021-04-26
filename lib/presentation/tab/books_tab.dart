@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:book_shop_admin_panel/constants/assets.dart';
+import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:book_shop_admin_panel/data/model/book_model.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/networking/api_provider.dart';
@@ -66,6 +67,19 @@ class _BooksTabState extends State<BooksTab> {
                 items.add(returnCard(element));
               });
               return Wrap(children: items);
+            } else if (state is BookEmpty) {
+              return Container(
+
+                child: Center(
+                  child: Text("کتابی وجود ندارد",
+                  style: TextStyle(
+                    color: IColors.black55,
+                    fontFamily: "IranSans",
+                    fontSize: 16
+                  ),
+                  ),
+                ),
+              );
             } else if (state is BookFailure) {
               return Container();
             }

@@ -20,6 +20,8 @@ class BookSuccess extends BookState {
   List<Object> get props => [this.bookModel];
 }
 
+class BookEmpty extends BookState {}
+
 class BookLazyLoading extends BookState {
   BookModel bookModel;
 

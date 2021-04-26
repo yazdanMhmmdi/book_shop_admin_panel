@@ -39,11 +39,15 @@ class BookBloc extends Bloc<BookEvent, BookState> {
             _model = await _repository.getBooks(
                 counterPage.toString(), currentTabCategory);
             totalPage = _model.data.totalPages;
-            print("CATEG PAGE 1");
-            yield BookSuccess(
-              bookModel: _model,
-              isSearch: false,
-            );
+
+            //indicate that there is no other book left in model
+            if (_model.books.length == 0)
+              yield BookEmpty();
+            else
+              yield BookSuccess(
+                bookModel: _model,
+                isSearch: false,
+              );
           } else if (counterPage <= totalPage) {
             yield BookLazyLoading(bookModel: _model);
             // page 2 to bigger pages cache
@@ -72,7 +76,12 @@ class BookBloc extends Bloc<BookEvent, BookState> {
               await _repository.deleteBook(event.book_id);
           if (_funcModel.status == "1") {
             _model.books.removeWhere((book) => book.id == event.book_id);
-            yield BookSuccess(bookModel: _model, isSearch: false);
+
+            //indicate that there is no other book left in model
+            if (_model.books.length == 0)
+              yield BookEmpty();
+            else
+              yield BookSuccess(bookModel: _model, isSearch: false);
           } else {
             yield BookFailure(error_message: "error delete book");
           }
