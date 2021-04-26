@@ -50,7 +50,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
             });
             print("CATEG PAGE X");
 
-            yield BookSuccess(bookModel: _model);
+            yield BookSuccess(bookModel: _model, isSearch: false);
           } else {
             print("CATEG PAGE END");
           }
@@ -68,7 +68,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
               await _repository.deleteBook(event.book_id);
           if (_funcModel.status == "1") {
             _model.books.removeWhere((book) => book.id == event.book_id);
-            yield BookSuccess(bookModel: _model);
+            yield BookSuccess(bookModel: _model , isSearch: false);
           } else {
             yield BookFailure(error_message: "error delete book");
           }
@@ -92,7 +92,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
           if (_fundModel.status == "1") {
             //TODO: needs id,picture_thumb, picture from server api;
             print(_model.books[(_model.books.length - 1)].name);
-            yield BookSuccess(bookModel: _model);
+            yield BookSuccess(bookModel: _model, isSearch: false);
           } else {
             yield BookFailure(error_message: "error add book");
           }
@@ -116,7 +116,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
           if (_fundModel.status == "1") {
             //TODO: needs id,picture_thumb, picture from server api;
             print(_model.books[(_model.books.length - 1)].name);
-            yield BookSuccess(bookModel: _model);
+            yield BookSuccess(bookModel: _model, isSearch: false);
           } else {
             yield BookFailure(error_message: "error add book");
           }
@@ -174,7 +174,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
             _res.books.forEach((e) {
               _model.books.add(e);
             });
-            yield BookSuccess(bookModel: _model);
+            yield BookSuccess(bookModel: _model, isSearch: true);
           }
         } catch (err) {
           yield BookFailure(
