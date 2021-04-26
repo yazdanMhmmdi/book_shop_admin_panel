@@ -6,8 +6,11 @@ class LoginTextField extends StatefulWidget {
   TextEditingController textEditingController;
   String hintText;
   int lengthLimiting;
+  IconData iconData;
   LoginTextField(
-      {this.hintText, this.textEditingController, this.lengthLimiting});
+      {this.hintText, this.textEditingController, this.lengthLimiting,
+      @required this.iconData
+      });
   @override
   _LoginTextFieldState createState() => _LoginTextFieldState();
 }
@@ -45,7 +48,7 @@ class _LoginTextFieldState extends State<LoginTextField> {
             ),
           ),
           IconButton(
-              icon: Icon(Icons.person, color: IColors.black55),
+              icon: Icon(widget.iconData, color: IColors.black55),
               onPressed: () {}),
           SizedBox(
             width: 4,
