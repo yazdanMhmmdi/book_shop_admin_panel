@@ -53,7 +53,7 @@ class _SearchFieldSpotState extends State<SearchFieldSpot> {
                   color: IColors.boldGreen,
                   onPressed: () {
                     _bookBloc.add(DisposeBookEvent());
-                    _bookBloc.add(GetBookEvent(category_id: "1"));
+                    _bookBloc.add(GetBookEvent());
                     controller.clear();
 
                     setState(() {

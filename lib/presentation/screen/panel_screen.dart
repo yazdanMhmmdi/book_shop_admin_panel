@@ -123,7 +123,7 @@ class _PanelScreenState extends State<PanelScreen> {
                   if (isSearch) {
                     _bookBloc.add(SearchBookEvent(isLazyLoad: true));
                   } else {
-                    _bookBloc.add(GetBookEvent(category_id: "1"));
+                    _bookBloc.add(GetBookEvent());
                     print("BOTTOM");
                   }
                 }
@@ -358,7 +358,7 @@ class _PanelScreenState extends State<PanelScreen> {
                   onPressed: () {
                     if (tabStatus == "books") {
                       _bookBloc.add(DisposeBookEvent());
-                      _bookBloc.add(GetBookEvent(category_id: "1"));
+                      _bookBloc.add(GetBookEvent());
                     } else if (tabStatus == "users") {
                       _usersBloc.add(DisposeUsersEvent());
                       _usersBloc.add(GetUsersEvent());

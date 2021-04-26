@@ -8,11 +8,10 @@ abstract class BookEvent extends Equatable {
 }
 
 class GetBookEvent extends BookEvent {
-  String category_id;
-  GetBookEvent({@required this.category_id});
+  GetBookEvent();
   @override
   // TODO: implement props
-  List<Object> get props => [this.category_id];
+  List<Object> get props => [];
 }
 
 class DeleteBookEvent extends BookEvent {
@@ -115,4 +114,13 @@ class SearchBookEvent extends BookEvent {
   @override
   // TODO: implement props
   List<Object> get props => [this.search, this.category_id];
+}
+
+class AddCategoryEvent extends BookEvent {
+  String currentTabCategory;
+
+  AddCategoryEvent({@required this.currentTabCategory});
+  @override
+  // TODO: implement props
+  List<Object> get props => [this.currentTabCategory];
 }

@@ -175,7 +175,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
                     writer: _writerController.text,
                   ));
                   _bookBloc.add(DisposeBookEvent());
-                  _bookBloc.add(GetBookEvent(category_id: "1"));
+                  _bookBloc.add(GetBookEvent());
                   setState(() {
                     EditBookDialog.file = null;
                   });

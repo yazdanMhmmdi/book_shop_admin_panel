@@ -22,6 +22,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
   String cacheSerach;
   String cachePage;
   String cacheCategory_id;
+  String currentTabCategory;
   @override
   Stream<BookState> mapEventToState(
     BookEvent event,
@@ -36,15 +37,18 @@ class BookBloc extends Bloc<BookEvent, BookState> {
 
             //first time caching
             _model = await _repository.getBooks(
-                counterPage.toString(), event.category_id);
+                counterPage.toString(), currentTabCategory);
             totalPage = _model.data.totalPages;
             print("CATEG PAGE 1");
-            yield BookSuccess(bookModel: _model, isSearch: false);
+            yield BookSuccess(
+              bookModel: _model,
+              isSearch: false,
+            );
           } else if (counterPage <= totalPage) {
             yield BookLazyLoading(bookModel: _model);
             // page 2 to bigger pages cache
             BookModel _res = await _repository.getBooks(
-                counterPage.toString(), event.category_id);
+                counterPage.toString(), currentTabCategory);
             _res.books.forEach((e) {
               _model.books.add(e);
             });
@@ -68,7 +72,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
               await _repository.deleteBook(event.book_id);
           if (_funcModel.status == "1") {
             _model.books.removeWhere((book) => book.id == event.book_id);
-            yield BookSuccess(bookModel: _model , isSearch: false);
+            yield BookSuccess(bookModel: _model, isSearch: false);
           } else {
             yield BookFailure(error_message: "error delete book");
           }
@@ -86,7 +90,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
               description: event.description,
               coverType: event.coverType,
               pageCount: event.pageCount,
-              category_id: event.category_id,
+              category_id: currentTabCategory,
               vote: event.vote,
               writer: event.writer);
           if (_fundModel.status == "1") {
@@ -147,7 +151,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
         if (!event.isLazyLoad) {
           if (event.search == "") {
             this.add(DisposeBookEvent());
-            this.add(GetBookEvent(category_id: event.category_id));
+            this.add(GetBookEvent());
           }
         }
         try {
@@ -156,20 +160,20 @@ class BookBloc extends Bloc<BookEvent, BookState> {
             yield BookLoading();
             _model = await _repository.searcBook(
                 search: event.search,
-                category_id: event.category_id,
+                category_id: currentTabCategory,
                 page: counterPage.toString());
             totalPage = _model.data.totalPages;
             //caching
             cacheSerach = event.search;
             cachePage = counterPage.toString();
-            cacheCategory_id = event.category_id;
+            cacheCategory_id = currentTabCategory;
 
             yield BookSuccess(bookModel: _model, isSearch: true);
           } else if (counterPage <= totalPage) {
             yield BookSearchLazyLoading(bookModel: _model);
             BookModel _res = await _repository.searcBook(
                 search: cacheSerach,
-                category_id: cacheCategory_id,
+                category_id: currentTabCategory,
                 page: counterPage.toString());
             _res.books.forEach((e) {
               _model.books.add(e);
@@ -180,6 +184,9 @@ class BookBloc extends Bloc<BookEvent, BookState> {
           yield BookFailure(
               error_message: "SearchBookEvent -> BoolFailure: ${err}");
         }
+      } else if (event is AddCategoryEvent) {
+        currentTabCategory = event.currentTabCategory;
+        print("current tab category: ${currentTabCategory}");
       }
     } catch (e) {
       print("ERROR ${e.toString()}");

@@ -117,7 +117,7 @@ class _AddBookDialogState extends State<AddBookDialog> {
                     writer: _writerController.text,
                   ));
                   _bookBloc.add(DisposeBookEvent());
-                  _bookBloc.add(GetBookEvent(category_id: "1"));
+                  _bookBloc.add(GetBookEvent());
                   Navigator.pop(context);
                   // if (AddBookDialog.file != null) {
 

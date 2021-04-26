@@ -50,36 +50,66 @@ class _CategoryTabState extends State<CategoryTab> {
                       child: Image.asset(Assets.labTool),
                       title: "علمی",
                       onTap: () {
+                        _bookBloc
+                            .add(AddCategoryEvent(currentTabCategory: "1"));
                         _tabsliderBloc.add(MoveForwardEvent(
                             tab: 2,
                             tabSliderBloc: _tabsliderBloc,
                             bookBloc: _bookBloc));
                         _bookBloc.add(DisposeBookEvent());
-                        _bookBloc.add(GetBookEvent(category_id: "1"));
+                        _bookBloc.add(GetBookEvent());
                       }),
                   CategoryItem(
                     child: Image.asset(Assets.medicine),
                     title: "دارویی",
                     onTap: () {
+                      _bookBloc.add(AddCategoryEvent(currentTabCategory: "2"));
                       _tabsliderBloc.add(MoveForwardEvent(
                           tab: 2,
                           tabSliderBloc: _tabsliderBloc,
                           bookBloc: _bookBloc));
                       _bookBloc.add(DisposeBookEvent());
-                      _bookBloc.add(GetBookEvent(category_id: "2"));
+                      _bookBloc.add(GetBookEvent());
                     },
                   ),
                   CategoryItem(
                     child: Image.asset(Assets.hourglass),
                     title: "تاریخی",
+                    onTap: () {
+                      _bookBloc.add(AddCategoryEvent(currentTabCategory: "3"));
+                      _tabsliderBloc.add(MoveForwardEvent(
+                          tab: 2,
+                          tabSliderBloc: _tabsliderBloc,
+                          bookBloc: _bookBloc));
+                      _bookBloc.add(DisposeBookEvent());
+                      _bookBloc.add(GetBookEvent());
+                    },
                   ),
                   CategoryItem(
                     child: Image.asset(Assets.auction),
                     title: "قضایی",
+                    onTap: () {
+                      _bookBloc.add(AddCategoryEvent(currentTabCategory: "4"));
+                      _tabsliderBloc.add(MoveForwardEvent(
+                          tab: 2,
+                          tabSliderBloc: _tabsliderBloc,
+                          bookBloc: _bookBloc));
+                      _bookBloc.add(DisposeBookEvent());
+                      _bookBloc.add(GetBookEvent());
+                    },
                   ),
                   CategoryItem(
                     child: Image.asset(Assets.dish),
                     title: "غذایی",
+                    onTap: () {
+                      _bookBloc.add(AddCategoryEvent(currentTabCategory: "5"));
+                      _tabsliderBloc.add(MoveForwardEvent(
+                          tab: 2,
+                          tabSliderBloc: _tabsliderBloc,
+                          bookBloc: _bookBloc));
+                      _bookBloc.add(DisposeBookEvent());
+                      _bookBloc.add(GetBookEvent());
+                    },
                   ),
                 ],
               )
