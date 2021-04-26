@@ -305,8 +305,11 @@ class _PanelScreenState extends State<PanelScreen> {
                                 isSearch = state.isSearch;
                                 return Container();
                               } else if (state is BookLoading) {
-                                return Center(
-                                    child: CircularProgressIndicator());
+                                return Container(
+                                  height: MediaQuery.of(context).size.height,
+                                  child: Center(
+                                      child: CircularProgressIndicator()),
+                                );
                               } else if (state is BookFailure) {
                                 return Container();
                               } else {

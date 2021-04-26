@@ -7,10 +7,13 @@ class LoginTextField extends StatefulWidget {
   String hintText;
   int lengthLimiting;
   IconData iconData;
+  bool obscureText;
   LoginTextField(
-      {this.hintText, this.textEditingController, this.lengthLimiting,
-      @required this.iconData
-      });
+      {this.hintText,
+      this.textEditingController,
+      this.lengthLimiting,
+      @required this.iconData,
+      @required this.obscureText});
   @override
   _LoginTextFieldState createState() => _LoginTextFieldState();
 }
@@ -26,6 +29,7 @@ class _LoginTextFieldState extends State<LoginTextField> {
             child: Directionality(
               textDirection: TextDirection.rtl,
               child: TextField(
+                obscureText: widget.obscureText,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
                   LengthLimitingTextInputFormatter(widget.lengthLimiting),

@@ -118,6 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 16,
                   ),
                   LoginTextField(
+                    obscureText: false,
                     lengthLimiting: 20,
                     iconData: Icons.person,
                     hintText: "نام کاربری...",
@@ -127,6 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 16,
                   ),
                   LoginTextField(
+                    obscureText: true,
                     iconData: Icons.lock,
                     lengthLimiting: 12,
                     hintText: "رمزعبور...",
@@ -143,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           password: _passwordController.text));
                     },
                     buttonState: buttonState,
-                  )
+                  ),
                 ],
               ),
             ),

@@ -32,7 +32,9 @@ class _UsersTabState extends State<UsersTab> {
           if (state is UsersInitial) {
             return Container();
           } else if (state is UsersLoading) {
-            return CircularProgressIndicator();
+            return Container(
+                height: MediaQuery.of(context).size.height,
+                child: Center(child: CircularProgressIndicator()));
           } else if (state is UsersSuccess) {
             List items = new List<Widget>();
             state.usersModel.users.forEach((element) {
