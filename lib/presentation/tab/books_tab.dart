@@ -12,6 +12,7 @@ import 'package:book_shop_admin_panel/presentation/widget/delete_book_dialog.dar
 import 'package:book_shop_admin_panel/presentation/widget/edit_book_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class BooksTab extends StatefulWidget {
   static int clickStatus;
@@ -69,18 +70,19 @@ class _BooksTabState extends State<BooksTab> {
               return Wrap(children: items);
             } else if (state is BookEmpty) {
               return Container(
-
                 child: Center(
-                  child: Text("کتابی وجود ندارد",
-                  style: TextStyle(
-                    color: IColors.black55,
-                    fontFamily: "IranSans",
-                    fontSize: 16
-                  ),
+                  child: Text(
+                    "کتابی وجود ندارد",
+                    style: TextStyle(
+                        color: IColors.black55,
+                        fontFamily: "IranSans",
+                        fontSize: 16),
                   ),
                 ),
               );
             } else if (state is BookFailure) {
+              return Container();
+            } else {
               return Container();
             }
           },
@@ -103,6 +105,7 @@ class _BooksTabState extends State<BooksTab> {
           PanelScreen.status = int.tryParse(element.id);
           //selected book that user choosed it.
           _bookBloc.add(SelectBookEvent(book_id: element.id.toString()));
+          
           print('selected book: ${PanelScreen.status}');
         });
       },

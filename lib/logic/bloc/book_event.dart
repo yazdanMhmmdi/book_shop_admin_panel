@@ -23,6 +23,7 @@ class DeleteBookEvent extends BookEvent {
   List<Object> get props => [this.book_id];
 }
 
+
 class AddBookEvent extends BookEvent {
   File file;
   String name;
@@ -124,3 +125,4 @@ class AddCategoryEvent extends BookEvent {
   // TODO: implement props
   List<Object> get props => [this.currentTabCategory];
 }
+

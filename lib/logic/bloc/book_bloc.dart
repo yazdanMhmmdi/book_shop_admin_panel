@@ -45,9 +45,9 @@ class BookBloc extends Bloc<BookEvent, BookState> {
               yield BookEmpty();
             else
               yield BookSuccess(
-                bookModel: _model,
-                isSearch: false,
-              );
+                  bookModel: _model,
+                  isSearch: false,
+                  selectedBookId: selectedBookId);
           } else if (counterPage <= totalPage) {
             yield BookLazyLoading(bookModel: _model);
             // page 2 to bigger pages cache
@@ -58,7 +58,10 @@ class BookBloc extends Bloc<BookEvent, BookState> {
             });
             print("CATEG PAGE X");
 
-            yield BookSuccess(bookModel: _model, isSearch: false);
+            yield BookSuccess(
+                bookModel: _model,
+                isSearch: false,
+                selectedBookId: selectedBookId);
           } else {
             print("CATEG PAGE END");
           }
@@ -81,7 +84,10 @@ class BookBloc extends Bloc<BookEvent, BookState> {
             if (_model.books.length == 0)
               yield BookEmpty();
             else
-              yield BookSuccess(bookModel: _model, isSearch: false);
+              yield BookSuccess(
+                  bookModel: _model,
+                  isSearch: false,
+                  selectedBookId: selectedBookId);
           } else {
             yield BookFailure(error_message: "error delete book");
           }
@@ -105,7 +111,10 @@ class BookBloc extends Bloc<BookEvent, BookState> {
           if (_fundModel.status == "1") {
             //TODO: needs id,picture_thumb, picture from server api;
             print(_model.books[(_model.books.length - 1)].name);
-            yield BookSuccess(bookModel: _model, isSearch: false);
+            yield BookSuccess(
+                bookModel: _model,
+                isSearch: false,
+                selectedBookId: selectedBookId);
           } else {
             yield BookFailure(error_message: "error add book");
           }
@@ -129,7 +138,10 @@ class BookBloc extends Bloc<BookEvent, BookState> {
           if (_fundModel.status == "1") {
             //TODO: needs id,picture_thumb, picture from server api;
             print(_model.books[(_model.books.length - 1)].name);
-            yield BookSuccess(bookModel: _model, isSearch: false);
+            yield BookSuccess(
+                bookModel: _model,
+                isSearch: false,
+                selectedBookId: selectedBookId);
           } else {
             yield BookFailure(error_message: "error add book");
           }
@@ -138,7 +150,8 @@ class BookBloc extends Bloc<BookEvent, BookState> {
         }
       } else if (event is SelectBookEvent) {
         selectedBookId = event.book_id;
-
+        yield GetSelectedItem(selectedItemId: selectedBookId);
+        yield BookSuccess(bookModel: _model, selectedBookId: selectedBookId);
         print('Selected book in bookBloc is : ${selectedBookId}');
       } else if (event is ReturnSelectedBookEvent) {
         for (int i = 0; i < _model.books.length; i++) {
@@ -177,7 +190,10 @@ class BookBloc extends Bloc<BookEvent, BookState> {
             cachePage = counterPage.toString();
             cacheCategory_id = currentTabCategory;
 
-            yield BookSuccess(bookModel: _model, isSearch: true);
+            yield BookSuccess(
+                bookModel: _model,
+                isSearch: true,
+                selectedBookId: selectedBookId);
           } else if (counterPage <= totalPage) {
             yield BookSearchLazyLoading(bookModel: _model);
             BookModel _res = await _repository.searcBook(
@@ -187,7 +203,10 @@ class BookBloc extends Bloc<BookEvent, BookState> {
             _res.books.forEach((e) {
               _model.books.add(e);
             });
-            yield BookSuccess(bookModel: _model, isSearch: true);
+            yield BookSuccess(
+                bookModel: _model,
+                isSearch: true,
+                selectedBookId: selectedBookId);
           }
         } catch (err) {
           yield BookFailure(

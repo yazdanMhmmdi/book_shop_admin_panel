@@ -14,7 +14,8 @@ class BookLoading extends BookState {}
 class BookSuccess extends BookState {
   BookModel bookModel;
   bool isSearch;
-  BookSuccess({this.bookModel, this.isSearch});
+  String selectedBookId;
+  BookSuccess({this.bookModel, this.isSearch, this.selectedBookId});
 
   @override
   List<Object> get props => [this.bookModel];
@@ -68,4 +69,12 @@ class BookSelectedReturn extends BookState {
 class BookFailure extends BookState {
   String error_message;
   BookFailure({@required this.error_message});
+}
+
+class GetSelectedItem extends BookState {
+  String selectedItemId;
+  GetSelectedItem({this.selectedItemId});
+  @override
+  // TODO: implement props
+  List<Object> get props => [this.selectedItemId];
 }

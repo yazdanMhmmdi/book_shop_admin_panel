@@ -35,7 +35,8 @@ dependencies:
   #scrollerview: ^0.0.4
   filepicker_windows: ^2.0.0
   progress_state_button: ^1.0.3
-
+  fluttertoast: ^8.0.6
+  oktoast: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
