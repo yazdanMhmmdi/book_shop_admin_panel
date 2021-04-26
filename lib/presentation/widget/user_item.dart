@@ -50,7 +50,7 @@ class UserItem extends StatelessWidget {
             child: Column(
               children: [
                 Align(
-                  child: TopRightUserWidget(id: "0", number: number),
+                  child: TopRightUserWidget(id: "${id}", number: number),
                   alignment: Alignment.topRight,
                 ),
                 SizedBox(
