@@ -72,22 +72,32 @@ class UserItem extends StatelessWidget {
                 SizedBox(
                   height: 16,
                 ),
-                Text(
-                  '$name',
-                  style: TextStyle(
-                    color: IColors.black85,
-                    fontFamily: "iranSans",
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                Container(
+                  width: 94,
+                  child: Text(
+                    '$name',
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: IColors.black85,
+                      fontFamily: "iranSans",
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                Text(
-                  '$username',
-                  style: TextStyle(
-                    color: IColors.black35,
-                    fontFamily: "iranSans",
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
+                Container(
+                  width: 94,
+                  child: Text(
+                    '$username',
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: IColors.black35,
+                      fontFamily: "iranSans",
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ),
               ],
