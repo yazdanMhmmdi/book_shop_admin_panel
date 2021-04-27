@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/networking/api_provider.dart';
 import 'package:book_shop_admin_panel/presentation/widget/add_book_dialog.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _ImagePickerSpotState extends State<ImagePickerSpot> {
               Text(
                 "انتخاب عکس",
                 style: TextStyle(
-                  fontFamily: "IranSans",
+                  fontFamily: Strings.fontIranSans,
                   fontSize: 16,
                   color: IColors.black85,
                 ),

@@ -1,5 +1,6 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/presentation/tab/users_tab.dart';
 import 'package:book_shop_admin_panel/presentation/widget/top_right_book_widget.dart';
 import 'package:book_shop_admin_panel/presentation/widget/top_right_user_widget.dart';
@@ -80,7 +81,7 @@ class UserItem extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: IColors.black85,
-                      fontFamily: "iranSans",
+                      fontFamily: Strings.fontIranSans,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
@@ -94,7 +95,7 @@ class UserItem extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: IColors.black35,
-                      fontFamily: "iranSans",
+                      fontFamily: Strings.fontIranSans,
                       fontSize: 14,
                       fontWeight: FontWeight.normal,
                     ),

@@ -69,7 +69,7 @@ class _PostDialogState extends State<PostDialog> {
                         child: Text(
                           "${state.writer}",
                           style: TextStyle(
-                            fontFamily: "IranSans",
+                            fontFamily: Strings.fontIranSans,
                             fontSize: 16,
                             color: IColors.black35,
                             fontWeight: FontWeight.normal,
@@ -82,7 +82,7 @@ class _PostDialogState extends State<PostDialog> {
                         child: Text(
                           "${state.name}",
                           style: TextStyle(
-                            fontFamily: "IranSans",
+                            fontFamily: Strings.fontIranSans,
                             fontSize: 18,
                             color: IColors.black85,
                             fontWeight: FontWeight.bold,
@@ -112,7 +112,7 @@ class _PostDialogState extends State<PostDialog> {
                             Text(
                               Strings.postDialogdesc,
                               style: TextStyle(
-                                fontFamily: "IranSans",
+                                fontFamily: Strings.fontIranSans,
                                 fontSize: 20,
                                 color: IColors.black85,
                                 fontWeight: FontWeight.bold,
@@ -122,7 +122,7 @@ class _PostDialogState extends State<PostDialog> {
                             Text(
                               state.description,
                               style: TextStyle(
-                                fontFamily: "IranSans",
+                                fontFamily: Strings.fontIranSans,
                                 fontSize: 16,
                                 color: IColors.black35,
                                 fontWeight: FontWeight.normal,

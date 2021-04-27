@@ -1,5 +1,6 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/presentation/widget/circular_on_tap.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,7 @@ class SideBarItem extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   color: IColors.black85,
-                  fontFamily: "IranSans",
+                  fontFamily: Strings.fontIranSans,
                 ),
               ),
             ],

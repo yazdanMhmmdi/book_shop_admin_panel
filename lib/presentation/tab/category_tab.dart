@@ -1,5 +1,6 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/data/model/book_model.dart';
 import 'package:book_shop_admin_panel/data/repository/book_repository.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
@@ -40,7 +41,7 @@ class _CategoryTabState extends State<CategoryTab> {
                 style: TextStyle(
                     color: IColors.black85,
                     fontSize: 20,
-                    fontFamily: "IranSans",
+                    fontFamily: Strings.fontIranSans,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 26),

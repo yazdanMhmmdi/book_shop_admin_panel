@@ -1,4 +1,5 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:flare_loading/flare_loading.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,7 @@ class NoNetworkFlare extends StatelessWidget {
         Text(
           '! اتصال به شبکه قطع شد',
           style: TextStyle(
-              fontFamily: "IranSans",
+              fontFamily: Strings.fontIranSans,
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: Colors.black87),
@@ -31,7 +32,7 @@ class NoNetworkFlare extends StatelessWidget {
         Text(
           'لطفا اتصال به اینترنت خود را بررسی کنید',
           style: TextStyle(
-              fontFamily: "IranSans", fontSize: 18, color: Colors.black87),
+              fontFamily: Strings.fontIranSans, fontSize: 18, color: Colors.black87),
         ),
       ],
     );

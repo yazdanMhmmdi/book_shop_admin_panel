@@ -1,5 +1,6 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/side_bar_item_selector_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
@@ -80,7 +81,7 @@ class _DeleteBookDialogState extends State<DeleteBookDialog> {
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: IColors.black85,
-                      fontFamily: "IranSans",
+                      fontFamily: Strings.fontIranSans,
                       decoration: TextDecoration.none),
                 ),
               ),
@@ -116,7 +117,7 @@ class _DeleteBookDialogState extends State<DeleteBookDialog> {
                               'تایید',
                               style: TextStyle(
                                 fontWeight: FontWeight.normal,
-                                fontFamily: "IranSans",
+                                fontFamily: Strings.fontIranSans,
                                 fontSize: 16,
                                 color: Colors.white70,
                                 decoration: TextDecoration.none,
@@ -150,7 +151,7 @@ class _DeleteBookDialogState extends State<DeleteBookDialog> {
                               'انصراف',
                               style: TextStyle(
                                 fontWeight: FontWeight.normal,
-                                fontFamily: "IranSans",
+                                fontFamily: Strings.fontIranSans,
                                 fontSize: 16,
                                 color: Colors.white70,
                                 decoration: TextDecoration.none,

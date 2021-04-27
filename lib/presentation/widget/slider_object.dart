@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -53,7 +54,7 @@ class _SliderObjectState extends State<SliderObject> {
                       "درباره کتاب",
                     ),
                     style: TextStyle(
-                      fontFamily: "iranSans",
+                      fontFamily: Strings.fontIranSans,
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                       color: _sliderRightTextColor,
@@ -76,7 +77,7 @@ class _SliderObjectState extends State<SliderObject> {
                   "درباره ناشر",
                 ),
                 style: TextStyle(
-                  fontFamily: "iranSans",
+                  fontFamily: Strings.fontIranSans,
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                   color: _sliderLeftTextColor,
@@ -200,7 +201,7 @@ class _SliderObjectState extends State<SliderObject> {
         Text(
           '$title',
           style: TextStyle(
-            fontFamily: "iranSans",
+            fontFamily: Strings.fontIranSans,
             fontSize: 20,
             fontWeight: FontWeight.w700,
             color: Colors.black87,
@@ -210,7 +211,7 @@ class _SliderObjectState extends State<SliderObject> {
         Text(
           '$subTitle',
           style: TextStyle(
-            fontFamily: "iranSans",
+            fontFamily: Strings.fontIranSans,
             fontSize: 18,
             color: Colors.black38,
             fontWeight: FontWeight.normal,

@@ -1,4 +1,5 @@
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:flutter/material.dart';
 
 class ToastWidget extends StatelessWidget {
@@ -19,7 +20,7 @@ class ToastWidget extends StatelessWidget {
           'لطفا یک ایتم را برای حذف کردن انتخاب کنید',
           style: TextStyle(
             decoration: TextDecoration.none,
-            fontFamily: "IranSans",
+            fontFamily: Strings.fontIranSans,
             fontSize: 16,
             fontWeight: FontWeight.normal,
             color: IColors.white90,

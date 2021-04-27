@@ -1,4 +1,5 @@
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/data/model/users_model.dart';
 import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/widget/text_field_spot.dart';
@@ -95,7 +96,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
                   "ویرایش کاربر",
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
-                      fontFamily: "IranSans",
+                      fontFamily: Strings.fontIranSans,
                       fontSize: 16,
                       color: Colors.white70,
                       decoration: TextDecoration.none),
@@ -118,7 +119,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
           " ${title}",
           style: TextStyle(
               fontSize: 16,
-              fontFamily: "IranSans",
+              fontFamily: Strings.fontIranSans,
               color: IColors.black85,
               decoration: TextDecoration.none),
         ),
@@ -149,7 +150,8 @@ class _EditUserDialogState extends State<EditUserDialog> {
                 inputFormatters: <TextInputFormatter>[
                   LengthLimitingTextInputFormatter(maxLengh),
                 ],
-                style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                style:
+                    TextStyle(fontFamily: Strings.fontIranSans, fontSize: 16),
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding:

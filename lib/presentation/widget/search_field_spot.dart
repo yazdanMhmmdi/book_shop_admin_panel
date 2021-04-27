@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/widget/image_picker_spot.dart';
 import 'package:flutter/material.dart';
@@ -92,12 +93,12 @@ class _SearchFieldSpotState extends State<SearchFieldSpot> {
                             LengthLimitingTextInputFormatter(widget.maxLengh),
                           ],
                           style:
-                              TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                              TextStyle(fontFamily:Strings.fontIranSans, fontSize: 16),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "نام کتاب را جستجو کنید...",
                             hintStyle:
-                                TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                                TextStyle(fontFamily: Strings.fontIranSans, fontSize: 16),
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                             errorBorder: InputBorder.none,

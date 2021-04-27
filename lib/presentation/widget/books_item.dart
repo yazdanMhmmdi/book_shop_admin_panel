@@ -1,5 +1,6 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/widget/image_holder.dart';
 import 'package:book_shop_admin_panel/presentation/widget/top_right_book_widget.dart';
@@ -85,7 +86,7 @@ class BooksItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily: "IranSans",
+                      fontFamily: Strings.fontIranSans,
                       fontSize: 16,
                       color: IColors.black85,
                       fontWeight: FontWeight.w700,
@@ -99,7 +100,7 @@ class BooksItem extends StatelessWidget {
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontFamily: "IranSans",
+                      fontFamily: Strings.fontIranSans,
                       fontSize: 14,
                       color: IColors.black35,
                     ),

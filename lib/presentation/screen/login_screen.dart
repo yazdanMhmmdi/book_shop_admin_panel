@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/logic/bloc/login_bloc.dart';
 import 'package:book_shop_admin_panel/logic/cubit/internet_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/widget/background_shapes.dart';
@@ -108,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text(
                     "ورود ادمین",
                     style: TextStyle(
-                        fontFamily: "IranSans",
+                        fontFamily: Strings.fontIranSans,
                         fontSize: 18,
                         color: IColors.black85,
                         fontWeight: FontWeight.bold),

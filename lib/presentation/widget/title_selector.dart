@@ -1,3 +1,4 @@
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/screen/panel_screen.dart';
@@ -90,7 +91,7 @@ class TitleSelectorState extends State<TitleSelector> {
               style: TextStyle(
                 color: _isSelected ? Colors.black87 : Colors.grey,
                 fontSize: _isSelected ? 22 : 16,
-                fontFamily: "IranSans",
+                fontFamily: Strings.fontIranSans,
                 fontWeight: FontWeight.w700,
               ),
             ),

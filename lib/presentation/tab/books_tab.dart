@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/data/model/book_model.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/networking/api_provider.dart';
@@ -77,7 +78,7 @@ class _BooksTabState extends State<BooksTab> {
                     "کتابی وجود ندارد",
                     style: TextStyle(
                         color: IColors.black55,
-                        fontFamily: "IranSans",
+                        fontFamily: Strings.fontIranSans,
                         fontSize: 16),
                   ),
                 ),

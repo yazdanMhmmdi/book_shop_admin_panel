@@ -1,4 +1,5 @@
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -36,7 +37,7 @@ class _LoginTextFieldState extends State<LoginTextField> {
                 ],
                 controller: widget.textEditingController,
                 style: TextStyle(
-                  fontFamily: "IranSans",
+                  fontFamily: Strings.fontIranSans,
                   fontSize: 16,
                 ),
                 decoration: InputDecoration(
@@ -44,7 +45,7 @@ class _LoginTextFieldState extends State<LoginTextField> {
                   border: InputBorder.none,
                   hintText: "${widget.hintText}",
                   hintStyle: TextStyle(
-                      fontFamily: "IranSans",
+                      fontFamily: Strings.fontIranSans,
                       fontSize: 16,
                       color: IColors.black55),
                 ),

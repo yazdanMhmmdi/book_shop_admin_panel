@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/screen/panel_screen.dart';
 import 'package:book_shop_admin_panel/presentation/widget/multi_text_field_spot.dart';
@@ -62,16 +63,15 @@ class _EditBookDialogState extends State<EditBookDialog> {
               color: IColors.black15,
             ),
           ]),
-      child: BlocBuilder<BookBloc, BookState>(
-          builder: (context, state) {
-            if (state is BookInitial) {
-              return Container();
-            } else if (state is BookSelectedReturn) {
-              return objects(state);
-            } else {
-              return Container();
-            }
-          }),
+      child: BlocBuilder<BookBloc, BookState>(builder: (context, state) {
+        if (state is BookInitial) {
+          return Container();
+        } else if (state is BookSelectedReturn) {
+          return objects(state);
+        } else {
+          return Container();
+        }
+      }),
     );
   }
 
@@ -143,7 +143,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
             style: TextStyle(
                 color: IColors.black35,
                 fontSize: 14,
-                fontFamily: "IranSans",
+                fontFamily: Strings.fontIranSans,
                 fontWeight: FontWeight.normal,
                 decoration: TextDecoration.none),
           ),
@@ -186,7 +186,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
                     "ثبت کتاب",
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
-                        fontFamily: "IranSans",
+                        fontFamily: Strings.fontIranSans,
                         fontSize: 16,
                         color: Colors.white70,
                         decoration: TextDecoration.none),
@@ -210,7 +210,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
           " ${title}",
           style: TextStyle(
               fontSize: 16,
-              fontFamily: "IranSans",
+              fontFamily: Strings.fontIranSans,
               color: IColors.black85,
               decoration: TextDecoration.none),
         ),
@@ -264,7 +264,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
           " ${title}",
           style: TextStyle(
               fontSize: 16,
-              fontFamily: "IranSans",
+              fontFamily: Strings.fontIranSans,
               color: IColors.black85,
               decoration: TextDecoration.none),
         ),
@@ -288,7 +288,8 @@ class _EditBookDialogState extends State<EditBookDialog> {
                   inputFormatters: <TextInputFormatter>[
                     LengthLimitingTextInputFormatter(maxLengh),
                   ],
-                  style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                  style:
+                      TextStyle(fontFamily: Strings.fontIranSans, fontSize: 16),
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(

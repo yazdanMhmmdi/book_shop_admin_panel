@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/data/repository/book_repository.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/networking/api_provider.dart';
@@ -138,7 +139,7 @@ class _AddBookDialogState extends State<AddBookDialog> {
                     child: Text(
                       "ثبت کتاب",
                       style: TextStyle(
-                          fontFamily: "IranSans",
+                          fontFamily: Strings.fontIranSans,
                           fontSize: 14,
                           color: Colors.white70,
                           decoration: TextDecoration.none),
@@ -164,7 +165,7 @@ class _AddBookDialogState extends State<AddBookDialog> {
           " ${title}",
           style: TextStyle(
               fontSize: 16,
-              fontFamily: "IranSans",
+              fontFamily: Strings.fontIranSans,
               color: IColors.black85,
               decoration: TextDecoration.none),
         ),
@@ -195,7 +196,8 @@ class _AddBookDialogState extends State<AddBookDialog> {
                 inputFormatters: <TextInputFormatter>[
                   LengthLimitingTextInputFormatter(maxLengh),
                 ],
-                style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                style:
+                    TextStyle(fontFamily: Strings.fontIranSans, fontSize: 16),
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding:
@@ -218,7 +220,7 @@ class _AddBookDialogState extends State<AddBookDialog> {
           " ${title}",
           style: TextStyle(
               fontSize: 16,
-              fontFamily: "IranSans",
+              fontFamily: Strings.fontIranSans,
               color: IColors.black85,
               decoration: TextDecoration.none),
         ),
@@ -242,7 +244,8 @@ class _AddBookDialogState extends State<AddBookDialog> {
                   inputFormatters: <TextInputFormatter>[
                     LengthLimitingTextInputFormatter(maxLengh),
                   ],
-                  style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                  style:
+                      TextStyle(fontFamily: Strings.fontIranSans, fontSize: 16),
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(

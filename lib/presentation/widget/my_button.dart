@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/presentation/widget/progress_button.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +55,7 @@ class _MyButtonState extends State<MyButton> {
           "${widget.text}",
           style: TextStyle(
               color: Colors.white,
-              fontFamily: "IranSans",
+              fontFamily: Strings.fontIranSans,
               fontWeight: FontWeight.w700,
               fontSize: 16),
         ),
