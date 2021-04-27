@@ -37,7 +37,9 @@ dependencies:
   progress_state_button: ^1.0.3
   fluttertoast: ^8.0.6
   oktoast: ^3.0.0
-  inkwell_splash: ^0.1.0
+  inkwell_splash: ^0.1.0 
+  connectivity_plus: ^1.0.0
+  flare_loading: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -73,6 +75,10 @@ flutter:
     - assets/images/circle_2.png
     - assets/images/circle_3.png
     - assets/images/circle_4.png
+    - assets/flare/loading_book.flr
+    - assets/flare/book_dropping.flr
+    - assets/flare/no_network.flr
+    - assets/flare/cosmos.flr    
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

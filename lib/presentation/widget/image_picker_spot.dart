@@ -35,14 +35,11 @@ class _ImagePickerSpotState extends State<ImagePickerSpot> {
           onTap: () async {
             final f = OpenFilePicker()
               ..filterSpecification = {
-                'Word Document (*.doc)': '*.doc',
-                'Web Page (*.htm; *.html)': '*.htm;*.html',
-                'Text Document (*.txt)': '*.txt',
-                'All Files': '*.*'
+                'Image (*.jpg; *.png; *.jpeg)': '*.jpg;*.png;*.jpeg',
               }
               ..defaultFilterIndex = 0
-              ..defaultExtension = 'doc'
-              ..title = 'Select a document';
+              ..defaultExtension = 'png'
+              ..title = 'Select a picture';
             widget.onFilePicked(f.getFile());
           },
           child: Row(

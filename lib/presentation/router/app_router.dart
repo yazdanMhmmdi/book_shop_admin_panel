@@ -7,6 +7,7 @@ import 'package:book_shop_admin_panel/logic/cubit/internet_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/screen/login_screen.dart';
 import 'package:book_shop_admin_panel/presentation/screen/panel_screen.dart';
 import 'package:book_shop_admin_panel/presentation/tab/category_tab.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 // import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,16 +18,15 @@ class AppRouter {
   final BookBloc _bookBloc = new BookBloc();
   final UsersBloc _usersBloc = new UsersBloc();
 
-  // final InternetCubit _internetCubit =
-      // new InternetCubit(connectivity: Connectivity());
-  //final UsersBloc _usersBloc = new UsersBloc();
+  final InternetCubit _internetCubit =
+      new InternetCubit(connectivity: Connectivity());
   Route onGeneratedRoute(RouteSettings settings) {
     switch (settings.name) {
       case "/":
         return MaterialPageRoute(
             builder: (_) => MultiBlocProvider(
                   providers: [
-                    // BlocProvider.value(value: _internetCubit),
+                    BlocProvider.value(value: _internetCubit),
                     BlocProvider(create: (context) => LoginBloc()),
                   ],
                   child: LoginScreen(),
@@ -42,6 +42,7 @@ class AppRouter {
                     ),
                     BlocProvider.value(value: _bookBloc),
                     BlocProvider.value(value: _usersBloc),
+                    BlocProvider.value(value: _internetCubit),
                   ],
                   child: PanelScreen(
                     tabsliderBloc: _tabsliderBloc

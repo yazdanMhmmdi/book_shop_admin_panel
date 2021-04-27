@@ -18,4 +18,9 @@ class Assets {
   static final String circle_2 = "assets/images/circle_2.png";
   static final String circle_3 = "assets/images/circle_3.png";
   static final String circle_4 = "assets/images/circle_4.png";
+
+    static final String bookLoading = "assets/flare/loading_book.flr";
+  static final String bookDropping = "assets/flare/book_dropping.flr";
+  static final String noNetworkAvailable = "assets/flare/no_network.flr";
+  static final String cosmos = "assets/flare/cosmos.flr";
 }

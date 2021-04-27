@@ -7,6 +7,7 @@ import 'package:book_shop_admin_panel/logic/cubit/internet_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/widget/background_shapes.dart';
 import 'package:book_shop_admin_panel/presentation/widget/login_text_field.dart';
 import 'package:book_shop_admin_panel/presentation/widget/my_button.dart';
+import 'package:book_shop_admin_panel/presentation/widget/no_network_flare.dart';
 import 'package:book_shop_admin_panel/presentation/widget/progress_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,32 +53,30 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         },
         child: Scaffold(
-            backgroundColor: backgroundColor, body: internetConnectUI()));
-
-    //     BlocConsumer<InternetCubit, InternetState>(
-    //         listener: (context, state) {
-    //       if (state is InternetDisconnected) {
-    //         setState(() {
-    //           backgroundColor = Colors.white;
-    //         });
-    //       } else if (state is InternetConnected) {
-    //         setState(() {
-    //           backgroundColor = IColors.green;
-    //         });
-    //       } else if (state is InternetLoading) {
-    //         return Container();
-    //       }
-    //     }, builder: (context, state) {
-    //       if (state is InternetConnected) {
-    //         return internetConnectUI();
-    //       } else if (state is InternetDisconnected) {
-    //         return internetDisconnectedUI();
-    //       } else if (state is InternetLoading) {
-    //         return Container();
-    //       }
-    //     }),
-    //   ),
-    // );
+          backgroundColor: backgroundColor,
+          body: BlocConsumer<InternetCubit, InternetState>(
+              listener: (context, state) {
+            if (state is InternetDisconnected) {
+              setState(() {
+                backgroundColor = Colors.white;
+              });
+            } else if (state is InternetConnected) {
+              setState(() {
+                backgroundColor = IColors.green;
+              });
+            } else if (state is InternetLoading) {
+              return Container();
+            }
+          }, builder: (context, state) {
+            if (state is InternetConnected) {
+              return internetConnectUI();
+            } else if (state is InternetDisconnected) {
+              return internetDisconnectedUI();
+            } else if (state is InternetLoading) {
+              return Container();
+            }
+          }),
+        ));
   }
 
   Widget internetConnectUI() {
@@ -156,6 +155,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget internetDisconnectedUI() {
-    return Container();
+    return NoNetworkFlare();
   }
 }
