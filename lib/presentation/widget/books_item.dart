@@ -15,6 +15,7 @@ class BooksItem extends StatelessWidget {
   String id;
   int number;
   Function onTap;
+  Function onDoubleTap;
   BooksItem({
     @required this.image,
     @required this.title,
@@ -23,6 +24,7 @@ class BooksItem extends StatelessWidget {
     @required this.id,
     @required this.number,
     @required this.onTap,
+    @required this.onDoubleTap,
   });
 
   @override
@@ -54,9 +56,12 @@ class BooksItem extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
+            // splashFactory: InkRipple.splashFactory,
             borderRadius: BorderRadius.circular(8),
             splashColor: IColors.black15,
             onTap: onTap,
+            onLongPress: onDoubleTap,
+            // doubleTapTime: Duration(milliseconds: 300),
             child: Column(
               children: [
                 Align(

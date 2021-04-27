@@ -10,6 +10,8 @@ import 'package:book_shop_admin_panel/presentation/widget/add_book_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/books_item.dart';
 import 'package:book_shop_admin_panel/presentation/widget/delete_book_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/edit_book_dialog.dart';
+import 'package:book_shop_admin_panel/presentation/widget/post_dialog.dart';
+import 'package:book_shop_admin_panel/presentation/widget/show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -101,15 +103,28 @@ class _BooksTabState extends State<BooksTab> {
       id: element.id,
       onTap: () {
         setState(() {
-          BooksTab.clickStatus = int.tryParse(element.id);
-          PanelScreen.status = int.tryParse(element.id);
-          //selected book that user choosed it.
+          //show green ripple effect animation.
+          rippleEffect(element);
+          //select book that user choosed it.
           _bookBloc.add(SelectBookEvent(book_id: element.id.toString()));
-          
+
           print('selected book: ${PanelScreen.status}');
         });
       },
+      onDoubleTap: () {
+        //show green ripple effect animation.
+        rippleEffect(element);
+        //select book that user choosed it.
+        _bookBloc.add(SelectBookEvent(book_id: element.id.toString()));
+        ShowDialog.showDialog(
+            context, BlocProvider.value(value: _bookBloc, child: PostDialog()));
+      },
     );
+  }
+
+  void rippleEffect(var element) {
+    BooksTab.clickStatus = int.tryParse(element.id);
+    PanelScreen.status = int.tryParse(element.id);
   }
 }
 

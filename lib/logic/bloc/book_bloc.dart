@@ -153,21 +153,24 @@ class BookBloc extends Bloc<BookEvent, BookState> {
       } else if (event is SelectBookEvent) {
         selectedBookId = event.book_id;
         yield GetSelectedItem(selectedItemId: selectedBookId);
-        yield BookSuccess(bookModel: _model, selectedBookId: selectedBookId);
+        yield BookSuccess(
+            bookModel: _model, selectedBookId: selectedBookId, isSearch: false);
         print('Selected book in bookBloc is : ${selectedBookId}');
       } else if (event is ReturnSelectedBookEvent) {
         for (int i = 0; i < _model.books.length; i++) {
           if (_model.books[i].id == selectedBookId) {
             print("Data: " + _model.books[i].name);
             yield BookSelectedReturn(
-                name: _model.books[i].name,
-                language: _model.books[i].language,
-                description: _model.books[i].description,
-                writer: _model.books[i].writer,
-                bookModel: _model,
-                pageCount: _model.books[i].pagesCount,
-                voteCount: _model.books[i].voteCount,
-                coverType: _model.books[i].coverType);
+              name: _model.books[i].name,
+              language: _model.books[i].language,
+              description: _model.books[i].description,
+              writer: _model.books[i].writer,
+              bookModel: _model,
+              pageCount: _model.books[i].pagesCount,
+              voteCount: _model.books[i].voteCount,
+              coverType: _model.books[i].coverType,
+              picture: _model.books[i].picture,
+            );
             break;
           }
         }
@@ -217,6 +220,11 @@ class BookBloc extends Bloc<BookEvent, BookState> {
       } else if (event is AddCategoryEvent) {
         currentTabCategory = event.currentTabCategory;
         print("current tab category: ${currentTabCategory}");
+      } else if (event is ShowBookEvent) {
+        yield BookLoading();
+        _model.books.forEach((element) {
+          if (element.id == event.book_id) {}
+        });
       }
     } catch (e) {
       print("ERROR ${e.toString()}");

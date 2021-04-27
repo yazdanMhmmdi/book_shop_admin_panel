@@ -224,7 +224,7 @@ class _PanelScreenState extends State<PanelScreen> {
                                   child: Image.asset(Assets.delete),
                                   title: "حذف",
                                   onTap: () {
-                                    if (selectedBookId != "0") {
+                                    if (selectedBookId != "0" && tabStatus =="books") {
                                       ShowDialog.showDialog(
                                           context,
                                           MultiBlocProvider(
@@ -241,7 +241,7 @@ class _PanelScreenState extends State<PanelScreen> {
                                                 tabStatus: tabStatus,
                                                 status: getStatus(),
                                               )));
-                                    } else if (selectedUserId != "0") {
+                                    } else if (selectedUserId != "0"&& tabStatus =="users") {
                                       ShowDialog.showDialog(
                                           context,
                                           MultiBlocProvider(
@@ -260,7 +260,9 @@ class _PanelScreenState extends State<PanelScreen> {
                                               )));
                                     } else
                                       showToastWidget(ToastWidget(),
-                                          context: context);
+                                          context: context,
+                                          position: ToastPosition.bottom
+                                          );
                                   }),
                               SideBarItem(
                                   child: Image.asset(Assets.search),

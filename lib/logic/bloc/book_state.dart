@@ -42,7 +42,7 @@ class BookSearchLazyLoading extends BookState {
 }
 
 class BookSelectedReturn extends BookState {
-  String name, language, description, writer, voteCount, pageCount, coverType;
+  String name, language, description, writer, voteCount, pageCount, coverType, picture;
   BookModel bookModel;
   BookSelectedReturn(
       {this.description,
@@ -52,7 +52,9 @@ class BookSelectedReturn extends BookState {
       this.bookModel,
       this.pageCount,
       this.voteCount,
-      this.coverType});
+      this.coverType,
+      this.picture
+      });
   @override
   List<Object> get props => [
         this.description,
@@ -62,7 +64,8 @@ class BookSelectedReturn extends BookState {
         this.bookModel,
         this.pageCount,
         this.voteCount,
-        this.coverType
+        this.coverType,
+        this.picture
       ];
 }
 
