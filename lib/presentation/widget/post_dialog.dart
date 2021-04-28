@@ -3,6 +3,7 @@ import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
+import 'package:book_shop_admin_panel/networking/image_address_provider.dart';
 import 'package:book_shop_admin_panel/presentation/widget/post_custom_painter.dart';
 import 'package:book_shop_admin_panel/presentation/widget/slider_object.dart';
 import 'package:flutter/material.dart';
@@ -141,12 +142,14 @@ class _PostDialogState extends State<PostDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            SizedBox(height: 8,),
+            SizedBox(
+              height: 8,
+            ),
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
                     image: NetworkImage(
-                      "http://localhost${state.picture}",
+                      (ImageAddressProvider.imageURL + state.picture),
                     ),
                     fit: BoxFit.fill),
                 color: Colors.white,

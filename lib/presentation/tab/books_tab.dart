@@ -6,6 +6,7 @@ import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/data/model/book_model.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
 import 'package:book_shop_admin_panel/networking/api_provider.dart';
+import 'package:book_shop_admin_panel/networking/image_address_provider.dart';
 import 'package:book_shop_admin_panel/presentation/screen/panel_screen.dart';
 import 'package:book_shop_admin_panel/presentation/widget/add_book_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widget/books_item.dart';
@@ -97,7 +98,7 @@ class _BooksTabState extends State<BooksTab> {
   Widget returnCard(var element) {
     return BooksItem(
       number: int.tryParse(element.id),
-      image: "http://localhost${element.pictureThumb}",
+      image: (ImageAddressProvider.imageURL + element.pictureThumb),
       title: element.name,
       writer: element.writer,
       rate: double.tryParse(element.voteCount),
