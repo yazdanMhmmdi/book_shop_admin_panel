@@ -12,7 +12,7 @@ void main() {
 class MyApp extends StatelessWidget {
   AppRouter _appRouter = new AppRouter();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
