@@ -22,11 +22,15 @@ class ImageHolder extends StatelessWidget {
               color: IColors.black15,
             ),
           ]),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(image: NetworkImage(address), fit: BoxFit.cover),
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
         ),
-        child: Image.network(address),
       ),
     );
   }
