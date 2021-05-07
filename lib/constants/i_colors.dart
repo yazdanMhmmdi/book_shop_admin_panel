@@ -13,4 +13,5 @@ class IColors {
   static final Color black25 = Color(0xff000000).withOpacity(0.25);
   static final Color black15 = Color(0xff000000).withOpacity(0.15);
   static final Color white90 = Color(0xffFFFFFF).withOpacity(0.90);
+  static final Color balck15 = Color(0xff000000).withOpacity(0.15);
 }
