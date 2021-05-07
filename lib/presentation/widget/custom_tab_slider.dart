@@ -26,7 +26,7 @@ class _CustomTabSliderState extends State<CustomTabSlider> {
             Padding(
               padding: const EdgeInsets.only(right: 65),
               child: TitleSelector(
-                titles: ["کتابها", "کاربران"],
+                titles: ["کتابها", "کاربران", "گفتگو ها"],
                 firstTab: 1,
                 tabsliderBloc: widget.tabsliderBloc,
                 usersBloc: widget.usersBloc,

@@ -54,7 +54,7 @@ class _CategoryTabState extends State<CategoryTab> {
                         _bookBloc
                             .add(AddCategoryEvent(currentTabCategory: "1"));
                         _tabsliderBloc.add(MoveForwardEvent(
-                            tab: 2,
+                            tab: 3,
                             tabSliderBloc: _tabsliderBloc,
                             bookBloc: _bookBloc));
                         _bookBloc.add(DisposeBookEvent());
@@ -66,7 +66,7 @@ class _CategoryTabState extends State<CategoryTab> {
                     onTap: () {
                       _bookBloc.add(AddCategoryEvent(currentTabCategory: "2"));
                       _tabsliderBloc.add(MoveForwardEvent(
-                          tab: 2,
+                          tab: 3,
                           tabSliderBloc: _tabsliderBloc,
                           bookBloc: _bookBloc));
                       _bookBloc.add(DisposeBookEvent());
@@ -79,7 +79,7 @@ class _CategoryTabState extends State<CategoryTab> {
                     onTap: () {
                       _bookBloc.add(AddCategoryEvent(currentTabCategory: "3"));
                       _tabsliderBloc.add(MoveForwardEvent(
-                          tab: 2,
+                          tab: 3,
                           tabSliderBloc: _tabsliderBloc,
                           bookBloc: _bookBloc));
                       _bookBloc.add(DisposeBookEvent());
@@ -92,7 +92,7 @@ class _CategoryTabState extends State<CategoryTab> {
                     onTap: () {
                       _bookBloc.add(AddCategoryEvent(currentTabCategory: "4"));
                       _tabsliderBloc.add(MoveForwardEvent(
-                          tab: 2,
+                          tab: 3,
                           tabSliderBloc: _tabsliderBloc,
                           bookBloc: _bookBloc));
                       _bookBloc.add(DisposeBookEvent());
@@ -105,7 +105,7 @@ class _CategoryTabState extends State<CategoryTab> {
                     onTap: () {
                       _bookBloc.add(AddCategoryEvent(currentTabCategory: "5"));
                       _tabsliderBloc.add(MoveForwardEvent(
-                          tab: 2,
+                          tab: 3,
                           tabSliderBloc: _tabsliderBloc,
                           bookBloc: _bookBloc));
                       _bookBloc.add(DisposeBookEvent());
