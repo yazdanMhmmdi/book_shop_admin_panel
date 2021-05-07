@@ -1,4 +1,5 @@
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/chatlist_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/login_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/side_bar_item_selector_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
@@ -43,6 +44,9 @@ class AppRouter {
                     BlocProvider.value(value: _bookBloc),
                     BlocProvider.value(value: _usersBloc),
                     BlocProvider.value(value: _internetCubit),
+                    BlocProvider(
+                      create: (BuildContext context) => ChatlistBloc(),
+                    )
                   ],
                   child: PanelScreen(
                     tabsliderBloc: _tabsliderBloc

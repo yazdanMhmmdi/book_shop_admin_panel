@@ -2,12 +2,14 @@ import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/chatlist_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/side_bar_item_selector_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/logic/cubit/internet_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/category_tab.dart';
+import 'package:book_shop_admin_panel/presentation/tab/chat_list_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/users_tab.dart';
 import 'package:book_shop_admin_panel/presentation/widget/action_bar.dart';
 import 'package:book_shop_admin_panel/presentation/widget/add_book_dialog.dart';
@@ -48,6 +50,7 @@ class _PanelScreenState extends State<PanelScreen> {
 
   SideBarItemSelectorBloc _sideBarItemSelectorBloc;
   BookBloc _bookBloc;
+  ChatlistBloc _chatlistBloc;
   UsersBloc _usersBloc;
   String tabStatus = "category";
   bool visiblity = false;
@@ -68,6 +71,7 @@ class _PanelScreenState extends State<PanelScreen> {
         BlocProvider.of<SideBarItemSelectorBloc>(context);
     _bookBloc = BlocProvider.of<BookBloc>(context);
     _usersBloc = BlocProvider.of<UsersBloc>(context);
+    _chatlistBloc = BlocProvider.of<ChatlistBloc>(context);
     scrollController = new ScrollController();
 
     super.initState();
@@ -150,6 +154,27 @@ class _PanelScreenState extends State<PanelScreen> {
                   }
                   if (state.orginalTab is CategoryTab) {
                     restartSearchField();
+                  }
+                  if (state.orginalTab is ChatListTab) {
+                    restartSearchField();
+                    setState(() {
+                      tabStatus = "chatlist";
+                    });
+                    scrollController.addListener(() {
+                      if (scrollController.position.atEdge) {
+                        if (scrollController.position.pixels == 0) {
+                          // You're at the top.
+                        } else {
+                          // You're at the bottom.
+                          if (isSearch) {
+                            // _bookBloc.add(SearchBookEvent(isLazyLoad: true));
+                          } else {
+                            _chatlistBloc.add(GetChatlist());
+                            print("BOTTOM");
+                          }
+                        }
+                      }
+                    });
                   }
                   _sideBarItemSelectorBloc.add(SelectItemEvent(
                     currentTab: state.tab,
@@ -400,7 +425,25 @@ class _PanelScreenState extends State<PanelScreen> {
                             return Container();
                           }
                         },
-                      )
+                      ),
+                      BlocBuilder<ChatlistBloc, ChatlistState>(
+                          builder: (context, state) {
+                        if (state is ChatlistInitial) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height,
+                            child: Center(child: CircularProgressIndicator()),
+                          );
+                        } else if (state is ChatlistLoading) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height,
+                            child: Center(child: CircularProgressIndicator()),
+                          );
+                        } else {
+                          return Container(
+                            
+                          );
+                        }
+                      }),
                     ],
                   ),
                 ),
@@ -469,13 +512,13 @@ class _PanelScreenState extends State<PanelScreen> {
                           maxLines: 3,
                           onChanged: function,
                           controller: controller,
-                          style:
-                              TextStyle(fontFamily: Strings.fontIranSans, fontSize: 16),
+                          style: TextStyle(
+                              fontFamily: Strings.fontIranSans, fontSize: 16),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: hintText,
-                            hintStyle:
-                                TextStyle(fontFamily: Strings.fontIranSans, fontSize: 16),
+                            hintStyle: TextStyle(
+                                fontFamily: Strings.fontIranSans, fontSize: 16),
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                             errorBorder: InputBorder.none,
