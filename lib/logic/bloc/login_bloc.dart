@@ -25,7 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         _model = await _repository.login(event.username, event.password);
         if (_model.error == "0") {
           user_id = _model.userId;
-          yield LoginSuccess();
+          yield LoginSuccess(user_id: user_id);
         } else {
           yield LoginFailure(errorMessage: _model.errorMessage);
           print("LoginFailure");

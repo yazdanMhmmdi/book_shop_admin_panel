@@ -13,6 +13,8 @@ import 'package:book_shop_admin_panel/presentation/widget/progress_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+String user_id;
+
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -39,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LoginSuccess) {
             setState(() {
               buttonState = ButtonState.success;
+              user_id = state.user_id;
             });
             Timer(Duration(seconds: 2), () {
               Navigator.pushNamed(context, '/panel');

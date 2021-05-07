@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/chatlist_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/category_tab.dart';
@@ -44,7 +45,12 @@ class TabsliderBloc extends Bloc<TabsliderEvent, TabsliderState> {
             ], child: BooksTab()),
             BooksTab());
       } else if (event.tab == 2) {
-        yield TabsliderSuccess(ChatListTab(), ChatListTab());
+        yield TabsliderSuccess(
+            BlocProvider(
+              create: (context) => ChatlistBloc(),
+              child: ChatListTab(),
+            ),
+            ChatListTab());
       }
     }
   }

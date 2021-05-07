@@ -57,20 +57,20 @@ class ChatListItem extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: TopRightBookWidget(
                     id: id,
-                    number: 222,
+                    number: int.parse(id),
                   ),
                 ),
                 SizedBox(
                   height: 8,
                 ),
                 ImageHolder(
-                  address: image,
+                  address: ImageAddressProvider.imageURL + thumbImage,
                 ),
                 SizedBox(height: 12),
                 Container(
                   width: 95,
                   child: Text(
-                    "${"title"}",
+                    "${name}",
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -84,7 +84,7 @@ class ChatListItem extends StatelessWidget {
                 Container(
                   width: 95,
                   child: Text(
-                    "${"writer"}",
+                    "${writer}",
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -97,9 +97,7 @@ class ChatListItem extends StatelessWidget {
                 SizedBox(
                   height: 8,
                 ),
-                RegularRatingBar(
-                  rate: 2,
-                ),
+                RegularRatingBar(rate: voteCount),
               ],
             ),
           ),

@@ -1,7 +1,22 @@
+import 'package:book_shop_admin_panel/logic/bloc/chatlist_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/widget/chat_list_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChatListTab extends StatelessWidget {
+class ChatListTab extends StatefulWidget {
+  @override
+  _ChatListTabState createState() => _ChatListTabState();
+}
+
+class _ChatListTabState extends State<ChatListTab> {
+  ChatlistBloc _chatlistBloc;
+  @override
+  void initState() {
+    _chatlistBloc = BlocProvider.of<ChatlistBloc>(context);
+    _chatlistBloc.add(GetChatlist());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,19 +26,40 @@ class ChatListTab extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Wrap(
-                  children: [
-                    ChatListItem(
-                        id: "1",
-                        image: "image",
-                        name: "name",
-                        writer: "writer",
-                        thumbImage: "thumbImage",
-                        voteCount: 1,
-                        price: "2222",
-                        newMessageCount: "newMessageCount",
-                        userId: "2")
-                  ],
+                BlocBuilder<ChatlistBloc, ChatlistState>(
+                  builder: (context, state) {
+                    if (state is ChatlistInitial) {
+                      return Container();
+                    } else if (state is ChatlistLoading) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is ChatlistSuccess) {
+                      List items = new List<Widget>();
+                      state.chatListModel.chatsList.forEach((element) {
+                        items.add(
+                          ChatListItem(
+                            id: element.id,
+                            image: element.pictureThumb,
+                            name: element.name,
+                            writer: element.writer,
+                            thumbImage: element.pictureThumb,
+                            voteCount: double.parse(element.voteCount),
+                            price: element.price,
+                            newMessageCount: element.newMessageCount,
+                            userId: state.user_id,
+                          ),
+                        );
+                      });
+                      return Wrap(
+                        children: items,
+                      );
+                    } else if (state is ChatlistFailure) {
+                      return Container();
+                    } else if (state is ChatlistEmpty) {
+                      return Container();
+                    }
+                  },
                 )
               ],
             ),
