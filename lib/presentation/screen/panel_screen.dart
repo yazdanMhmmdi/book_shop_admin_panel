@@ -251,227 +251,301 @@ class _PanelScreenState extends State<PanelScreen> {
   Widget internetConnectedUi() {
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: Column(
+      child: Stack(
         children: [
-          ActionBar(
-            tabsliderBloc: widget.tabsliderBloc,
-            usersBloc: _usersBloc,
-          ),
-          Row(
+          Column(
             children: [
-              SideBar(child: BlocBuilder<SideBarItemSelectorBloc,
-                  SideBarItemSelectorState>(
-                builder: (context, state) {
-                  if (state is SideBarItemSelectorInitial)
-                    return Container();
-                  else if (state is SideBarItemSelectorSuccess) {
-                    return Column(
-                      children: [
-                        Visibility(
-                          visible: state.add,
-                          child: SideBarItem(
-                            child: Image.asset(Assets.add),
-                            title: "افزودن",
-                            onTap: () => ShowDialog.showDialog(
-                                context,
-                                BlocProvider.value(
-                                    value: BlocProvider.of<BookBloc>(context),
-                                    child: AddBookDialog())),
-                          ),
-                        ),
-                        SideBarItem(
-                            child: Image.asset(Assets.edit),
-                            title: "ویرایش",
-                            onTap: state.editFunction),
-                        SideBarItem(
-                            child: Image.asset(Assets.delete),
-                            title: "حذف",
-                            onTap: () {
-                              if (selectedBookId != "0" &&
-                                  tabStatus == "books") {
-                                ShowDialog.showDialog(
+              ActionBar(
+                tabsliderBloc: widget.tabsliderBloc,
+                usersBloc: _usersBloc,
+              ),
+              Row(
+                children: [
+                  SideBar(child: BlocBuilder<SideBarItemSelectorBloc,
+                      SideBarItemSelectorState>(
+                    builder: (context, state) {
+                      if (state is SideBarItemSelectorInitial)
+                        return Container();
+                      else if (state is SideBarItemSelectorSuccess) {
+                        return Column(
+                          children: [
+                            Visibility(
+                              visible: state.add,
+                              child: SideBarItem(
+                                child: Image.asset(Assets.add),
+                                title: "افزودن",
+                                onTap: () => ShowDialog.showDialog(
                                     context,
-                                    MultiBlocProvider(
-                                        providers: [
-                                          BlocProvider.value(value: _bookBloc),
-                                          BlocProvider.value(
-                                              value: widget.tabsliderBloc),
-                                          BlocProvider.value(value: _usersBloc),
-                                        ],
-                                        child: DeleteBookDialog(
-                                          tabStatus: tabStatus,
-                                          status: getStatus(),
-                                        )));
-                              } else if (selectedUserId != "0" &&
-                                  tabStatus == "users") {
-                                ShowDialog.showDialog(
-                                    context,
-                                    MultiBlocProvider(
-                                        providers: [
-                                          BlocProvider.value(value: _bookBloc),
-                                          BlocProvider.value(
-                                              value: widget.tabsliderBloc),
-                                          BlocProvider.value(value: _usersBloc),
-                                        ],
-                                        child: DeleteBookDialog(
-                                          tabStatus: tabStatus,
-                                          status: getStatus(),
-                                        )));
-                              } else
-                                showToastWidget(ToastWidget(),
-                                    context: context,
-                                    position: ToastPosition.bottom);
-                            }),
-                        SideBarItem(
-                            child: Image.asset(Assets.search),
-                            title: "جستجو",
-                            onTap: () {
-                              setState(() {
-                                if (visiblity == false) {
-                                  padding = 57.0;
-                                  visiblity = true;
-                                  opacity = 1.0;
-                                } else {
-                                  padding = 0.0;
-                                  visiblity = false;
-                                  opacity = 0.0;
-                                }
-                              });
-                              if (tabStatus == "books") {
-                                setState(() {
-                                  searchOnChange = (val) {
-                                    if (val != "") {
-                                      setState(() {
-                                        isSearch = true;
-                                      });
+                                    BlocProvider.value(
+                                        value:
+                                            BlocProvider.of<BookBloc>(context),
+                                        child: AddBookDialog())),
+                              ),
+                            ),
+                            SideBarItem(
+                                child: Image.asset(Assets.edit),
+                                title: "ویرایش",
+                                onTap: state.editFunction),
+                            SideBarItem(
+                                child: Image.asset(Assets.delete),
+                                title: "حذف",
+                                onTap: () {
+                                  if (selectedBookId != "0" &&
+                                      tabStatus == "books") {
+                                    ShowDialog.showDialog(
+                                        context,
+                                        MultiBlocProvider(
+                                            providers: [
+                                              BlocProvider.value(
+                                                  value: _bookBloc),
+                                              BlocProvider.value(
+                                                  value: widget.tabsliderBloc),
+                                              BlocProvider.value(
+                                                  value: _usersBloc),
+                                            ],
+                                            child: DeleteBookDialog(
+                                              tabStatus: tabStatus,
+                                              status: getStatus(),
+                                            )));
+                                  } else if (selectedUserId != "0" &&
+                                      tabStatus == "users") {
+                                    ShowDialog.showDialog(
+                                        context,
+                                        MultiBlocProvider(
+                                            providers: [
+                                              BlocProvider.value(
+                                                  value: _bookBloc),
+                                              BlocProvider.value(
+                                                  value: widget.tabsliderBloc),
+                                              BlocProvider.value(
+                                                  value: _usersBloc),
+                                            ],
+                                            child: DeleteBookDialog(
+                                              tabStatus: tabStatus,
+                                              status: getStatus(),
+                                            )));
+                                  } else
+                                    showToastWidget(ToastWidget(),
+                                        context: context,
+                                        position: ToastPosition.bottom);
+                                }),
+                            SideBarItem(
+                                child: Image.asset(Assets.search),
+                                title: "جستجو",
+                                onTap: () {
+                                  setState(() {
+                                    if (visiblity == false) {
+                                      padding = 57.0;
+                                      visiblity = true;
+                                      opacity = 1.0;
                                     } else {
-                                      setState(() {
-                                        isSearch = false;
-                                      });
+                                      padding = 0.0;
+                                      visiblity = false;
+                                      opacity = 0.0;
                                     }
-                                    _bookBloc.add(DisposeBookEvent());
-                                    _bookBloc.add(SearchBookEvent(
-                                        category_id: "1",
-                                        search: val,
-                                        isLazyLoad: false));
-                                  };
-                                  hintText =
-                                      "نام کتاب مورد نظر را جستجو کنید...";
-                                });
-                              } else if (tabStatus == "users") {
-                                setState(() {
-                                  searchOnChange = (val) {
-                                    if (val != "") {
-                                      setState(() {
-                                        isSearch = true;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        isSearch = false;
-                                      });
-                                    }
-                                    _usersBloc.add(DisposeUsersEvent());
-                                    _usersBloc.add(SearchUsersEvent(
-                                        search: val, isLazyLoad: false));
-                                  };
-                                });
-                                hintText =
-                                    "نام کاربر مورد نظر خود را جستجو کنید...";
-                              }
-                            }),
-                      ],
-                    );
-                  }
-                },
-              )),
-              MainPanel(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  physics: BouncingScrollPhysics(),
-                  controller: scrollController,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          searchFieldSpot(searchController, searchOnChange),
-                          AnimatedPadding(
-                              duration: Duration(milliseconds: 300),
-                              padding: EdgeInsets.only(top: padding),
-                              child: BlocBuilder<TabsliderBloc, TabsliderState>(
-                                builder: (context, state) {
-                                  if (state is TabsliderInitial) {
-                                    return Container();
-                                  } else if (state is TabsliderSuccess) {
-                                    return state.tab;
+                                  });
+                                  if (tabStatus == "books") {
+                                    setState(() {
+                                      searchOnChange = (val) {
+                                        if (val != "") {
+                                          setState(() {
+                                            isSearch = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            isSearch = false;
+                                          });
+                                        }
+                                        _bookBloc.add(DisposeBookEvent());
+                                        _bookBloc.add(SearchBookEvent(
+                                            category_id: "1",
+                                            search: val,
+                                            isLazyLoad: false));
+                                      };
+                                      hintText =
+                                          "نام کتاب مورد نظر را جستجو کنید...";
+                                    });
+                                  } else if (tabStatus == "users") {
+                                    setState(() {
+                                      searchOnChange = (val) {
+                                        if (val != "") {
+                                          setState(() {
+                                            isSearch = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            isSearch = false;
+                                          });
+                                        }
+                                        _usersBloc.add(DisposeUsersEvent());
+                                        _usersBloc.add(SearchUsersEvent(
+                                            search: val, isLazyLoad: false));
+                                      };
+                                    });
+                                    hintText =
+                                        "نام کاربر مورد نظر خود را جستجو کنید...";
                                   }
-                                },
-                              )),
+                                }),
+                          ],
+                        );
+                      }
+                    },
+                  )),
+                  MainPanel(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      physics: BouncingScrollPhysics(),
+                      controller: scrollController,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Stack(
+                            children: [
+                              searchFieldSpot(searchController, searchOnChange),
+                              AnimatedPadding(
+                                  duration: Duration(milliseconds: 300),
+                                  padding: EdgeInsets.only(top: padding),
+                                  child: BlocBuilder<TabsliderBloc,
+                                      TabsliderState>(
+                                    builder: (context, state) {
+                                      if (state is TabsliderInitial) {
+                                        return Container();
+                                      } else if (state is TabsliderSuccess) {
+                                        return state.tab;
+                                      }
+                                    },
+                                  )),
+                            ],
+                          ),
+                          BlocBuilder<BookBloc, BookState>(
+                            builder: (context, state) {
+                              if (state is BookInitial) {
+                                return Container();
+                              } else if (state is BookLazyLoading) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else if (state is BookSearchLazyLoading) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else if (state is BookSuccess) {
+                                isSearch = state.isSearch;
+                                return Container();
+                              } else if (state is BookLoading) {
+                                return Container(
+                                  height: MediaQuery.of(context).size.height,
+                                  child: Center(
+                                      child: CircularProgressIndicator()),
+                                );
+                              } else if (state is BookFailure) {
+                                return Container();
+                              } else {
+                                return Container();
+                              }
+                            },
+                          ),
+
+                          // BlocBuilder<ChatlistBloc, ChatlistState>(
+                          //   builder: (context, state) {
+                          //     if (state is ChatlistInitial) {
+                          //       return Container();
+                          //     } else if (state is ChatlistLoading) {
+                          //       return Center(child: CircularProgressIndicator());
+                          //     } else if (state is ChatlistSuccess) {
+                          //       return Container();
+                          //     } else if (state is ChatlistFailure) {
+                          //       return Container();
+                          //     } else if (state is ChatlistEmpty) {
+                          //       return Container();
+                          //     }
+                          //   },
+                          // )
+
+                          // BlocBuilder<ChatlistBloc, ChatlistState>(
+                          //     builder: (context, state) {
+                          //   if (state is ChatlistInitial) {
+                          //     return Container(
+                          //       child: Center(child: CircularProgressIndicator()),
+                          //     );
+                          //   } else if (state is ChatlistLoading) {
+                          //     return Container(
+                          //       child: Center(child: CircularProgressIndicator()),
+                          //     );
+                          //   } else if (state is ChatlistFailure) {
+                          //     return Container();
+                          //   } else if (state is ChatlistEmpty) {
+                          //     return Container();
+                          //   }
+                          // }),
                         ],
                       ),
-                      BlocBuilder<BookBloc, BookState>(
-                        builder: (context, state) {
-                          if (state is BookInitial) {
-                            return Container();
-                          } else if (state is BookLazyLoading) {
-                            return Center(child: CircularProgressIndicator());
-                          } else if (state is BookSearchLazyLoading) {
-                            return Center(child: CircularProgressIndicator());
-                          } else if (state is BookSuccess) {
-                            isSearch = state.isSearch;
-                            return Container();
-                          } else if (state is BookLoading) {
-                            return Container(
-                              height: MediaQuery.of(context).size.height,
-                              child: Center(child: CircularProgressIndicator()),
-                            );
-                          } else if (state is BookFailure) {
-                            return Container();
-                          } else {
-                            return Container();
-                          }
-                        },
-                      ),
-
-                      BlocBuilder<ChatlistBloc, ChatlistState>(
-                        builder: (context, state) {
-                          if (state is ChatlistInitial) {
-                            return Container();
-                          } else if (state is ChatlistLoading) {
-                            return Center(child: CircularProgressIndicator());
-                          } else if (state is ChatlistSuccess) {
-                            return Container();
-                          } else if (state is ChatlistFailure) {
-                            return Container();
-                          } else if (state is ChatlistEmpty) {
-                            return Container();
-                          }
-                        },
-                      )
-
-                      // BlocBuilder<ChatlistBloc, ChatlistState>(
-                      //     builder: (context, state) {
-                      //   if (state is ChatlistInitial) {
-                      //     return Container(
-                      //       child: Center(child: CircularProgressIndicator()),
-                      //     );
-                      //   } else if (state is ChatlistLoading) {
-                      //     return Container(
-                      //       child: Center(child: CircularProgressIndicator()),
-                      //     );
-                      //   } else if (state is ChatlistFailure) {
-                      //     return Container();
-                      //   } else if (state is ChatlistEmpty) {
-                      //     return Container();
-                      //   }
-                      // }),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
+          tabStatus == "chat"
+              ? Positioned(
+                  bottom: 6,
+                  right: 85,
+                  left: 8,
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 8),
+                      child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: IColors.lowBoldGreen,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    // print(_messageController.text);
+                                    // _chatBloc.add(SendSocketMessage(
+                                    //     message: _messageController.text));
+                                    // _messageController.text = "";
+                                  },
+                                  icon: Icon(
+                                    Icons.send,
+                                    color: IColors.boldGreen,
+                                    size: 22,
+                                    textDirection: TextDirection.ltr,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                Expanded(
+                                  child: TextField(
+                                    // controller: _messageController,
+                                    style: TextStyle(
+                                      color: IColors.black85,
+                                      fontFamily: Strings.fontIranSans,
+                                      fontSize: 14,
+                                    ),
+                                    minLines: 1,
+                                    maxLines: 6,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "sdsasdas",
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+                    ),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );
