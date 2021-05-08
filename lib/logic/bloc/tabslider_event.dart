@@ -13,13 +13,15 @@ class MoveForwardEvent extends TabsliderEvent {
   BookBloc bookBloc;
   UsersBloc usersBloc;
   var orginalTab;
+  Map<String, String> args;
 
   MoveForwardEvent(
       {@required this.tab,
       @required this.tabSliderBloc,
       this.bookBloc,
       this.usersBloc,
-      this.orginalTab});
+      this.orginalTab,
+      this.args});
 
   @override
   List<Object> get props => [
@@ -27,6 +29,7 @@ class MoveForwardEvent extends TabsliderEvent {
         this.tabSliderBloc,
         this.bookBloc,
         this.usersBloc,
-        this.orginalTab
+        this.orginalTab,
+        this.args
       ];
 }

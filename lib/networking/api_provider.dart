@@ -8,6 +8,8 @@ class ApiProvider {
   static const String URL_IP = "192.168.1.3"; //localhost
   final String _BASE_URL = "http://$URL_IP/book_shop/v1.1/api/admin/";
   final String _IMAGE_URL = "http://$URL_IP";
+  static const String WEB_SOCKET =
+      "ws://$URL_IP:8080/book_shop/v1.1/api/server/websocket_api.php";
 
   Future<dynamic> get(String url) async {
     try {

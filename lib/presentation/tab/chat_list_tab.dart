@@ -34,15 +34,16 @@ class _ChatListTabState extends State<ChatListTab> {
                 if (state is ChatlistInitial) {
                   return Container();
                 } else if (state is ChatlistLoading) {
-                  return Container(child: Center(child: CircularProgressIndicator()),
-                  height: MediaQuery.of(context).size.height,
+                  return Container(
+                    child: Center(child: CircularProgressIndicator()),
+                    height: MediaQuery.of(context).size.height,
                   );
                 } else if (state is ChatlistSuccess) {
                   List items = new List<Widget>();
                   state.chatListModel.chatsList.forEach((element) {
                     items.add(
                       ChatListItem(
-                          id: element.id,
+                          id: element.bookIdNum,
                           image: element.pictureThumb,
                           name: element.name,
                           writer: element.writer,
@@ -52,8 +53,10 @@ class _ChatListTabState extends State<ChatListTab> {
                           newMessageCount: element.newMessageCount,
                           userId: state.user_id,
                           onTap: () {
-                            _tabSliderBloc.add(MoveForwardEvent(
-                                tab: 4, tabSliderBloc: _tabSliderBloc));
+                            _tabSliderBloc
+                                .add(MoveForwardEvent(args: <String, String>{
+                              "book_id": element.bookIdNum,
+                            }, tab: 4, tabSliderBloc: _tabSliderBloc));
                           }),
                     );
                   });
