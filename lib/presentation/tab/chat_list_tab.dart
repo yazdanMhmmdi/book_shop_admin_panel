@@ -1,6 +1,8 @@
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/logic/bloc/chatlist_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
+import 'package:book_shop_admin_panel/presentation/tab/chat_tab.dart';
 import 'package:book_shop_admin_panel/presentation/widget/chat_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,9 +14,11 @@ class ChatListTab extends StatefulWidget {
 
 class _ChatListTabState extends State<ChatListTab> {
   ChatlistBloc _chatlistBloc;
+  TabsliderBloc _tabSliderBloc;
   @override
   void initState() {
     _chatlistBloc = BlocProvider.of<ChatlistBloc>(context);
+    _tabSliderBloc = BlocProvider.of<TabsliderBloc>(context);
     _chatlistBloc.add(GetChatlist());
     super.initState();
   }
@@ -30,22 +34,27 @@ class _ChatListTabState extends State<ChatListTab> {
                 if (state is ChatlistInitial) {
                   return Container();
                 } else if (state is ChatlistLoading) {
-                  return Container();
+                  return Container(child: Center(child: CircularProgressIndicator()),
+                  height: MediaQuery.of(context).size.height,
+                  );
                 } else if (state is ChatlistSuccess) {
                   List items = new List<Widget>();
                   state.chatListModel.chatsList.forEach((element) {
                     items.add(
                       ChatListItem(
-                        id: element.id,
-                        image: element.pictureThumb,
-                        name: element.name,
-                        writer: element.writer,
-                        thumbImage: element.pictureThumb,
-                        voteCount: double.parse(element.voteCount),
-                        price: element.price,
-                        newMessageCount: element.newMessageCount,
-                        userId: state.user_id,
-                      ),
+                          id: element.id,
+                          image: element.pictureThumb,
+                          name: element.name,
+                          writer: element.writer,
+                          thumbImage: element.pictureThumb,
+                          voteCount: double.parse(element.voteCount),
+                          price: element.price,
+                          newMessageCount: element.newMessageCount,
+                          userId: state.user_id,
+                          onTap: () {
+                            _tabSliderBloc.add(MoveForwardEvent(
+                                tab: 4, tabSliderBloc: _tabSliderBloc));
+                          }),
                     );
                   });
                   return Wrap(

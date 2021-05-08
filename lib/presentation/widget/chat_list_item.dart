@@ -16,6 +16,8 @@ class ChatListItem extends StatelessWidget {
   String price;
   String newMessageCount;
   String userId;
+  Function onTap;
+
   ChatListItem({
     @required this.id,
     @required this.image,
@@ -26,6 +28,7 @@ class ChatListItem extends StatelessWidget {
     @required this.price,
     @required this.newMessageCount,
     @required this.userId,
+    @required this.onTap,
   });
 
   @override
@@ -49,7 +52,7 @@ class ChatListItem extends StatelessWidget {
             // splashFactory: InkRipple.splashFactory,
             borderRadius: BorderRadius.circular(8),
             splashColor: IColors.black15,
-            onTap: () {},
+            onTap: onTap,
             // doubleTapTime: Duration(milliseconds: 300),
             child: Column(
               children: [

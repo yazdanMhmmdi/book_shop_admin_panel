@@ -10,6 +10,7 @@ import 'package:book_shop_admin_panel/logic/cubit/internet_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/category_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/chat_list_tab.dart';
+import 'package:book_shop_admin_panel/presentation/tab/chat_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/users_tab.dart';
 import 'package:book_shop_admin_panel/presentation/widget/action_bar.dart';
 import 'package:book_shop_admin_panel/presentation/widget/add_book_dialog.dart';
@@ -65,6 +66,7 @@ class _PanelScreenState extends State<PanelScreen> {
   bool isAnyUserSelected = false;
   String selectedUserId = "0";
   Color backgroundColor = IColors.lowBoldGreen;
+  bool progress = false;
   @override
   void initState() {
     _sideBarItemSelectorBloc =
@@ -174,6 +176,11 @@ class _PanelScreenState extends State<PanelScreen> {
                           }
                         }
                       }
+                    });
+                  }
+                  if (state.orginalTab is ChatTab) {
+                    setState(() {
+                      tabStatus = "chat";
                     });
                   }
                   _sideBarItemSelectorBloc.add(SelectItemEvent(
@@ -426,24 +433,39 @@ class _PanelScreenState extends State<PanelScreen> {
                           }
                         },
                       ),
+
                       BlocBuilder<ChatlistBloc, ChatlistState>(
-                          builder: (context, state) {
-                        if (state is ChatlistInitial) {
-                          return Container(
-                            height: MediaQuery.of(context).size.height,
-                            child: Center(child: CircularProgressIndicator()),
-                          );
-                        } else if (state is ChatlistLoading) {
-                          return Container(
-                            height: MediaQuery.of(context).size.height,
-                            child: Center(child: CircularProgressIndicator()),
-                          );
-                        } else {
-                          return Container(
-                            
-                          );
-                        }
-                      }),
+                        builder: (context, state) {
+                          if (state is ChatlistInitial) {
+                            return Container();
+                          } else if (state is ChatlistLoading) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (state is ChatlistSuccess) {
+                            return Container();
+                          } else if (state is ChatlistFailure) {
+                            return Container();
+                          } else if (state is ChatlistEmpty) {
+                            return Container();
+                          }
+                        },
+                      )
+
+                      // BlocBuilder<ChatlistBloc, ChatlistState>(
+                      //     builder: (context, state) {
+                      //   if (state is ChatlistInitial) {
+                      //     return Container(
+                      //       child: Center(child: CircularProgressIndicator()),
+                      //     );
+                      //   } else if (state is ChatlistLoading) {
+                      //     return Container(
+                      //       child: Center(child: CircularProgressIndicator()),
+                      //     );
+                      //   } else if (state is ChatlistFailure) {
+                      //     return Container();
+                      //   } else if (state is ChatlistEmpty) {
+                      //     return Container();
+                      //   }
+                      // }),
                     ],
                   ),
                 ),

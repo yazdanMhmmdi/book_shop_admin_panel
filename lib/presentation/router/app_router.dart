@@ -18,7 +18,7 @@ class AppRouter {
   final TabsliderBloc _tabsliderBloc = new TabsliderBloc();
   final BookBloc _bookBloc = new BookBloc();
   final UsersBloc _usersBloc = new UsersBloc();
-
+  final ChatlistBloc _chatlistBloc = new ChatlistBloc();
   final InternetCubit _internetCubit =
       new InternetCubit(connectivity: Connectivity());
   Route onGeneratedRoute(RouteSettings settings) {
@@ -44,9 +44,7 @@ class AppRouter {
                     BlocProvider.value(value: _bookBloc),
                     BlocProvider.value(value: _usersBloc),
                     BlocProvider.value(value: _internetCubit),
-                    BlocProvider(
-                      create: (BuildContext context) => ChatlistBloc(),
-                    )
+                    BlocProvider.value(value: _chatlistBloc)
                   ],
                   child: PanelScreen(
                     tabsliderBloc: _tabsliderBloc

@@ -20,17 +20,21 @@ class ChatlistBloc extends Bloc<ChatlistEvent, ChatlistState> {
   Stream<ChatlistState> mapEventToState(
     ChatlistEvent event,
   ) async* {
+    print("ChatlistInitial");
     if (event is GetChatlist) {
-      yield ChatlistLoading();
       try {
+        yield ChatlistLoading();
+
         if (page == 1) {
           _model = await _repository.getChatList(user_id, page.toString());
           if (_model.chatsList.length == 0) {
             yield ChatlistEmpty();
+            print("ChatlistEmpty");
           } else {
             totalPage = int.parse(_model.data.totalPages.toString());
             page++;
             yield ChatlistSuccess(chatListModel: _model, user_id: user_id);
+            print("ChatlistSuccess");
           }
         } else if (page <= totalPage) {
           ChatListModel _tempModel =
@@ -40,9 +44,11 @@ class ChatlistBloc extends Bloc<ChatlistEvent, ChatlistState> {
           });
           page++;
           yield ChatlistSuccess(chatListModel: _model, user_id: user_id);
+          print("ChatlistSuccess");
         }
       } catch (err) {
         yield ChatlistFailure();
+        print("ChatlistFailure");
       }
     }
   }

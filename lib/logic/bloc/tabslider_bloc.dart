@@ -7,6 +7,7 @@ import 'package:book_shop_admin_panel/logic/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/category_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/chat_list_tab.dart';
+import 'package:book_shop_admin_panel/presentation/tab/chat_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tab/users_tab.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,11 +47,17 @@ class TabsliderBloc extends Bloc<TabsliderEvent, TabsliderState> {
             BooksTab());
       } else if (event.tab == 2) {
         yield TabsliderSuccess(
-            BlocProvider(
-              create: (context) => ChatlistBloc(),
-              child: ChatListTab(),
-            ),
+            MultiBlocProvider(providers: [
+              BlocProvider(
+                create: (context) => ChatlistBloc(),
+              ),
+              BlocProvider.value(
+                value: event.tabSliderBloc,
+              ),
+            ], child: ChatListTab()),
             ChatListTab());
+      } else if (event.tab == 4) {
+        yield TabsliderSuccess(ChatTab(), ChatTab());
       }
     }
   }
