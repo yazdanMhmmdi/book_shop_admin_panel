@@ -41,7 +41,7 @@ class _ChatTabState extends State<ChatTab> {
                 return Container();
               } else if (state is ChatSuccess) {
                 return ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.only(left: 16, right: 16, bottom: 50),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: state.chatModel.chats.length,

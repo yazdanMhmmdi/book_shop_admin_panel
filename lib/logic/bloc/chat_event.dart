@@ -14,3 +14,23 @@ class GetChatMessagesREST extends ChatEvent {
   // TODO: implement props
   List<Object> get props => [this.book_id];
 }
+
+class DisposeChatMessages extends ChatEvent {}
+
+class SocketMessage extends ChatEvent {
+  dynamic message;
+  String bookId;
+  SocketMessage({@required this.message, @required this.bookId});
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [this.bookId, this.message];
+}
+
+class SendSocketMessage extends ChatEvent {
+  String message;
+  SendSocketMessage({@required this.message});
+  @override
+  // TODO: implement props
+  List<Object> get props => [this.message];
+}
