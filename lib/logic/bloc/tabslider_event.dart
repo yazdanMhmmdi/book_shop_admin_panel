@@ -12,6 +12,7 @@ class MoveForwardEvent extends TabsliderEvent {
   TabsliderBloc tabSliderBloc;
   BookBloc bookBloc;
   UsersBloc usersBloc;
+  ChatBloc chatBloc;
   var orginalTab;
   Map<String, String> args;
 
@@ -20,6 +21,7 @@ class MoveForwardEvent extends TabsliderEvent {
       @required this.tabSliderBloc,
       this.bookBloc,
       this.usersBloc,
+      this.chatBloc,
       this.orginalTab,
       this.args});
 

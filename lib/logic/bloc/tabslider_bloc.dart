@@ -43,6 +43,9 @@ class TabsliderBloc extends Bloc<TabsliderEvent, TabsliderState> {
               BlocProvider.value(value: event.tabSliderBloc),
               BlocProvider.value(
                 value: event.bookBloc,
+              ),
+              BlocProvider.value(
+                value: event.chatBloc,
               )
             ], child: BooksTab()),
             BooksTab());
@@ -59,9 +62,8 @@ class TabsliderBloc extends Bloc<TabsliderEvent, TabsliderState> {
             ChatListTab());
       } else if (event.tab == 4) {
         yield TabsliderSuccess(
-            BlocProvider(
-                create: (BuildContext context) => ChatBloc(),
-                child: ChatTab(args: event.args)),
+            BlocProvider.value(
+                value: event.chatBloc, child: ChatTab(args: event.args)),
             ChatTab());
       }
     }

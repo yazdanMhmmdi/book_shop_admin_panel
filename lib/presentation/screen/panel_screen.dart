@@ -2,6 +2,7 @@ import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/logic/bloc/book_bloc.dart';
+import 'package:book_shop_admin_panel/logic/bloc/chat_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/chatlist_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/side_bar_item_selector_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
@@ -39,6 +40,8 @@ GlobalKey<TitleSelectorState> cartKey = GlobalKey();
 class PanelScreen extends StatefulWidget {
   TabsliderBloc tabsliderBloc;
   static int status;
+  static ScrollController scrollController;
+  static TextEditingController messageController = new TextEditingController();
   PanelScreen({@required this.tabsliderBloc});
   @override
   _PanelScreenState createState() => _PanelScreenState();
@@ -46,13 +49,13 @@ class PanelScreen extends StatefulWidget {
 
 class _PanelScreenState extends State<PanelScreen> {
   int tab;
-  ScrollController scrollController;
   TextEditingController searchController = new TextEditingController();
 
   SideBarItemSelectorBloc _sideBarItemSelectorBloc;
   BookBloc _bookBloc;
   ChatlistBloc _chatlistBloc;
   UsersBloc _usersBloc;
+  ChatBloc _chatBloc;
   String tabStatus = "category";
   bool visiblity = false;
   double padding = 0.0;
@@ -74,7 +77,8 @@ class _PanelScreenState extends State<PanelScreen> {
     _bookBloc = BlocProvider.of<BookBloc>(context);
     _usersBloc = BlocProvider.of<UsersBloc>(context);
     _chatlistBloc = BlocProvider.of<ChatlistBloc>(context);
-    scrollController = new ScrollController();
+    _chatBloc = BlocProvider.of<ChatBloc>(context);
+    PanelScreen.scrollController = new ScrollController();
 
     super.initState();
   }
@@ -113,9 +117,9 @@ class _PanelScreenState extends State<PanelScreen> {
                       tabStatus = "users";
                     });
                     restartSearchField();
-                    scrollController.addListener(() {
-                      if (scrollController.position.atEdge) {
-                        if (scrollController.position.pixels == 0) {
+                    PanelScreen.scrollController.addListener(() {
+                      if (PanelScreen.scrollController.position.atEdge) {
+                        if (PanelScreen.scrollController.position.pixels == 0) {
                           // You're at the top.
                         } else {
                           // You're at the bottom.
@@ -138,9 +142,9 @@ class _PanelScreenState extends State<PanelScreen> {
                     setState(() {
                       tabStatus = "books";
                     });
-                    scrollController.addListener(() {
-                      if (scrollController.position.atEdge) {
-                        if (scrollController.position.pixels == 0) {
+                    PanelScreen.scrollController.addListener(() {
+                      if (PanelScreen.scrollController.position.atEdge) {
+                        if (PanelScreen.scrollController.position.pixels == 0) {
                           // You're at the top.
                         } else {
                           // You're at the bottom.
@@ -162,9 +166,9 @@ class _PanelScreenState extends State<PanelScreen> {
                     setState(() {
                       tabStatus = "chatlist";
                     });
-                    scrollController.addListener(() {
-                      if (scrollController.position.atEdge) {
-                        if (scrollController.position.pixels == 0) {
+                    PanelScreen.scrollController.addListener(() {
+                      if (PanelScreen.scrollController.position.atEdge) {
+                        if (PanelScreen.scrollController.position.pixels == 0) {
                           // You're at the top.
                         } else {
                           // You're at the bottom.
@@ -395,7 +399,7 @@ class _PanelScreenState extends State<PanelScreen> {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       physics: BouncingScrollPhysics(),
-                      controller: scrollController,
+                      controller: PanelScreen.scrollController,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -508,10 +512,11 @@ class _PanelScreenState extends State<PanelScreen> {
                               children: [
                                 IconButton(
                                   onPressed: () {
-                                    // print(_messageController.text);
-                                    // _chatBloc.add(SendSocketMessage(
-                                    //     message: _messageController.text));
-                                    // _messageController.text = "";
+                                    print(PanelScreen.messageController.text);
+                                    _chatBloc.add(SendSocketMessage(
+                                        message: PanelScreen
+                                            .messageController.text));
+                                    PanelScreen.messageController.text = "";
                                   },
                                   icon: Icon(
                                     Icons.send,
@@ -525,7 +530,7 @@ class _PanelScreenState extends State<PanelScreen> {
                                 ),
                                 Expanded(
                                   child: TextField(
-                                    // controller: _messageController,
+                                    controller: PanelScreen.messageController,
                                     style: TextStyle(
                                       color: IColors.black85,
                                       fontFamily: Strings.fontIranSans,

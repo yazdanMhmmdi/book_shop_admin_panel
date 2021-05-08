@@ -1,5 +1,6 @@
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:book_shop_admin_panel/constants/strings.dart';
+import 'package:book_shop_admin_panel/logic/bloc/chat_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/chatlist_bloc.dart';
 import 'package:book_shop_admin_panel/logic/bloc/tabslider_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/tab/chat_tab.dart';
@@ -15,10 +16,12 @@ class ChatListTab extends StatefulWidget {
 class _ChatListTabState extends State<ChatListTab> {
   ChatlistBloc _chatlistBloc;
   TabsliderBloc _tabSliderBloc;
+  ChatBloc _chatBloc;
   @override
   void initState() {
     _chatlistBloc = BlocProvider.of<ChatlistBloc>(context);
     _tabSliderBloc = BlocProvider.of<TabsliderBloc>(context);
+    _chatBloc = BlocProvider.of<ChatBloc>(context);
     _chatlistBloc.add(GetChatlist());
     super.initState();
   }
@@ -53,10 +56,13 @@ class _ChatListTabState extends State<ChatListTab> {
                           newMessageCount: element.newMessageCount,
                           userId: state.user_id,
                           onTap: () {
-                            _tabSliderBloc
-                                .add(MoveForwardEvent(args: <String, String>{
-                              "book_id": element.bookIdNum,
-                            }, tab: 4, tabSliderBloc: _tabSliderBloc));
+                            _tabSliderBloc.add(MoveForwardEvent(
+                                args: <String, String>{
+                                  "book_id": element.bookIdNum,
+                                },
+                                tab: 4,
+                                tabSliderBloc: _tabSliderBloc,
+                                chatBloc: _chatBloc));
                           }),
                     );
                   });

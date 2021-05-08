@@ -1,5 +1,6 @@
 import 'package:book_shop_admin_panel/logic/bloc/chat_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/screen/login_screen.dart';
+import 'package:book_shop_admin_panel/presentation/screen/panel_screen.dart';
 import 'package:book_shop_admin_panel/presentation/widget/from_message_bubble.dart';
 import 'package:book_shop_admin_panel/presentation/widget/user_message_bubble.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class _ChatTabState extends State<ChatTab> {
   ChatBloc _chatBloc;
   String book_id;
   String userId;
+
   @override
   void initState() {
     _getArguments();
@@ -40,6 +42,8 @@ class _ChatTabState extends State<ChatTab> {
               } else if (state is ChatLoading) {
                 return Container();
               } else if (state is ChatSuccess) {
+                if (state.scrollDown) scrollBottom();
+
                 return ListView.builder(
                   padding: EdgeInsets.only(left: 16, right: 16, bottom: 50),
                   shrinkWrap: true,
@@ -69,6 +73,14 @@ class _ChatTabState extends State<ChatTab> {
           ),
         ),
       ),
+    );
+  }
+
+  void scrollBottom() {
+    PanelScreen.scrollController.animateTo(
+      PanelScreen.scrollController.position.maxScrollExtent + 70,
+      duration: Duration(seconds: 1),
+      curve: Curves.fastOutSlowIn,
     );
   }
 
