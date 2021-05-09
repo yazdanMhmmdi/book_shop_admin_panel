@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatListTab extends StatefulWidget {
+  static String from_id;
   @override
   _ChatListTabState createState() => _ChatListTabState();
 }
@@ -56,9 +57,11 @@ class _ChatListTabState extends State<ChatListTab> {
                           newMessageCount: element.newMessageCount,
                           userId: state.user_id,
                           onTap: () {
+                            ChatListTab.from_id = element.userId;
                             _tabSliderBloc.add(MoveForwardEvent(
                                 args: <String, String>{
                                   "book_id": element.bookIdNum,
+                                  "from_id": element.fromId,
                                 },
                                 tab: 4,
                                 tabSliderBloc: _tabSliderBloc,

@@ -34,3 +34,7 @@ class SendSocketMessage extends ChatEvent {
   // TODO: implement props
   List<Object> get props => [this.message];
 }
+
+class SocketMessageDispose extends ChatEvent {}
+
+class SocketInitial extends ChatEvent {}

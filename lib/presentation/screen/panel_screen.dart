@@ -79,6 +79,7 @@ class _PanelScreenState extends State<PanelScreen> {
     _chatlistBloc = BlocProvider.of<ChatlistBloc>(context);
     _chatBloc = BlocProvider.of<ChatBloc>(context);
     PanelScreen.scrollController = new ScrollController();
+    _chatBloc.add(SocketInitial());
 
     super.initState();
   }
@@ -186,6 +187,7 @@ class _PanelScreenState extends State<PanelScreen> {
                     setState(() {
                       tabStatus = "chat";
                     });
+                    _chatlistBloc.add(GetChatlist());
                   }
                   _sideBarItemSelectorBloc.add(SelectItemEvent(
                     currentTab: state.tab,

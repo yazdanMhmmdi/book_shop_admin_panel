@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 class ApiProvider {
-  static const String URL_IP = "192.168.1.3"; //localhost
+  static const String URL_IP = "localhost"; //localhost
   final String _BASE_URL = "http://$URL_IP/book_shop/v1.1/api/admin/";
   final String _IMAGE_URL = "http://$URL_IP";
   static const String WEB_SOCKET =

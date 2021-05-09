@@ -17,12 +17,14 @@ class _ChatTabState extends State<ChatTab> {
   ChatBloc _chatBloc;
   String book_id;
   String userId;
+  String fromId;
 
   @override
   void initState() {
     _getArguments();
 
     _chatBloc = BlocProvider.of<ChatBloc>(context);
+    _chatBloc.add(SocketMessageDispose());
     _chatBloc.add(GetChatMessagesREST(book_id: book_id));
     userId = user_id;
     super.initState();
@@ -86,5 +88,12 @@ class _ChatTabState extends State<ChatTab> {
 
   void _getArguments() {
     book_id = widget.args['book_id'];
+    fromId = widget.args['from_id'];
+  }
+
+  @override
+  void dispose() {
+    // _chatBloc.close();
+    super.dispose();
   }
 }
