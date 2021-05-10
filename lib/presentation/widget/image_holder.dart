@@ -28,7 +28,7 @@ class ImageHolder extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: CachedNetworkImageProvider(address), fit: BoxFit.cover),
+                image: CachedNetworkImageProvider(address), fit: BoxFit.cover,),
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
