@@ -44,9 +44,9 @@ class TabsliderBloc extends Bloc<TabsliderEvent, TabsliderState> {
               BlocProvider.value(
                 value: event.bookBloc,
               ),
-              BlocProvider.value(
-                value: event.chatBloc,
-              )
+              // BlocProvider.value(
+              //   value: event.chatBloc,
+              // )
             ], child: BooksTab()),
             BooksTab());
       } else if (event.tab == 2) {
