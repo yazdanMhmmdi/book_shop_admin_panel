@@ -1,5 +1,6 @@
 import 'package:book_shop_admin_panel/constants/assets.dart';
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ImageHolder extends StatelessWidget {
@@ -26,7 +27,8 @@ class ImageHolder extends StatelessWidget {
         padding: const EdgeInsets.all(5.0),
         child: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(image: NetworkImage(address), fit: BoxFit.cover),
+            image: DecorationImage(
+                image: CachedNetworkImageProvider(address), fit: BoxFit.cover),
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
