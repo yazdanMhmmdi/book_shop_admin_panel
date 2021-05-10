@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:book_shop_admin_panel/logic/bloc/chat_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/screen/login_screen.dart';
 import 'package:book_shop_admin_panel/presentation/screen/panel_screen.dart';
@@ -32,6 +34,9 @@ class _ChatTabState extends State<ChatTab> {
 
   @override
   Widget build(BuildContext context) {
+    Timer(Duration(milliseconds: 850), () {
+      scrollBottom();
+    });
     return Padding(
       padding: const EdgeInsets.all(26.0),
       child: Directionality(
@@ -80,7 +85,7 @@ class _ChatTabState extends State<ChatTab> {
 
   void scrollBottom() {
     PanelScreen.scrollController.animateTo(
-      PanelScreen.scrollController.position.maxScrollExtent + 70,
+      PanelScreen.scrollController.position.maxScrollExtent + 45,
       duration: Duration(seconds: 1),
       curve: Curves.fastOutSlowIn,
     );
