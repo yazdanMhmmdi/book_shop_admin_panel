@@ -1,6 +1,7 @@
 import 'package:book_shop_admin_panel/constants/i_colors.dart';
 import 'package:book_shop_admin_panel/constants/strings.dart';
 import 'package:book_shop_admin_panel/networking/image_address_provider.dart';
+import 'package:book_shop_admin_panel/presentation/tab/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/widget/custom_agent_widget.dart';
 import 'package:book_shop_admin_panel/presentation/widget/image_holder.dart';
 import 'package:book_shop_admin_panel/presentation/widget/regular_item_bar.dart';
@@ -16,6 +17,7 @@ class ChatListItem extends StatelessWidget {
   String price;
   String newMessageCount;
   String userId;
+  String fromId;
   Function onTap;
 
   ChatListItem({
@@ -29,6 +31,7 @@ class ChatListItem extends StatelessWidget {
     @required this.newMessageCount,
     @required this.userId,
     @required this.onTap,
+    @required this.fromId,
   });
 
   @override
@@ -56,12 +59,53 @@ class ChatListItem extends StatelessWidget {
             // doubleTapTime: Duration(milliseconds: 300),
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: TopRightBookWidget(
-                    id: id,
-                    number: int.parse(id),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: TopRightBookWidget(
+                        id: id,
+                        number: int.parse(id),
+                      ),
+                    ),
+                    AnimatedContainer(
+                      duration: Duration(
+                        milliseconds: 300,
+                      ),
+                      width: 54,
+                      height: 26,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(8),
+                              topLeft: Radius.circular(8)),
+                          color: BooksTab.clickStatus == int.parse(id)
+                              ? IColors.green
+                              : IColors.boldGreen),
+                      child: Center(
+                        child: AnimatedDefaultTextStyle(
+                          duration: Duration(milliseconds: 300),
+                          style: TextStyle(
+                            color: BooksTab.clickStatus == int.parse(id)
+                                ? Colors.white70
+                                : IColors.black85,
+                            fontFamily: Strings.fontIranSans,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.person),
+                              Text(
+                                '${fromId}',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
                 SizedBox(
                   height: 8,

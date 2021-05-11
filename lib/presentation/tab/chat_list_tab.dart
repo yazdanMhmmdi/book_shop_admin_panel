@@ -56,6 +56,7 @@ class _ChatListTabState extends State<ChatListTab> {
                           price: element.price,
                           newMessageCount: element.newMessageCount,
                           userId: state.user_id,
+                          fromId: element.userId,
                           onTap: () {
                             ChatListTab.from_id = element.userId;
                             _tabSliderBloc.add(MoveForwardEvent(
