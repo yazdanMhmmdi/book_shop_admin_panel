@@ -21,21 +21,20 @@ import '../widgets/show_dialog.dart';
 import '../widgets/side_bar.dart';
 import '../widgets/side_bar_item.dart';
 
-class PanelPage extends StatefulWidget {
-  const PanelPage({Key? key}) : super(key: key);
+class CategoryPage extends StatefulWidget {
+  const CategoryPage({Key? key}) : super(key: key);
 
   @override
-  State<PanelPage> createState() => _PanelPageState();
+  State<CategoryPage> createState() => _CategoryPageState();
 }
 
-class _PanelPageState extends State<PanelPage>
+class _CategoryPageState extends State<CategoryPage>
     with SingleTickerProviderStateMixin {
   TabController? tabController;
   ScrollController scrollController = ScrollController();
   TextEditingController searchController = TextEditingController();
-  late Function(String) searchOnChange;
+  Function(String) searchOnChange = (s) {};
   double opacity = 0.0;
-  double padding = 0.0;
   bool isSearch = false;
   bool visiblity = false;
   List<Widget> items = [];
@@ -47,7 +46,6 @@ class _PanelPageState extends State<PanelPage>
     // TODO: implement initState
     super.initState();
     booksBloc = BlocProvider.of<BooksBloc>(context);
-    restartSearchField();
 
     booksBloc!.add(FetchEvent(category: 1));
     tabController = TabController(length: 2, vsync: this, initialIndex: 0)
@@ -68,23 +66,6 @@ class _PanelPageState extends State<PanelPage>
         });
       }
     });
-
-    searchOnChange = (val) {
-      if (val != "") {
-        setState(() {
-          isSearch = true;
-        });
-      } else {
-        setState(() {
-          isSearch = false;
-        });
-      }
-      // _bookBloc!.add(DisposeBookEvent());
-      booksBloc!.add(SearchEvent(
-        categoryId: "1",
-        search: val,
-      ));
-    };
   }
 
   @override
@@ -155,12 +136,6 @@ class _PanelPageState extends State<PanelPage>
                                 ));
                           }
                         }),
-                    SideBarItem(
-                        child: Image.asset(Assets.search),
-                        title: "جستجو",
-                        onTap: () {
-                          _showSearchField();
-                        }),
                   ],
                 ),
                 MainPanel(
@@ -173,13 +148,15 @@ class _PanelPageState extends State<PanelPage>
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          searchFieldSpot(searchController, searchOnChange),
                           Stack(
                             children: [
+                              // searchFieldSpot(
+                              //     searchController, searchOnChange),
                               AnimatedPadding(
                                   duration: Duration(milliseconds: 300),
-                                  padding: EdgeInsets.only(top: padding),
+                                  padding: EdgeInsets.only(top: 60),
                                   child: Container()),
+
                               BlocBuilder<BooksBloc, BooksState>(
                                 builder: (context, state) {
                                   if (state is BooksInitial) {
@@ -289,9 +266,7 @@ class _PanelPageState extends State<PanelPage>
                 IconButton(
                   icon: Icon(isSearch == true ? Icons.close : Icons.search),
                   color: IColors.boldGreen,
-                  onPressed: () {
-                    restartSearchField();
-                  },
+                  onPressed: () {},
                 ),
                 Container(
                   height: 43,
@@ -327,41 +302,5 @@ class _PanelPageState extends State<PanelPage>
         ),
       ),
     );
-  }
-
-  void restartSearchField() {
-    setState(() {
-      searchController.text = "";
-      searchController.clear();
-      searchController.value = TextEditingValue(text: "");
-      isSearch = false;
-    });
-    if (visiblity == true) {
-      setState(() {
-        if (visiblity == false) {
-          padding = 57.0;
-          visiblity = true;
-          opacity = 1.0;
-        } else {
-          padding = 0.0;
-          visiblity = false;
-          opacity = 0.0;
-        }
-      });
-    }
-  }
-
-  void _showSearchField() {
-    setState(() {
-      if (visiblity == false) {
-        padding = 57.0;
-        visiblity = true;
-        opacity = 1.0;
-      } else {
-        padding = 0.0;
-        visiblity = false;
-        opacity = 0.0;
-      }
-    });
   }
 }

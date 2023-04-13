@@ -98,3 +98,19 @@ class DeleteEvent extends BooksEvent {
         bookId!,
       ];
 }
+
+class SearchEvent extends BooksEvent {
+  String? categoryId = "";
+  String? search = "";
+
+  SearchEvent({
+    required this.search,
+    required this.categoryId,
+  });
+
+  @override
+  List<Object> get props => [
+        search!,
+        categoryId!,
+      ];
+}

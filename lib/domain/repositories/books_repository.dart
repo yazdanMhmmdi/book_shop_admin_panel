@@ -14,4 +14,7 @@ abstract class BooksRepository {
       DeleteBooksRequestParams params);
   Future<Either<Failure, FunctionResponseModel>> addBooks(
       AddBooksRequestParams params);
+
+  Future<Either<Failure, BooksListModel>> searchBooks(
+      SearchBooksRequestParams params);
 }

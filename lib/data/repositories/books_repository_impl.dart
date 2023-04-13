@@ -61,4 +61,16 @@ class BooksRepositoryImpl implements BooksRepository {
       return Left(ServerFailure(message: error.message.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, BooksListModel>> searchBooks(
+      SearchBooksRequestParams params) async {
+    try {
+      final response = await remoteApiService.searchBooks(params);
+
+      return Right(response);
+    } on ServerException catch (error) {
+      return Left(ServerFailure(message: error.message.toString()));
+    }
+  }
 }

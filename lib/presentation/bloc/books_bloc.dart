@@ -8,6 +8,7 @@ import 'package:book_shop_admin_panel/data/models/function_response_model.dart';
 import 'package:book_shop_admin_panel/domain/usecases/delete_books_usecase.dart';
 import 'package:book_shop_admin_panel/domain/usecases/edit_books_usecase.dart';
 import 'package:book_shop_admin_panel/domain/usecases/get_books_usecase.dart';
+import 'package:book_shop_admin_panel/domain/usecases/serach_books_usecase.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../core/constants/constants.dart';
@@ -20,6 +21,7 @@ part 'books_state.dart';
 
 class BooksBloc extends Bloc<BooksEvent, BooksState> {
   final GetBooksUsecase booksUsecase;
+  final SearchBooksUsecase searchBooksUsecase;
   final EditBookUsecase editBookUsecase;
   final AddBookUsecase addBookUsecase;
   final DeleteBooksUsecase deleteBooksUsecase;
@@ -35,7 +37,8 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
   ));
   DeleteBooksRequestParams? deleteBooksRequestParams =
       DeleteBooksRequestParams();
-
+  SearchBooksRequestParams? searchBooksRequestParams =
+      SearchBooksRequestParams();
   bool noMoreData = true;
   int page = 1;
   double totalPage = 1;
@@ -47,8 +50,10 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     required this.editBookUsecase,
     required this.addBookUsecase,
     required this.deleteBooksUsecase,
+    required this.searchBooksUsecase,
   }) : super(BooksInitial()) {
     on<FetchEvent>(_getBooks);
+    on<SearchEvent>(_searchBooks);
     on<EditEvent>(_editBook);
     on<AddEvent>(_addBook);
     on<DeleteEvent>(_deleteBook);
@@ -188,6 +193,54 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
         }
       },
     );
+  }
+
+  Future<void> _searchBooks(SearchEvent event, Emitter<BooksState> emit) async {
+    //change category and set values to default
+    if (currentCategory != event.categoryId) {
+      page = 1;
+      totalPage = 1;
+      currentCategory = int.parse(event.categoryId!);
+      _booksList.clear();
+      noMoreData = true;
+      emit(BooksLoading());
+    }
+    if (page != 1) noMoreData = page < totalPage;
+
+    if (page <= totalPage) {
+      searchBooksRequestParams!.categoryId = event.categoryId;
+      searchBooksRequestParams!.page = page.toString();
+      searchBooksRequestParams!.search = event.search;
+      dynamic failureOrPosts =
+          await searchBooksUsecase(searchBooksRequestParams!);
+      page++;
+
+      failureOrPosts.fold(
+        (failure) {
+          print("BookFailure");
+          emit(BooksFailure());
+        },
+        (BooksListModel booksListModel) {
+          print('BookSuccess');
+
+          if (booksListModel.books!.isEmpty) {
+            noMoreData = false;
+            emit(BooksLoading());
+            emit(BookNothingFound());
+          }
+          emit(BooksLoading());
+
+          totalPage = booksListModel.data!.totalPages!;
+          _booksList.addAll(booksListModel.books!);
+        },
+      );
+    }
+    if (page > totalPage) noMoreData = false;
+
+    emit(BooksSuccess(
+      _booksList,
+      noMoreData,
+    ));
   }
 
   String _mapFailureToMessage(Failure failure) {

@@ -54,4 +54,11 @@ abstract class BookShopClient {
     @Part(name: "vote_count") required String voteCount,
     @Part(name: "picture") required File picture,
   });
+
+  @GET('/admin_search_books.php')
+  Future<HttpResponse<BooksListModel>> searchBooks({
+    @Query("category_id") required String categoryId,
+    @Query("page") required String page,
+    @Query("search") required String search,
+  });
 }

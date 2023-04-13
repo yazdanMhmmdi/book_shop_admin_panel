@@ -60,3 +60,11 @@ class DeleteBooksRequestParams {
     this.bookId,
   });
 }
+
+class SearchBooksRequestParams {
+  String? search = '';
+  String? categoryId = '';
+  String? page = '';
+
+  SearchBooksRequestParams({this.search, this.page, this.categoryId});
+}

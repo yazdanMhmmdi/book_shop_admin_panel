@@ -101,4 +101,25 @@ class RemoteApiServiceImpl extends RemoteApiService {
           message: "editBookApi->book_shop_api_service: ${error.toString()}");
     }
   }
+
+  @override
+  Future<BooksListModel> searchBooks(SearchBooksRequestParams params) async {
+    try {
+      final HttpResponse response = await bookShopClient!.searchBooks(
+        categoryId: params.categoryId.toString(),
+        page: params.page.toString(),
+        search: params.search!,
+      );
+
+      if (response.response.statusCode == 200) {
+        return response.data;
+      } else {
+        throw ServerException();
+      }
+    } catch (error) {
+      throw ServerException(
+          message:
+              "searchBookList->book_shop_api_service: ${error.toString()} parameters : ${params.page} ${params.categoryId}");
+    }
+  }
 }

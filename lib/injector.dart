@@ -7,6 +7,7 @@ import 'package:book_shop_admin_panel/domain/usecases/add_books_usecase.dart';
 import 'package:book_shop_admin_panel/domain/usecases/delete_books_usecase.dart';
 import 'package:book_shop_admin_panel/domain/usecases/edit_books_usecase.dart';
 import 'package:book_shop_admin_panel/domain/usecases/get_books_usecase.dart';
+import 'package:book_shop_admin_panel/domain/usecases/serach_books_usecase.dart';
 import 'package:book_shop_admin_panel/presentation/bloc/books_bloc.dart';
 import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:dio/dio.dart';
@@ -26,12 +27,14 @@ Future<void> init() async {
         editBookUsecase: sl(),
         addBookUsecase: sl(),
         deleteBooksUsecase: sl(),
+        searchBooksUsecase: sl(),
       ));
 //  usecases
   sl.registerLazySingleton(() => GetBooksUsecase(sl()));
   sl.registerLazySingleton(() => EditBookUsecase(sl()));
   sl.registerLazySingleton(() => AddBookUsecase(sl()));
   sl.registerLazySingleton(() => DeleteBooksUsecase(sl()));
+  sl.registerLazySingleton(() => SearchBooksUsecase(sl()));
 
   //!  Data
   //  repositories
