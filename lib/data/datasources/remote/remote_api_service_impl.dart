@@ -59,9 +59,21 @@ class RemoteApiServiceImpl extends RemoteApiService {
   }
 
   @override
-  Future<BooksListModel> deleteBooks(DeleteBooksRequestParams params) {
-    // TODO: implement deleteBooks
-    throw UnimplementedError();
+  Future<FunctionResponseModel> deleteBooks(
+      DeleteBooksRequestParams params) async {
+    try {
+      final HttpResponse response =
+          await bookShopClient!.deleteBooks(bookId: params.bookId!);
+
+      if (response.response.statusCode == 200) {
+        return response.data;
+      } else {
+        throw ServerException();
+      }
+    } catch (error) {
+      throw ServerException(
+          message: "deleteBookApi->book_shop_api_service: ${error.toString()}");
+    }
   }
 
   @override

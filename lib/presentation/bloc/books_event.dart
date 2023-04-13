@@ -86,3 +86,15 @@ class AddEvent extends BooksEvent {
         pictureFile!,
       ];
 }
+
+class DeleteEvent extends BooksEvent {
+  String? bookId = "";
+  DeleteEvent({
+    required this.bookId,
+  });
+
+  @override
+  List<Object> get props => [
+        bookId!,
+      ];
+}

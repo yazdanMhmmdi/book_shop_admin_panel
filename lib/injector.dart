@@ -4,6 +4,7 @@ import 'package:book_shop_admin_panel/data/datasources/remote/remote_api_service
 import 'package:book_shop_admin_panel/data/repositories/books_repository_impl.dart';
 import 'package:book_shop_admin_panel/domain/repositories/books_repository.dart';
 import 'package:book_shop_admin_panel/domain/usecases/add_books_usecase.dart';
+import 'package:book_shop_admin_panel/domain/usecases/delete_books_usecase.dart';
 import 'package:book_shop_admin_panel/domain/usecases/edit_books_usecase.dart';
 import 'package:book_shop_admin_panel/domain/usecases/get_books_usecase.dart';
 import 'package:book_shop_admin_panel/presentation/bloc/books_bloc.dart';
@@ -24,11 +25,13 @@ Future<void> init() async {
         booksUsecase: sl(),
         editBookUsecase: sl(),
         addBookUsecase: sl(),
+        deleteBooksUsecase: sl(),
       ));
 //  usecases
   sl.registerLazySingleton(() => GetBooksUsecase(sl()));
   sl.registerLazySingleton(() => EditBookUsecase(sl()));
   sl.registerLazySingleton(() => AddBookUsecase(sl()));
+  sl.registerLazySingleton(() => DeleteBooksUsecase(sl()));
 
   //!  Data
   //  repositories

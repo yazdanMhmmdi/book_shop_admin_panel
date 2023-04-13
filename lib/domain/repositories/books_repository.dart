@@ -10,8 +10,8 @@ abstract class BooksRepository {
       BooksRequestParams params);
   Future<Either<Failure, FunctionResponseModel>> editBooks(
       EditBookRequestParams params);
-  Future<Either<Failure, BooksListModel>> deleteBooks(
-      BooksRequestParams params);
+  Future<Either<Failure, FunctionResponseModel>> deleteBooks(
+      DeleteBooksRequestParams params);
   Future<Either<Failure, FunctionResponseModel>> addBooks(
       AddBooksRequestParams params);
 }

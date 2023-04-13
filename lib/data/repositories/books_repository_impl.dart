@@ -27,10 +27,15 @@ class BooksRepositoryImpl implements BooksRepository {
   }
 
   @override
-  Future<Either<Failure, BooksListModel>> deleteBooks(
-      BooksRequestParams params) {
-    // TODO: implement deleteBooks
-    throw UnimplementedError();
+  Future<Either<Failure, FunctionResponseModel>> deleteBooks(
+      DeleteBooksRequestParams params) async {
+    try {
+      final response = await remoteApiService.deleteBooks(params);
+
+      return Right(response);
+    } on ServerException catch (error) {
+      return Left(ServerFailure(message: error.message.toString()));
+    }
   }
 
   @override

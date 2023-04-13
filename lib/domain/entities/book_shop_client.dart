@@ -22,6 +22,11 @@ abstract class BookShopClient {
       {@Query("page") required String page,
       @Query("category_id") required String categoryId});
 
+  @GET('/admin_delete_books.php')
+  Future<HttpResponse<FunctionResponseModel>> deleteBooks({
+    @Query("book_id") required String bookId,
+  });
+
   @POST('/admin_edit_books.php')
   @MultiPart()
   Future<HttpResponse<FunctionResponseModel>> editBooks({

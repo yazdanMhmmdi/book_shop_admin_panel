@@ -16,6 +16,7 @@ class AppRouter {
                     booksUsecase: sl(),
                     editBookUsecase: sl(),
                     addBookUsecase: sl(),
+                    deleteBooksUsecase: sl(),
                   ),
                   child: PanelPage(),
                 )));

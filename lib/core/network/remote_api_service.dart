@@ -19,5 +19,5 @@ abstract class RemoteApiService {
   Future<BooksListModel> getBooks(BooksRequestParams params);
   Future<FunctionResponseModel> editBooks(EditBookRequestParams params);
   Future<FunctionResponseModel> addBooks(AddBooksRequestParams params);
-  Future<BooksListModel> deleteBooks(DeleteBooksRequestParams params);
+  Future<FunctionResponseModel> deleteBooks(DeleteBooksRequestParams params);
 }

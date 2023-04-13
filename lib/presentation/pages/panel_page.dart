@@ -13,6 +13,7 @@ import '../../core/constants/strings.dart';
 import '../../core/utils/throttler.dart';
 import '../widgets/book_item.dart';
 import '../widgets/custom_scroll_behavior.dart';
+import '../widgets/dialogs/delete_book_dialog.dart';
 import '../widgets/dialogs/edit_book_dialog.dart';
 import '../widgets/main_panel.dart';
 import '../widgets/pagination_loading_widget.dart';
@@ -120,6 +121,20 @@ class _PanelPageState extends State<PanelPage>
                                     ));
                               }
                             });
+                          }
+                        }),
+                    SideBarItem(
+                        child: Image.asset(Assets.delete),
+                        title: "حذف",
+                        onTap: () {
+                          if (GlobalClass.pickedBookId != 0) {
+                            ShowDialog.showDialog(
+                                context,
+                                BlocProvider.value(
+                                  value: BlocProvider.of<BooksBloc>(context),
+                                  child: DeleteBookDialog(
+                                  ),
+                                ));
                           }
                         }),
                   ],

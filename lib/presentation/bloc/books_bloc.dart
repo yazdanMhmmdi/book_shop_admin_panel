@@ -5,6 +5,7 @@ import 'package:book_shop_admin_panel/core/constants/assets.dart';
 import 'package:book_shop_admin_panel/core/params/request_params.dart';
 import 'package:book_shop_admin_panel/data/models/book_model.dart';
 import 'package:book_shop_admin_panel/data/models/function_response_model.dart';
+import 'package:book_shop_admin_panel/domain/usecases/delete_books_usecase.dart';
 import 'package:book_shop_admin_panel/domain/usecases/edit_books_usecase.dart';
 import 'package:book_shop_admin_panel/domain/usecases/get_books_usecase.dart';
 import 'package:equatable/equatable.dart';
@@ -21,6 +22,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
   final GetBooksUsecase booksUsecase;
   final EditBookUsecase editBookUsecase;
   final AddBookUsecase addBookUsecase;
+  final DeleteBooksUsecase deleteBooksUsecase;
 
   BooksRequestParams? titlesPostRequestParams = BooksRequestParams();
   EditBookRequestParams? editBookRequestParams = EditBookRequestParams(
@@ -31,6 +33,8 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
       pictureFile: File(
     Assets.emptyImage,
   ));
+  DeleteBooksRequestParams? deleteBooksRequestParams =
+      DeleteBooksRequestParams();
 
   bool noMoreData = true;
   int page = 1;
@@ -42,10 +46,12 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     required this.booksUsecase,
     required this.editBookUsecase,
     required this.addBookUsecase,
+    required this.deleteBooksUsecase,
   }) : super(BooksInitial()) {
     on<FetchEvent>(_getBooks);
     on<EditEvent>(_editBook);
     on<AddEvent>(_addBook);
+    on<DeleteEvent>(_deleteBook);
   }
 
   Future<void> _getBooks(FetchEvent event, Emitter<BooksState> emit) async {
@@ -137,6 +143,32 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     addBooksRequestParams!.voteCount = event.voteCount!;
     addBooksRequestParams!.writer = event.writer!;
     dynamic failureOrPosts = await addBookUsecase(addBooksRequestParams!);
+
+    failureOrPosts.fold(
+      (failure) {
+        print("TitleFailure");
+        emit(BooksFailure());
+      },
+      (FunctionResponseModel functionResponseModel) {
+        // emit(BooksSuccess(
+        //   _booksList,
+        //   noMoreData,
+        // ));
+        if (functionResponseModel.error == "0") {
+          page = 1;
+          _booksList.clear();
+          emit(BooksEdited());
+          add(FetchEvent(category: 1));
+        }
+      },
+    );
+  }
+
+  Future<void> _deleteBook(DeleteEvent event, Emitter<BooksState> emit) async {
+    deleteBooksRequestParams!.bookId = event.bookId!;
+
+    dynamic failureOrPosts =
+        await deleteBooksUsecase(deleteBooksRequestParams!);
 
     failureOrPosts.fold(
       (failure) {

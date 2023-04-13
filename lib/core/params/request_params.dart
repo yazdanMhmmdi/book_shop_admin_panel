@@ -54,10 +54,9 @@ class AddBooksRequestParams {
 }
 
 class DeleteBooksRequestParams {
-  String? bookId = "", userid = "";
+  String? bookId = '';
 
   DeleteBooksRequestParams({
     this.bookId,
-    this.userid,
   });
 }
