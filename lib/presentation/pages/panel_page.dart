@@ -4,8 +4,12 @@ import 'package:book_shop_admin_panel/presentation/bloc/books_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/dialogs/add_book_dialog.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/global_class.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/my_tab_bar.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/nothing_found_widget.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/toast_widget.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:motion_toast/resources/arrays.dart';
 
 import '../../core/constants/assets.dart';
 import '../../core/constants/i_colors.dart';
@@ -22,7 +26,8 @@ import '../widgets/side_bar.dart';
 import '../widgets/side_bar_item.dart';
 
 class PanelPage extends StatefulWidget {
-  const PanelPage({Key? key}) : super(key: key);
+  late Map<String, String> args;
+  PanelPage({Key? key, required this.args}) : super(key: key);
 
   @override
   State<PanelPage> createState() => _PanelPageState();
@@ -38,18 +43,21 @@ class _PanelPageState extends State<PanelPage>
   double padding = 0.0;
   bool isSearch = false;
   bool visiblity = false;
+  String? categoryId = "";
   List<Widget> items = [];
   List<BookModel>? booksModels;
   BooksBloc? booksBloc;
+  late Map<String, String> arguments;
 
   @override
   void initState() {
     // TODO: implement initState
+    _getArguments();
     super.initState();
     booksBloc = BlocProvider.of<BooksBloc>(context);
     restartSearchField();
 
-    booksBloc!.add(FetchEvent(category: 1));
+    booksBloc!.add(FetchEvent(category: int.parse(categoryId!)));
     tabController = TabController(length: 2, vsync: this, initialIndex: 0)
       ..addListener(() {
         if (tabController!.indexIsChanging) {
@@ -64,7 +72,7 @@ class _PanelPageState extends State<PanelPage>
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         throttler.run(() {
-          booksBloc!.add(FetchEvent(category: 1));
+          booksBloc!.add(FetchEvent(category: int.parse(categoryId!)));
         });
       }
     });
@@ -81,7 +89,7 @@ class _PanelPageState extends State<PanelPage>
       }
       // _bookBloc!.add(DisposeBookEvent());
       booksBloc!.add(SearchEvent(
-        categoryId: "1",
+        categoryId: categoryId,
         search: val,
       ));
     };
@@ -140,6 +148,8 @@ class _PanelPageState extends State<PanelPage>
                                     ));
                               }
                             });
+                          } else {
+                            ToastWidget.showWarning(context, title: "!آیتمی برای ویرایش وجود ندارد", desc: "لطفا کتابی را برای ویرایش انتخاب کنید");
                           }
                         }),
                     SideBarItem(
@@ -169,62 +179,65 @@ class _PanelPageState extends State<PanelPage>
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       controller: scrollController,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          searchFieldSpot(searchController, searchOnChange),
-                          Stack(
-                            children: [
-                              AnimatedPadding(
-                                  duration: Duration(milliseconds: 300),
-                                  padding: EdgeInsets.only(top: padding),
-                                  child: Container()),
-                              BlocBuilder<BooksBloc, BooksState>(
-                                builder: (context, state) {
-                                  if (state is BooksInitial) {
-                                    return Container();
-                                  } else if (state is BooksLoading) {
-                                    return Container();
-                                  } else if (state is BooksSuccess) {
-                                    items.clear();
-                                    state.booksModel.forEach((element) {
-                                      items.add(returnCard(element));
-                                    });
-                                    return Padding(
-                                      padding: const EdgeInsets.all(26.0),
-                                      child: ListView(
-                                        shrinkWrap: true,
-                                        physics: const BouncingScrollPhysics(),
-                                        children: [
-                                          Wrap(
-                                            children: items,
-                                          ),
-                                          if (state.noMoreData) ...[
-                                            const Center(
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 16),
-                                                child:
-                                                    PaginationLoadingWidget(),
-                                              ),
+                      child: Container(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            searchFieldSpot(searchController, searchOnChange),
+                            Stack(
+                              children: [
+                                AnimatedPadding(
+                                    duration: Duration(milliseconds: 300),
+                                    padding: EdgeInsets.only(top: padding),
+                                    child: Container()),
+                                BlocBuilder<BooksBloc, BooksState>(
+                                  builder: (context, state) {
+                                    if (state is BooksInitial) {
+                                      return Container();
+                                    } else if (state is BooksLoading) {
+                                      return Container();
+                                    } else if (state is BooksSuccess) {
+                                      items.clear();
+                                      state.booksModel.forEach((element) {
+                                        items.add(returnCard(element));
+                                      });
+                                      return Padding(
+                                        padding: const EdgeInsets.all(26.0),
+                                        child: ListView(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          children: [
+                                            Wrap(
+                                              children: items,
                                             ),
-                                          ]
-                                        ],
-                                      ),
-                                    );
-                                  } else if (state is BooksFailure) {
-                                    return Container();
-                                  } else if (state is BookNothingFound) {
-                                    return Container();
-                                  } else {
-                                    return Container();
-                                  }
-                                },
-                              )
-                            ],
-                          ),
-                        ],
+                                            if (state.noMoreData) ...[
+                                              const Center(
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 16),
+                                                  child:
+                                                      PaginationLoadingWidget(),
+                                                ),
+                                              ),
+                                            ]
+                                          ],
+                                        ),
+                                      );
+                                    } else if (state is BooksFailure) {
+                                      return Container();
+                                    } else if (state is BookNothingFound) {
+                                      return NothingFoundWidget();
+                                    } else {
+                                      return Container();
+                                    }
+                                  },
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -332,8 +345,6 @@ class _PanelPageState extends State<PanelPage>
   void restartSearchField() {
     setState(() {
       searchController.text = "";
-      searchController.clear();
-      searchController.value = TextEditingValue(text: "");
       isSearch = false;
     });
     if (visiblity == true) {
@@ -349,6 +360,8 @@ class _PanelPageState extends State<PanelPage>
         }
       });
     }
+    booksBloc!.add(
+        SearchEvent(categoryId: categoryId, search: searchController.text));
   }
 
   void _showSearchField() {
@@ -363,5 +376,10 @@ class _PanelPageState extends State<PanelPage>
         opacity = 0.0;
       }
     });
+  }
+
+  void _getArguments() {
+    arguments = widget.args;
+    categoryId = arguments['categoryId'] ?? "";
   }
 }

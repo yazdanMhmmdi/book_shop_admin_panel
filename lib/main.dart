@@ -1,3 +1,5 @@
+import 'package:book_shop_admin_panel/core/constants/assets.dart';
+import 'package:book_shop_admin_panel/core/constants/strings.dart';
 import 'package:book_shop_admin_panel/presentation/router/app_router.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: Strings.fontIranSans,
       ),
       onGenerateRoute: _router.onGeneratedRoute,
     );

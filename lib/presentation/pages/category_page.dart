@@ -12,6 +12,7 @@ import '../../core/constants/i_colors.dart';
 import '../../core/constants/strings.dart';
 import '../../core/utils/throttler.dart';
 import '../widgets/book_item.dart';
+import '../widgets/category_item.dart';
 import '../widgets/custom_scroll_behavior.dart';
 import '../widgets/dialogs/delete_book_dialog.dart';
 import '../widgets/dialogs/edit_book_dialog.dart';
@@ -88,125 +89,125 @@ class _CategoryPageState extends State<CategoryPage>
             mainAxisSize: MainAxisSize.max,
             children: [
               MyTabBar(tabController: tabController!),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                SideBar(
+              Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SideBarItem(
-                        child: Image.asset(Assets.add),
-                        title: "افزودن",
-                        onTap: () {
-                          ShowDialog.showDialog(
-                              context,
-                              BlocProvider.value(
-                                value: BlocProvider.of<BooksBloc>(context),
-                                child: AddBookDialog(),
-                              ));
-                        }),
-                    SideBarItem(
-                        child: Image.asset(Assets.edit),
-                        title: "ویرایش",
-                        onTap: () {
-                          if (GlobalClass.pickedBookId != 0) {
-                            booksModels!.forEach((book) {
-                              if (GlobalClass.pickedBookId.toString() ==
-                                  book.id) {
-                                ShowDialog.showDialog(
-                                    context,
-                                    BlocProvider.value(
-                                      value:
-                                          BlocProvider.of<BooksBloc>(context),
-                                      child: EditBookDialog(
-                                        bookModel: book,
+                    MainPanel(
+                      child: ScrollConfiguration(
+                        behavior: CustomScrollBehavior(),
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          controller: scrollController,
+                          child: Container(
+                            child: Padding(
+                              padding: const EdgeInsets.all(26),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "موضوعات",
+                                    style: TextStyle(
+                                        color: IColors.black85,
+                                        fontSize: 20,
+                                        fontFamily: Strings.fontIranSans,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 26),
+                                  Wrap(
+                                    children: [
+                                      CategoryItem(
+                                          child: Image.asset(Assets.labTool),
+                                          title: "علمی",
+                                          onTap: () {
+                                           
+                                            Navigator.pushNamed(
+                                                context, '/panelpage',
+                                                arguments: {'categoryId': '1'});
+                                            // _bookBloc!.add(AddCategoryEvent(
+                                            //     currentTabCategory: "1"));
+                                            // _tabsliderBloc!.add(MoveForwardEvent(
+                                            //     tab: 3,
+                                            //     tabSliderBloc: _tabsliderBloc!,
+                                            //     bookBloc: _bookBloc!));
+                                            // _bookBloc!.add(DisposeBookEvent());
+                                            // _bookBloc!.add(GetBookEvent());
+                                          }),
+                                      CategoryItem(
+                                        child: Image.asset(Assets.medicine),
+                                        title: "دارویی",
+                                        onTap: () {
+                                         
+                                          Navigator.pushNamed(
+                                              context, '/panelpage',
+                                              arguments: {'categoryId': '2'});
+                                          // _bookBloc!.add(AddCategoryEvent(
+                                          //     currentTabCategory: "2"));
+                                          // _tabsliderBloc!.add(MoveForwardEvent(
+                                          //     tab: 3,
+                                          //     tabSliderBloc: _tabsliderBloc!,
+                                          //     bookBloc: _bookBloc!));
+                                          // _bookBloc!.add(DisposeBookEvent());
+                                          // _bookBloc!.add(GetBookEvent());
+                                        },
                                       ),
-                                    ));
-                              }
-                            });
-                          }
-                        }),
-                    SideBarItem(
-                        child: Image.asset(Assets.delete),
-                        title: "حذف",
-                        onTap: () {
-                          if (GlobalClass.pickedBookId != 0) {
-                            ShowDialog.showDialog(
-                                context,
-                                BlocProvider.value(
-                                  value: BlocProvider.of<BooksBloc>(context),
-                                  child: DeleteBookDialog(),
-                                ));
-                          }
-                        }),
-                  ],
-                ),
-                MainPanel(
-                  child: ScrollConfiguration(
-                    behavior: CustomScrollBehavior(),
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      controller: scrollController,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Stack(
-                            children: [
-                              // searchFieldSpot(
-                              //     searchController, searchOnChange),
-                              AnimatedPadding(
-                                  duration: Duration(milliseconds: 300),
-                                  padding: EdgeInsets.only(top: 60),
-                                  child: Container()),
-
-                              BlocBuilder<BooksBloc, BooksState>(
-                                builder: (context, state) {
-                                  if (state is BooksInitial) {
-                                    return Container();
-                                  } else if (state is BooksLoading) {
-                                    return Container();
-                                  } else if (state is BooksSuccess) {
-                                    items.clear();
-                                    state.booksModel.forEach((element) {
-                                      items.add(returnCard(element));
-                                    });
-                                    return Padding(
-                                      padding: const EdgeInsets.all(26.0),
-                                      child: ListView(
-                                        shrinkWrap: true,
-                                        physics: const BouncingScrollPhysics(),
-                                        children: [
-                                          Wrap(
-                                            children: items,
-                                          ),
-                                          if (state.noMoreData) ...[
-                                            const Center(
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 16),
-                                                child:
-                                                    PaginationLoadingWidget(),
-                                              ),
-                                            ),
-                                          ]
-                                        ],
+                                      CategoryItem(
+                                        child: Image.asset(Assets.hourglass),
+                                        title: "تاریخی",
+                                        onTap: () {
+                                         
+                                            Navigator.pushNamed(
+                                                context, '/panelpage',
+                                                arguments: {'categoryId': '3'});
+                                          // _bookBloc!.add(AddCategoryEvent(
+                                          //     currentTabCategory: "3"));
+                                          // _tabsliderBloc!.add(MoveForwardEvent(
+                                          //     tab: 3,
+                                          //     tabSliderBloc: _tabsliderBloc!,
+                                          //     bookBloc: _bookBloc!));
+                                          // _bookBloc!.add(DisposeBookEvent());
+                                          // _bookBloc!.add(GetBookEvent());
+                                        },
                                       ),
-                                    );
-                                  } else if (state is BooksFailure) {
-                                    return Container();
-                                  } else if (state is BookNothingFound) {
-                                    return Container();
-                                  } else {
-                                    return Container();
-                                  }
-                                },
-                              )
-                            ],
+                                      CategoryItem(
+                                        child: Image.asset(Assets.auction),
+                                        title: "قضایی",
+                                        onTap: () {
+                                         
+                                            Navigator.pushNamed(
+                                                context, '/panelpage',
+                                                arguments: {'categoryId': '4'});
+                                          // _bookBloc!.add(AddCategoryEvent(
+                                          //     currentTabCategory: "4"));
+                                          // _tabsliderBloc!.add(MoveForwardEvent(
+                                          //     tab: 3,
+                                          //     tabSliderBloc: _tabsliderBloc!,
+                                          //     bookBloc: _bookBloc!));
+                                          // _bookBloc!.add(DisposeBookEvent());
+                                          // _bookBloc!.add(GetBookEvent());
+                                        },
+                                      ),
+                                      CategoryItem(
+                                        child: Image.asset(Assets.dish),
+                                        title: "غذایی",
+                                        onTap: () {
+                                      
+                                            Navigator.pushNamed(
+                                                context, '/panelpage',
+                                                arguments: {'categoryId': '5'});
+                                          // _bookBloc!.add GetBookEvent());
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ]),
+                  ]),
             ],
           ),
         ),

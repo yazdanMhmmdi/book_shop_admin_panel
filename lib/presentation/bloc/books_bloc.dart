@@ -163,7 +163,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
           page = 1;
           _booksList.clear();
           emit(BooksEdited());
-          add(FetchEvent(category: 1));
+          add(FetchEvent(category: int.parse(event.categoryId!)));
         }
       },
     );
@@ -225,22 +225,20 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
 
           if (booksListModel.books!.isEmpty) {
             noMoreData = false;
-            emit(BooksLoading());
             emit(BookNothingFound());
-          }
-          emit(BooksLoading());
+          } else {
+            totalPage = booksListModel.data!.totalPages!;
+            _booksList.addAll(booksListModel.books!);
+            if (page > totalPage) noMoreData = false;
 
-          totalPage = booksListModel.data!.totalPages!;
-          _booksList.addAll(booksListModel.books!);
+            emit(BooksSuccess(
+              _booksList,
+              noMoreData,
+            ));
+          }
         },
       );
     }
-    if (page > totalPage) noMoreData = false;
-
-    emit(BooksSuccess(
-      _booksList,
-      noMoreData,
-    ));
   }
 
   String _mapFailureToMessage(Failure failure) {
