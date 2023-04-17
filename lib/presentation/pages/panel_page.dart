@@ -26,8 +26,7 @@ import '../widgets/side_bar.dart';
 import '../widgets/side_bar_item.dart';
 
 class PanelPage extends StatefulWidget {
-  late Map<String, String> args;
-  PanelPage({Key? key, required this.args}) : super(key: key);
+  PanelPage({Key? key}) : super(key: key);
 
   @override
   State<PanelPage> createState() => _PanelPageState();
@@ -43,7 +42,6 @@ class _PanelPageState extends State<PanelPage>
   double padding = 0.0;
   bool isSearch = false;
   bool visiblity = false;
-  String? categoryId = "";
   List<Widget> items = [];
   List<BookModel>? booksModels;
   BooksBloc? booksBloc;
@@ -56,12 +54,11 @@ class _PanelPageState extends State<PanelPage>
     super.initState();
     booksBloc = BlocProvider.of<BooksBloc>(context);
     restartSearchField();
+    booksBloc!.add(FetchEvent(category: GlobalClass.currentCategoryId));
 
-    booksBloc!.add(FetchEvent(category: int.parse(categoryId!)));
     tabController = TabController(length: 2, vsync: this, initialIndex: 0)
       ..addListener(() {
         if (tabController!.indexIsChanging) {
-          // _sienceTitleBloc.add(FetchBooks(tabController!.index + 1));
           print('tab changed');
         }
       });
@@ -72,7 +69,15 @@ class _PanelPageState extends State<PanelPage>
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         throttler.run(() {
-          booksBloc!.add(FetchEvent(category: int.parse(categoryId!)));
+          if (visiblity) {
+            booksBloc!.add(SearchEvent(
+              categoryId: GlobalClass.currentCategoryId,
+              search: searchController.text,
+              increasePage: true,
+            ));
+          } else {
+            booksBloc!.add(FetchEvent(category: GlobalClass.currentCategoryId));
+          }
         });
       }
     });
@@ -88,8 +93,9 @@ class _PanelPageState extends State<PanelPage>
         });
       }
       // _bookBloc!.add(DisposeBookEvent());
+      booksBloc!.add(ResetEvent());
       booksBloc!.add(SearchEvent(
-        categoryId: categoryId,
+        categoryId: GlobalClass.currentCategoryId,
         search: val,
       ));
     };
@@ -149,7 +155,9 @@ class _PanelPageState extends State<PanelPage>
                               }
                             });
                           } else {
-                            ToastWidget.showWarning(context, title: "!آیتمی برای ویرایش وجود ندارد", desc: "لطفا کتابی را برای ویرایش انتخاب کنید");
+                            ToastWidget.showWarning(context,
+                                title: "!آیتمی برای ویرایش وجود ندارد",
+                                desc: "لطفا کتابی را برای ویرایش انتخاب کنید");
                           }
                         }),
                     SideBarItem(
@@ -163,6 +171,11 @@ class _PanelPageState extends State<PanelPage>
                                   value: BlocProvider.of<BooksBloc>(context),
                                   child: DeleteBookDialog(),
                                 ));
+                          } else {
+                            ToastWidget.showWarning(context,
+                                title: "!آیتمی برای حذف کردن وجود ندارد",
+                                desc:
+                                    "لطفا کتابی را برای حذف کردن انتخاب کنید");
                           }
                         }),
                     SideBarItem(
@@ -360,17 +373,27 @@ class _PanelPageState extends State<PanelPage>
         }
       });
     }
-    booksBloc!.add(
-        SearchEvent(categoryId: categoryId, search: searchController.text));
+    // booksBloc!.add(SearchEvent(
+    //     categoryId: GlobalClass.currentCategoryId,
+    //     search: searchController.text));
   }
 
   void _showSearchField() {
     setState(() {
       if (visiblity == false) {
+        booksBloc!.add(FetchEvent(
+          category: GlobalClass.currentCategoryId,
+        ));
         padding = 57.0;
         visiblity = true;
         opacity = 1.0;
       } else {
+        booksBloc!.add(ResetEvent());
+
+        booksBloc!.add(FetchEvent(
+          category: GlobalClass.currentCategoryId,
+        ));
+
         padding = 0.0;
         visiblity = false;
         opacity = 0.0;
@@ -378,8 +401,5 @@ class _PanelPageState extends State<PanelPage>
     });
   }
 
-  void _getArguments() {
-    arguments = widget.args;
-    categoryId = arguments['categoryId'] ?? "";
-  }
+  void _getArguments() {}
 }

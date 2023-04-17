@@ -89,6 +89,7 @@ class RemoteApiServiceImpl extends RemoteApiService {
         voteCount: params.voteCount!,
         writer: params.writer!,
         name: params.name!,
+        categoryId: params.categoryId!,
       );
 
       if (response.response.statusCode == 200) {

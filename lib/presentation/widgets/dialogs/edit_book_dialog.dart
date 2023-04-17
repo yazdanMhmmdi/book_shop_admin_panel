@@ -4,14 +4,18 @@ import 'package:book_shop_admin_panel/core/params/request_params.dart';
 import 'package:book_shop_admin_panel/data/models/book_model.dart';
 import 'package:book_shop_admin_panel/domain/usecases/edit_books_usecase.dart';
 import 'package:book_shop_admin_panel/presentation/bloc/books_bloc.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/custom_dropdown_widget.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/global_class.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/constants/constants.dart';
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
 import '../../../injector.dart';
+import '../category_dropdown_widget.dart';
 import '../image_picker_widget.dart';
 
 class EditBookDialog extends StatefulWidget {
@@ -41,16 +45,18 @@ class _EditBookDialogState extends State<EditBookDialog> {
   String? vote;
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _writerController = new TextEditingController();
-  TextEditingController _coverTypeController = new TextEditingController();
+  String? _coverType;
+  String? _categoryTypeId;
   TextEditingController _languageController = new TextEditingController();
 
   TextEditingController _descriptionController = new TextEditingController();
   TextEditingController _voteCountController = new TextEditingController();
   TextEditingController _pageCountController = new TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    _booksBloc = BlocProvider.of<BooksBloc>(context);
+    initDialog();
     // _booksBloc!.add(ReturnSelectedBookEvent());
   }
 
@@ -98,12 +104,21 @@ class _EditBookDialogState extends State<EditBookDialog> {
           ),
           Wrap(
             children: [
-              textField(
-                  "نوع جلد",
-                  377,
-                  _coverTypeController
-                    ..text = "${widget.bookModel!.coverType!}",
-                  10),
+              // textField(
+              //     "نوع جلد",
+              //     377,
+              //     _coverTypeController
+              //       ..text = "${widget.bookModel!.coverType!}",
+              //     10),
+              CustomDropdownWidget(
+                title: "نوع جلد",
+                optionList: const ['دیجیتال', 'فیزیکی'],
+                selectedValue: widget.bookModel!.coverType,
+                selectedValueChange: (val) {
+                  _coverType = val;
+                },
+              ),
+
               SizedBox(width: 16),
               textField(
                   "زبان  ",
@@ -122,14 +137,23 @@ class _EditBookDialogState extends State<EditBookDialog> {
                   377,
                   _voteCountController
                     ..text = "${widget.bookModel!.voteCount!}",
-                  6),
-              SizedBox(width: 16),
+                  3,
+                  textInputType: TextInputType.number,
+                  isOnlyDigit: true, onChanged: (val) {
+                if (val.isNotEmpty) {
+                  if (double.parse(val) >= 5.0) {
+                    _voteCountController.text = "5";
+                  }
+                }
+              }),
+              const SizedBox(width: 16),
               textField(
-                  "تعداد صفحات",
-                  377,
-                  _pageCountController
-                    ..text = "${widget.bookModel!.pagesCount!}",
-                  5),
+                "تعداد صفحات",
+                377,
+                _pageCountController..text = "${widget.bookModel!.pagesCount!}",
+                4,
+                textInputType: TextInputType.number,
+              ),
               SizedBox(
                 height: 16,
               ),
@@ -138,17 +162,34 @@ class _EditBookDialogState extends State<EditBookDialog> {
           SizedBox(
             height: 16,
           ),
-          ImagePickerWidget(
-            imgUrl: widget.bookModel!.picture!,
-            onFilePicked: (file) {
-              GlobalClass.file = file;
-            },
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              ImagePickerWidget(
+                imgUrl: widget.bookModel!.picture!,
+                onFilePicked: (file) {
+                  GlobalClass.file = file;
+                },
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              CategoryDropdownWidget(
+                selectedValue: _mapCategoriesFromId(_categoryTypeId!),
+                title: "دسته بندی",
+                optionList: categoryList,
+                selectedValueChange: (val) {
+                  _categoryTypeId = val;
+                },
+              ),
+            ],
           ),
           SizedBox(
             height: 8,
           ),
           Text(
-            "اگر عکسی انتخاب نکنید عکس قبلی به عنوان پیش فرض قرار خواهد گرفت.",
+            ".اگر عکسی انتخاب نکنید عکس قبلی به عنوان پیش فرض قرار خواهد گرفت",
             style: TextStyle(
                 color: IColors.black35,
                 fontSize: 14,
@@ -175,10 +216,11 @@ class _EditBookDialogState extends State<EditBookDialog> {
                   _booksBloc!.add(EditEvent(
                       pictureFile: GlobalClass.file,
                       bookId: widget.bookModel!.id,
-                      coverType: _coverTypeController.text,
+                      coverType: _coverType,
                       description: _descriptionController.text,
                       language: _languageController.text,
                       name: _nameController.text,
+                      categoryId: _categoryTypeId,
                       pagesCount: _pageCountController.text,
                       voteCount: _voteCountController.text,
                       writer: _writerController.text));
@@ -200,7 +242,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
                 },
                 child: Center(
                   child: Text(
-                    "ثبت کتاب",
+                    "ویرایش کتاب",
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontFamily: Strings.fontIranSans,
@@ -218,7 +260,15 @@ class _EditBookDialogState extends State<EditBookDialog> {
   }
 
   Widget textField(
-      String title, double width, TextEditingController controller, maxLengh) {
+      String title, double width, TextEditingController controller, maxLengh,
+      {Function(String)? onChanged,
+      TextInputType? textInputType,
+      bool? isOnlyDigit}) {
+    onChanged ??= onChanged = (v) {
+      return '';
+    };
+    textInputType ??= TextInputType.text;
+    isOnlyDigit ??= false;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
@@ -247,22 +297,21 @@ class _EditBookDialogState extends State<EditBookDialog> {
               child: Center(
                   child: TextField(
                 controller: controller,
-                onChanged: (val) {
-                  // //widget.onChanged(val);
-                  // //widget.onChanged(val);
-                  // setState(() {
-                  //   controller.text = val;
-                  // });
-                },
-                maxLines: 2,
+                onChanged: onChanged,
+                maxLines: 1,
+                keyboardType: textInputType,
                 inputFormatters: <TextInputFormatter>[
                   LengthLimitingTextInputFormatter(maxLengh),
+                  isOnlyDigit
+                      ? FilteringTextInputFormatter.allow(
+                          RegExp(r'^[0-9]+\.?[0-9]*'))
+                      : FilteringTextInputFormatter.singleLineFormatter,
                 ],
-                style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
-                decoration: InputDecoration(
+                style: const TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                decoration: const InputDecoration(
                     border: InputBorder.none,
                     contentPadding:
-                        EdgeInsets.only(bottom: 4, right: 16, left: 16)),
+                        EdgeInsets.only(bottom: 16, right: 16, left: 16)),
               )),
             ),
           ),
@@ -305,17 +354,44 @@ class _EditBookDialogState extends State<EditBookDialog> {
                   inputFormatters: <TextInputFormatter>[
                     LengthLimitingTextInputFormatter(maxLengh),
                   ],
-                  style:
-                      TextStyle(fontFamily: Strings.fontIranSans, fontSize: 16),
-                  decoration: InputDecoration(
+                  style: const TextStyle(
+                      fontFamily: Strings.fontIranSans, fontSize: 16),
+                  decoration: const InputDecoration(
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(
-                          bottom: 11, right: 16, left: 16, top: 11)),
+                          bottom: 8, right: 16, left: 16, top: 11)),
                 )),
           ),
         ),
       ],
     );
+  }
+
+  initDialog() {
+    _booksBloc = BlocProvider.of<BooksBloc>(context);
+    _coverType = widget.bookModel!.coverType;
+    _categoryTypeId = widget.bookModel!.categoryId!;
+  }
+
+  String _mapCategoriesFromId(String value) {
+    switch (value) {
+      case "1":
+        return Strings.categoryOptionSicence;
+
+      case '2':
+        return Strings.categoryOptionMedicine;
+
+      case '3':
+        return Strings.categoryOptionHistory;
+
+      case '4':
+        return Strings.categoryOptionJudiciary;
+
+      case '5':
+        return Strings.categoryOptionFoods;
+      default:
+        return Strings.categoryOptionSicence;
+    }
   }
 
   @override

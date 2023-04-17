@@ -19,7 +19,7 @@ typedef void DynamicCallback(File file);
 class ImagePickerWidget extends StatefulWidget {
   final DynamicCallback onFilePicked;
   String? imgUrl;
-  File? image = File(Assets.emptyImage);
+  File? image = File(Assets.bookPlaceHolder);
   ImagePickerWidget({required this.onFilePicked, this.imgUrl});
 
   @override
@@ -82,7 +82,10 @@ class _ImagePickerSpotState extends State<ImagePickerWidget> {
               ..defaultFilterIndex = 0
               ..defaultExtension = 'png'
               ..title = 'Select a picture';
-            widget.onFilePicked(widget.image = f.getFile()!);
+            widget.image = f.getFile() ?? widget.image;
+
+            widget.onFilePicked(widget.image!);
+
             GlobalClass.file = widget.image;
             setState(() {});
           },
@@ -107,7 +110,7 @@ class _ImagePickerSpotState extends State<ImagePickerWidget> {
                   height: 16,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.red,
+                      color: Colors.transparent,
                       image: DecorationImage(
                         image: FileImage(widget.image!),
                         fit: BoxFit.cover,
@@ -119,5 +122,16 @@ class _ImagePickerSpotState extends State<ImagePickerWidget> {
         ),
       ),
     );
+  }
+
+  Future<File> getImageFileFromAssets(String path) async {
+    final byteData = await rootBundle.load("assets/$path");
+
+    final file = File('${(await getTemporaryDirectory()).path}/$path');
+    await file.create(recursive: true);
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    return file;
   }
 }

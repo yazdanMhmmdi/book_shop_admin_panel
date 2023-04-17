@@ -24,13 +24,10 @@ class AppRouter {
                   child: CategoryPage(),
                 )));
       case '/panelpage':
-        final Map<String, String> args =
-            settings.arguments as Map<String, String>;
-
         return MaterialPageRoute(
             builder: ((context) => BlocProvider.value(
                   value: booksBloc,
-                  child: PanelPage(args: args),
+                  child: PanelPage(),
                 )));
       default:
         return MaterialPageRoute(builder: ((context) => LoginPage()));

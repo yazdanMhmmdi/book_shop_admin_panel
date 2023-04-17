@@ -15,6 +15,7 @@ import '../../core/constants/constants.dart';
 import '../../core/errors/failures.dart';
 import '../../data/models/books_list_model.dart';
 import '../../domain/usecases/add_books_usecase.dart';
+import '../widgets/global_class.dart';
 
 part 'books_event.dart';
 part 'books_state.dart';
@@ -42,7 +43,6 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
   bool noMoreData = true;
   int page = 1;
   double totalPage = 1;
-  int currentCategory = 1;
   List<BookModel> _booksList = <BookModel>[];
 
   BooksBloc({
@@ -57,14 +57,15 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     on<EditEvent>(_editBook);
     on<AddEvent>(_addBook);
     on<DeleteEvent>(_deleteBook);
+    on<ResetEvent>(_resetBook);
   }
 
   Future<void> _getBooks(FetchEvent event, Emitter<BooksState> emit) async {
     //change category and set values to default
-    if (currentCategory != event.category) {
+    if (GlobalClass.currentCategoryId != event.category) {
       page = 1;
       totalPage = 1;
-      currentCategory = event.category!;
+
       _booksList.clear();
       noMoreData = true;
       emit(BooksLoading());
@@ -72,7 +73,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     if (page != 1) noMoreData = page < totalPage;
 
     if (page <= totalPage) {
-      titlesPostRequestParams!.categoryId = event.category;
+      titlesPostRequestParams!.categoryId = int.parse(event.category!);
       titlesPostRequestParams!.page = page;
       dynamic failureOrPosts = await booksUsecase(titlesPostRequestParams!);
       page++;
@@ -115,6 +116,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     editBookRequestParams!.pictureFile = event.pictureFile;
     editBookRequestParams!.voteCount = event.voteCount!;
     editBookRequestParams!.writer = event.writer!;
+    editBookRequestParams!.categoryId = event.categoryId;
     dynamic failureOrPosts = await editBookUsecase(editBookRequestParams!);
 
     failureOrPosts.fold(
@@ -131,7 +133,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
           page = 1;
           _booksList.clear();
           emit(BooksEdited());
-          add(FetchEvent(category: 1));
+          add(FetchEvent(category: GlobalClass.currentCategoryId));
         }
       },
     );
@@ -163,7 +165,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
           page = 1;
           _booksList.clear();
           emit(BooksEdited());
-          add(FetchEvent(category: int.parse(event.categoryId!)));
+          add(FetchEvent(category: GlobalClass.currentCategoryId));
         }
       },
     );
@@ -189,7 +191,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
           page = 1;
           _booksList.clear();
           emit(BooksEdited());
-          add(FetchEvent(category: 1));
+          add(FetchEvent(category: GlobalClass.currentCategoryId.toString()));
         }
       },
     );
@@ -197,14 +199,17 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
 
   Future<void> _searchBooks(SearchEvent event, Emitter<BooksState> emit) async {
     //change category and set values to default
-    if (currentCategory != event.categoryId) {
+    if (GlobalClass.currentCategoryId != event.categoryId) {
       page = 1;
       totalPage = 1;
-      currentCategory = int.parse(event.categoryId!);
+      // currentCategory = event.categoryId!;
       _booksList.clear();
       noMoreData = true;
       emit(BooksLoading());
     }
+
+    if (event.increasePage) page++;
+
     if (page != 1) noMoreData = page < totalPage;
 
     if (page <= totalPage) {
@@ -213,7 +218,6 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
       searchBooksRequestParams!.search = event.search;
       dynamic failureOrPosts =
           await searchBooksUsecase(searchBooksRequestParams!);
-      page++;
 
       failureOrPosts.fold(
         (failure) {
@@ -228,6 +232,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
             emit(BookNothingFound());
           } else {
             totalPage = booksListModel.data!.totalPages!;
+            // _booksList.addAll(booksListModel.books!);
             _booksList.addAll(booksListModel.books!);
             if (page > totalPage) noMoreData = false;
 
@@ -239,6 +244,11 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
         },
       );
     }
+  }
+
+  Future<void> _resetBook(ResetEvent event, Emitter<BooksState> emit) async {
+    page = 1;
+    _booksList = [];
   }
 
   String _mapFailureToMessage(Failure failure) {

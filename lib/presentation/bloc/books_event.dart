@@ -8,7 +8,7 @@ abstract class BooksEvent extends Equatable {
 }
 
 class FetchEvent extends BooksEvent {
-  int? category;
+  String? category;
   FetchEvent({this.category});
 
   @override
@@ -23,6 +23,7 @@ class EditEvent extends BooksEvent {
       coverType = "",
       pagesCount = "",
       voteCount = "",
+      categoryId = "",
       bookId = "";
   File? pictureFile;
   EditEvent({
@@ -34,6 +35,7 @@ class EditEvent extends BooksEvent {
     this.language,
     this.description,
     this.coverType,
+    this.categoryId,
     required this.pictureFile,
   });
 
@@ -48,6 +50,7 @@ class EditEvent extends BooksEvent {
         pagesCount!,
         voteCount!,
         pictureFile!,
+        categoryId!,
       ];
 }
 
@@ -102,15 +105,22 @@ class DeleteEvent extends BooksEvent {
 class SearchEvent extends BooksEvent {
   String? categoryId = "";
   String? search = "";
+  bool increasePage = false;
 
   SearchEvent({
     required this.search,
     required this.categoryId,
+    this.increasePage = false,
   });
 
   @override
   List<Object> get props => [
         search!,
         categoryId!,
+        increasePage,
       ];
+}
+
+class ResetEvent extends BooksEvent {
+  
 }

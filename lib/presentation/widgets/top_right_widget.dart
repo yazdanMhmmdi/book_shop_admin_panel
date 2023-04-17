@@ -1,3 +1,4 @@
+import 'package:book_shop_admin_panel/core/utils/typogaphy.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/i_colors.dart';
@@ -17,18 +18,13 @@ class TopRightBookWidget extends StatelessWidget {
       width: 26,
       height: 26,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(8), topRight: Radius.circular(8)),
           color: IColors.green),
       child: Center(
         child: AnimatedDefaultTextStyle(
           duration: Duration(milliseconds: 300),
-          style: TextStyle(
-            color: Colors.white70,
-            fontFamily: Strings.fontIranSans,
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-          ),
+          style: Typogaphy.Bold.copyWith(fontSize: 14),
           child: Text(
             '${id}',
           ),

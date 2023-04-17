@@ -38,6 +38,7 @@ abstract class BookShopClient {
     @Part(name: "cover_type") required String coverType,
     @Part(name: "pages_count") required String pagesCount,
     @Part(name: "vote_count") required String voteCount,
+    @Part(name: "category_id") required String categoryId,
     @Part(name: "picture") required File picture,
   });
 

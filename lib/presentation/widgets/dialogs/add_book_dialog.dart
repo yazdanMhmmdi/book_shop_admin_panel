@@ -2,17 +2,21 @@ import 'dart:io';
 
 import 'package:book_shop_admin_panel/core/constants/assets.dart';
 import 'package:book_shop_admin_panel/core/params/request_params.dart';
+import 'package:book_shop_admin_panel/core/utils/typogaphy.dart';
 import 'package:book_shop_admin_panel/data/models/book_model.dart';
 import 'package:book_shop_admin_panel/domain/usecases/edit_books_usecase.dart';
 import 'package:book_shop_admin_panel/presentation/bloc/books_bloc.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/category_dropdown_widget.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/global_class.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/constants/constants.dart';
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
 import '../../../injector.dart';
+import '../custom_dropdown_widget.dart';
 import '../image_picker_widget.dart';
 
 //base dialog is EditDialog
@@ -25,7 +29,7 @@ class AddBookDialog extends StatefulWidget {
 class _EditBookDialogState extends State<AddBookDialog> {
   BooksBloc? _booksBloc;
 
-  static File? file = File(Assets.emptyImage);
+  static File? file = File(Assets.bookPlaceHolder);
 
   String? name;
 
@@ -42,7 +46,9 @@ class _EditBookDialogState extends State<AddBookDialog> {
   String? vote;
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _writerController = new TextEditingController();
-  TextEditingController _coverTypeController = new TextEditingController();
+  String? _coverType = Strings.categoryOptionPhyisical;
+  String? _categoryTypeId = categoryList[0]['category_id'];
+
   TextEditingController _languageController = new TextEditingController();
 
   TextEditingController _descriptionController = new TextEditingController();
@@ -95,7 +101,16 @@ class _EditBookDialogState extends State<AddBookDialog> {
           ),
           Wrap(
             children: [
-              textField("نوع جلد", 377, _coverTypeController..text, 10),
+              CustomDropdownWidget(
+                  selectedValueChange: (val) {
+                    _coverType = val;
+                  },
+                  title: "نوع جلد",
+                  selectedValue: _coverType,
+                  optionList: const [
+                    Strings.categoryOptionPhyisical,
+                    Strings.categoryOptionDigital,
+                  ]),
               SizedBox(width: 16),
               textField("زبان  ", 377, _languageController..text, 15),
             ],
@@ -105,15 +120,29 @@ class _EditBookDialogState extends State<AddBookDialog> {
           ),
           Wrap(
             children: [
-              textField("رای  ", 377, _voteCountController..text, 6),
+              textField("رای  ", 377, _voteCountController..text, 3,
+                  textInputType: TextInputType.number,
+                  isOnlyDigit: true, onChanged: (val) {
+                if (val.isNotEmpty) {
+                  if (double.parse(val) >= 5.0) {
+                    _voteCountController.text = "5";
+                  }
+                }
+              }),
               SizedBox(width: 16),
-              textField("تعداد صفحات", 377, _pageCountController..text, 5),
+              textField(
+                "تعداد صفحات",
+                377,
+                _pageCountController..text,
+                4,
+                textInputType: TextInputType.number,
+              ),
               SizedBox(
                 height: 16,
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Row(
@@ -126,22 +155,28 @@ class _EditBookDialogState extends State<AddBookDialog> {
                   GlobalClass.file = file;
                 },
               ),
-              SizedBox(width: 16),
-              textField("شماره دسته بندی  ", 377, _categoryController..text, 6),
+              const SizedBox(width: 16),
+              // textField("شماره دسته بندی  ", 377, _categoryController..text, 6),
+              CategoryDropdownWidget(
+                selectedValue: Strings.categoryOptionSicence,
+                title: "دسته بندی",
+                optionList: categoryList,
+                selectedValueChange: (val) {
+                  _categoryTypeId = val;
+                },
+              ),
             ],
           ),
           SizedBox(
             height: 8,
           ),
           Text(
-            "اگر عکسی انتخاب نکنید عکس قبلی به عنوان پیش فرض قرار خواهد گرفت.",
-            style: TextStyle(
+              ".اگر عکسی انتخاب نکنید پیش نمایشی به عنوان عکس پیش فرض قرار خواهد گرفت",
+              style: Typogaphy.Regular.copyWith(
                 color: IColors.black35,
                 fontSize: 14,
-                fontFamily: Strings.fontIranSans,
-                fontWeight: FontWeight.normal,
-                decoration: TextDecoration.none),
-          ),
+                decoration: TextDecoration.none,
+              )),
           SizedBox(
             height: 16,
           ),
@@ -160,8 +195,8 @@ class _EditBookDialogState extends State<AddBookDialog> {
                 onTap: () async {
                   _booksBloc!.add(AddEvent(
                       pictureFile: GlobalClass.file,
-                      categoryId: _categoryController.text,
-                      coverType: _coverTypeController.text,
+                      categoryId: _categoryTypeId,
+                      coverType: _coverType,
                       description: _descriptionController.text,
                       language: _languageController.text,
                       name: _nameController.text,
@@ -184,9 +219,9 @@ class _EditBookDialogState extends State<AddBookDialog> {
                   });
                   Navigator.pop(context);
                 },
-                child: Center(
+                child: const Center(
                   child: Text(
-                    "ثبت کتاب",
+                    "افزودن کتاب",
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontFamily: Strings.fontIranSans,
@@ -204,7 +239,15 @@ class _EditBookDialogState extends State<AddBookDialog> {
   }
 
   Widget textField(
-      String title, double width, TextEditingController controller, maxLengh) {
+      String title, double width, TextEditingController controller, maxLengh,
+      {Function(String)? onChanged,
+      TextInputType? textInputType,
+      bool? isOnlyDigit}) {
+    onChanged ??= onChanged = (v) {
+      return '';
+    };
+    textInputType ??= TextInputType.text;
+    isOnlyDigit ??= false;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
@@ -233,22 +276,21 @@ class _EditBookDialogState extends State<AddBookDialog> {
               child: Center(
                   child: TextField(
                 controller: controller,
-                onChanged: (val) {
-                  // //widget.onChanged(val);
-                  // //widget.onChanged(val);
-                  // setState(() {
-                  //   controller.text = val;
-                  // });
-                },
-                maxLines: 2,
+                onChanged: onChanged,
+                maxLines: 1,
+                keyboardType: textInputType,
                 inputFormatters: <TextInputFormatter>[
                   LengthLimitingTextInputFormatter(maxLengh),
+                  isOnlyDigit
+                      ? FilteringTextInputFormatter.allow(
+                          RegExp(r'^[0-9]+\.?[0-9]*'))
+                      : FilteringTextInputFormatter.singleLineFormatter,
                 ],
-                style: TextStyle(fontFamily: 'IranSans', fontSize: 16),
-                decoration: InputDecoration(
+                style: const TextStyle(fontFamily: 'IranSans', fontSize: 16),
+                decoration: const InputDecoration(
                     border: InputBorder.none,
                     contentPadding:
-                        EdgeInsets.only(bottom: 4, right: 16, left: 16)),
+                        EdgeInsets.only(bottom: 16, right: 16, left: 16)),
               )),
             ),
           ),

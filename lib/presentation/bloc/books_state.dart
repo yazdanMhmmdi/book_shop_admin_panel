@@ -23,6 +23,11 @@ class BooksSuccess extends BooksState {
   bool noMoreData = false;
 
   BooksSuccess(this.booksModel, this.noMoreData);
+  @override
+  List<Object> get props => [
+        this.booksModel,
+        this.noMoreData,
+      ];
 }
 
 class BooksFailure extends BooksState {}

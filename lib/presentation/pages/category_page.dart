@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/constants/assets.dart';
+import '../../core/constants/constants.dart';
 import '../../core/constants/i_colors.dart';
 import '../../core/constants/strings.dart';
 import '../../core/utils/throttler.dart';
@@ -48,23 +49,13 @@ class _CategoryPageState extends State<CategoryPage>
     super.initState();
     booksBloc = BlocProvider.of<BooksBloc>(context);
 
-    booksBloc!.add(FetchEvent(category: 1));
-    tabController = TabController(length: 2, vsync: this, initialIndex: 0)
-      ..addListener(() {
-        if (tabController!.indexIsChanging) {
-          // _sienceTitleBloc.add(FetchBooks(tabController!.index + 1));
-          print('tab changed');
-        }
-      });
+    tabController = TabController(length: 2, vsync: this, initialIndex: 0);
 
     scrollController.addListener(() {
-      //prevent from calling event twice
       Throttler throttler = Throttler(throttleGapInMillis: 200);
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        throttler.run(() {
-          booksBloc!.add(FetchEvent(category: 1));
-        });
+        throttler.run(() {});
       }
     });
   }
@@ -76,7 +67,7 @@ class _CategoryPageState extends State<CategoryPage>
         if (state is BooksSuccess) {
           booksModels = state.booksModel;
         }
-        // notify when book edited to scroll up screen
+
         if (state is BooksEdited) {
           scrollController.jumpTo(0);
         }
@@ -113,89 +104,71 @@ class _CategoryPageState extends State<CategoryPage>
                                         fontFamily: Strings.fontIranSans,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  SizedBox(height: 26),
+                                  const SizedBox(height: 26),
                                   Wrap(
                                     children: [
                                       CategoryItem(
-                                          child: Image.asset(Assets.labTool),
-                                          title: "علمی",
+                                          child: Image.asset(
+                                              categoryList[0]['image']!),
+                                          title: categoryList[0]['title']!,
                                           onTap: () {
-                                           
+                                            GlobalClass.currentCategoryId =
+                                                categoryList[0]['category_id']!;
                                             Navigator.pushNamed(
-                                                context, '/panelpage',
-                                                arguments: {'categoryId': '1'});
-                                            // _bookBloc!.add(AddCategoryEvent(
-                                            //     currentTabCategory: "1"));
-                                            // _tabsliderBloc!.add(MoveForwardEvent(
-                                            //     tab: 3,
-                                            //     tabSliderBloc: _tabsliderBloc!,
-                                            //     bookBloc: _bookBloc!));
-                                            // _bookBloc!.add(DisposeBookEvent());
-                                            // _bookBloc!.add(GetBookEvent());
+                                              context,
+                                              '/panelpage',
+                                            );
                                           }),
                                       CategoryItem(
-                                        child: Image.asset(Assets.medicine),
-                                        title: "دارویی",
+                                        child: Image.asset(
+                                            categoryList[1]['image']!),
+                                        title: categoryList[1]['title']!,
                                         onTap: () {
-                                         
+                                          GlobalClass.currentCategoryId =
+                                              categoryList[1]['category_id']!;
                                           Navigator.pushNamed(
-                                              context, '/panelpage',
-                                              arguments: {'categoryId': '2'});
-                                          // _bookBloc!.add(AddCategoryEvent(
-                                          //     currentTabCategory: "2"));
-                                          // _tabsliderBloc!.add(MoveForwardEvent(
-                                          //     tab: 3,
-                                          //     tabSliderBloc: _tabsliderBloc!,
-                                          //     bookBloc: _bookBloc!));
-                                          // _bookBloc!.add(DisposeBookEvent());
-                                          // _bookBloc!.add(GetBookEvent());
+                                            context,
+                                            '/panelpage',
+                                          );
                                         },
                                       ),
                                       CategoryItem(
-                                        child: Image.asset(Assets.hourglass),
-                                        title: "تاریخی",
+                                        child: Image.asset(
+                                            categoryList[2]['image']!),
+                                        title: categoryList[2]['title']!,
                                         onTap: () {
-                                         
-                                            Navigator.pushNamed(
-                                                context, '/panelpage',
-                                                arguments: {'categoryId': '3'});
-                                          // _bookBloc!.add(AddCategoryEvent(
-                                          //     currentTabCategory: "3"));
-                                          // _tabsliderBloc!.add(MoveForwardEvent(
-                                          //     tab: 3,
-                                          //     tabSliderBloc: _tabsliderBloc!,
-                                          //     bookBloc: _bookBloc!));
-                                          // _bookBloc!.add(DisposeBookEvent());
-                                          // _bookBloc!.add(GetBookEvent());
+                                          GlobalClass.currentCategoryId =
+                                              categoryList[2]['category_id']!;
+                                          Navigator.pushNamed(
+                                            context,
+                                            '/panelpage',
+                                          );
                                         },
                                       ),
                                       CategoryItem(
-                                        child: Image.asset(Assets.auction),
-                                        title: "قضایی",
+                                        child: Image.asset(
+                                            categoryList[3]['image']!),
+                                        title: categoryList[3]['title']!,
                                         onTap: () {
-                                         
-                                            Navigator.pushNamed(
-                                                context, '/panelpage',
-                                                arguments: {'categoryId': '4'});
-                                          // _bookBloc!.add(AddCategoryEvent(
-                                          //     currentTabCategory: "4"));
-                                          // _tabsliderBloc!.add(MoveForwardEvent(
-                                          //     tab: 3,
-                                          //     tabSliderBloc: _tabsliderBloc!,
-                                          //     bookBloc: _bookBloc!));
-                                          // _bookBloc!.add(DisposeBookEvent());
-                                          // _bookBloc!.add(GetBookEvent());
+                                          GlobalClass.currentCategoryId =
+                                              categoryList[2]['category_id']!;
+                                          Navigator.pushNamed(
+                                            context,
+                                            '/panelpage',
+                                          );
                                         },
                                       ),
                                       CategoryItem(
-                                        child: Image.asset(Assets.dish),
-                                        title: "غذایی",
+                                        child: Image.asset(
+                                            categoryList[4]['image']!),
+                                        title: categoryList[4]['title']!,
                                         onTap: () {
-                                      
-                                            Navigator.pushNamed(
-                                                context, '/panelpage',
-                                                arguments: {'categoryId': '5'});
-                                          // _bookBloc!.add GetBookEvent());
+                                          GlobalClass.currentCategoryId =
+                                              categoryList[4]['category_id']!;
+                                          Navigator.pushNamed(
+                                            context,
+                                            '/panelpage',
+                                          );
                                         },
                                       ),
                                     ],
@@ -232,9 +205,8 @@ class _CategoryPageState extends State<CategoryPage>
       id: book.id!,
       onTap: () {
         setState(() {
-          //show green ripple effect animation.
           rippleEffect(book.id);
-          //select book that user choosed it.
+
           print('selected book: ${GlobalClass.pickedBookId}');
         });
       },
@@ -244,7 +216,7 @@ class _CategoryPageState extends State<CategoryPage>
 
   Widget searchFieldSpot(
       TextEditingController controller, Function(String) function) {
-    bool iconStatus; //true : X, false: search
+    bool iconStatus;
 
     return AnimatedOpacity(
       duration: Duration(milliseconds: 300),

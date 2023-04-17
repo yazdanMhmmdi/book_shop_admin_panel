@@ -13,7 +13,7 @@ class _BookShopClient implements BookShopClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.3/book_shop/v1.1/api/admin';
+    baseUrl ??= 'http://192.168.1.5/book_shop/v1.1/api/admin';
   }
 
   final Dio _dio;
@@ -85,6 +85,7 @@ class _BookShopClient implements BookShopClient {
     required coverType,
     required pagesCount,
     required voteCount,
+    required categoryId,
     required picture,
   }) async {
     const _extra = <String, dynamic>{};
@@ -122,6 +123,10 @@ class _BookShopClient implements BookShopClient {
     _data.fields.add(MapEntry(
       'vote_count',
       voteCount,
+    ));
+    _data.fields.add(MapEntry(
+      'category_id',
+      categoryId,
     ));
     _data.files.add(MapEntry(
       'picture',

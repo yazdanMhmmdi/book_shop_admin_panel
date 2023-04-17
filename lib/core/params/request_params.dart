@@ -14,6 +14,7 @@ class EditBookRequestParams {
       coverType = "",
       pagesCount = "",
       voteCount = "",
+      categoryId = "",
       bookId = "";
   File? pictureFile;
   EditBookRequestParams({
@@ -25,6 +26,7 @@ class EditBookRequestParams {
     this.name,
     this.writer,
     this.bookId,
+    this.categoryId,
     required this.pictureFile,
   });
 }
