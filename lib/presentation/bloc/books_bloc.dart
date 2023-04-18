@@ -61,6 +61,11 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
   }
 
   Future<void> _getBooks(FetchEvent event, Emitter<BooksState> emit) async {
+    //show loading only one time
+    if (page == 1) {
+      emit(BooksLoading());
+      print("BooksLoading");
+    }
     //change category and set values to default
     if (GlobalClass.currentCategoryId != event.category) {
       page = 1;
@@ -68,7 +73,6 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
 
       _booksList.clear();
       noMoreData = true;
-      emit(BooksLoading());
     }
     if (page != 1) noMoreData = page < totalPage;
 
@@ -99,6 +103,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
       );
     }
     if (page > totalPage) noMoreData = false;
+    print("BooksSuccess");
 
     emit(BooksSuccess(
       _booksList,
@@ -164,7 +169,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
         if (functionResponseModel.error == "0") {
           page = 1;
           _booksList.clear();
-          emit(BooksEdited());
+          emit(BooksAdded());
           add(FetchEvent(category: GlobalClass.currentCategoryId));
         }
       },
@@ -190,7 +195,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
         if (functionResponseModel.error == "0") {
           page = 1;
           _booksList.clear();
-          emit(BooksEdited());
+          emit(BooksDeleted());
           add(FetchEvent(category: GlobalClass.currentCategoryId.toString()));
         }
       },

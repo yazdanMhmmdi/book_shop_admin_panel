@@ -50,6 +50,7 @@ dependencies:
   intl: ^0.18.0
   json_annotation: ^4.7.0
   motion_toast: ^2.6.6
+  octo_image: ^1.0.2
   oktoast: ^3.0.0
   path_provider: ^2.0.14
   progress_state_button: ^1.0.3

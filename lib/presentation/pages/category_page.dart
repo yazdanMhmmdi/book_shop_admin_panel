@@ -192,27 +192,6 @@ class _CategoryPageState extends State<CategoryPage>
     GlobalClass.pickedBookId = int.tryParse(element)!;
   }
 
-  Widget returnCard(BookModel book) {
-    return BooksItem(
-      number: int.tryParse(book.id!)!,
-      selected: (GlobalClass.pickedBookId == int.parse(book.id.toString())
-          ? true
-          : false),
-      image: ImageAddressProvider.getAddress(book.pictureThumb!),
-      title: book.name!,
-      writer: book.writer!,
-      rate: book.voteCount!,
-      id: book.id!,
-      onTap: () {
-        setState(() {
-          rippleEffect(book.id);
-
-          print('selected book: ${GlobalClass.pickedBookId}');
-        });
-      },
-      onDoubleTap: () {},
-    );
-  }
 
   Widget searchFieldSpot(
       TextEditingController controller, Function(String) function) {

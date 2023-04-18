@@ -10,6 +10,7 @@ import 'regular_item_bar.dart';
 class BooksItem extends StatelessWidget {
   String image;
   String title, writer;
+  String blurhash;
   double rate;
   String id;
   int number;
@@ -26,6 +27,7 @@ class BooksItem extends StatelessWidget {
     required this.onTap,
     required this.onDoubleTap,
     required this.selected,
+    required this.blurhash,
   });
 
   @override
@@ -75,6 +77,7 @@ class BooksItem extends StatelessWidget {
                 ),
                 ImageHolder(
                   address: image,
+                  blurhash: blurhash,
                 ),
                 SizedBox(height: 12),
                 Container(

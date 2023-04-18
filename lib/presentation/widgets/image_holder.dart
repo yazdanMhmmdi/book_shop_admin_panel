@@ -1,11 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:octo_image/octo_image.dart';
 
 import '../../core/constants/i_colors.dart';
 
 class ImageHolder extends StatelessWidget {
   String address;
-  ImageHolder({required this.address});
+  String? blurhash = "";
+  ImageHolder({
+    required this.address,
+    required this.blurhash,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +30,15 @@ class ImageHolder extends StatelessWidget {
           ]),
       child: Padding(
         padding: const EdgeInsets.all(5.0),
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(address),
-              fit: BoxFit.cover,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: OctoImage(
+            image: CachedNetworkImageProvider(address),
+            placeholderBuilder: OctoPlaceholder.blurHash(
+              blurhash!,
             ),
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            errorBuilder: OctoError.icon(color: Colors.red),
+            fit: BoxFit.cover,
           ),
         ),
       ),

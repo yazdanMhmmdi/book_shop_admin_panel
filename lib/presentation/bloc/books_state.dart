@@ -14,7 +14,6 @@ class BooksInitial extends BooksState {}
 class BooksLoading extends BooksState {}
 
 // notify when book edited to scroll up screen
-class BooksEdited extends BooksState {}
 
 class BookNothingFound extends BooksState {}
 
@@ -31,3 +30,9 @@ class BooksSuccess extends BooksState {
 }
 
 class BooksFailure extends BooksState {}
+
+class BooksAdded extends BooksState {}
+
+class BooksDeleted extends BooksState {}
+
+class BooksEdited extends BooksState {}
