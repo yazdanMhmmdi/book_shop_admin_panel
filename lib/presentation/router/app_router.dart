@@ -1,4 +1,5 @@
 import 'package:book_shop_admin_panel/presentation/bloc/books_bloc.dart';
+import 'package:book_shop_admin_panel/presentation/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/pages/category_page.dart';
 import 'package:book_shop_admin_panel/presentation/pages/login_page.dart';
 import 'package:book_shop_admin_panel/presentation/pages/panel_page.dart';
@@ -15,6 +16,13 @@ class AppRouter {
     deleteBooksUsecase: sl(),
     searchBooksUsecase: sl(),
   );
+  UsersBloc usersBloc = UsersBloc(
+    getUsersUsecase: sl(),
+    editUsersUsecase: sl(),
+    deleteUsersUsecase: sl(),
+    searchusersUsecase: sl(),
+  );
+
   Route onGeneratedRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
@@ -25,8 +33,15 @@ class AppRouter {
                 )));
       case '/panelpage':
         return MaterialPageRoute(
-            builder: ((context) => BlocProvider.value(
-                  value: booksBloc,
+            builder: ((context) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: booksBloc,
+                    ),
+                    BlocProvider.value(
+                      value: usersBloc,
+                    ),
+                  ],
                   child: PanelPage(),
                 )));
       default:

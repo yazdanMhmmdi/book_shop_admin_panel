@@ -70,3 +70,42 @@ class SearchBooksRequestParams {
 
   SearchBooksRequestParams({this.search, this.page, this.categoryId});
 }
+
+//**********USERS***************
+class GetUsersRequestParams {
+  String? page = '';
+
+  GetUsersRequestParams({
+    this.page,
+  });
+}
+
+class EditUsersRequestParams {
+  String? userId = '';
+  String? username = '';
+  String? password = '';
+
+  EditUsersRequestParams({
+    this.password,
+    this.userId,
+    this.username,
+  });
+}
+
+class DeleteUsersRequestParams {
+  String? userId = '';
+
+  DeleteUsersRequestParams({
+    this.userId,
+  });
+}
+
+class SearchUsersRequestParams {
+  String? search = '';
+  String? page = '';
+
+  SearchUsersRequestParams({
+    this.search,
+    this.page,
+  });
+}

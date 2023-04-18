@@ -1,3 +1,4 @@
+import 'package:book_shop_admin_panel/presentation/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/global_class.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,18 +10,18 @@ import '../../../core/constants/strings.dart';
 import '../../bloc/books_bloc.dart';
 
 class DeleteBookDialog extends StatefulWidget {
-  DeleteBookDialog();
+  Function onSubmitTap;
+  DeleteBookDialog({required this.onSubmitTap});
   @override
   _DeleteBookDialogState createState() => _DeleteBookDialogState();
 }
 
 class _DeleteBookDialogState extends State<DeleteBookDialog> {
-  Function? onTap;
   bool isAnyBookSelected = false;
-  BooksBloc? _bookBloc;
+  UsersBloc? _usersBloc;
   @override
   void initState() {
-    _bookBloc = BlocProvider.of<BooksBloc>(context);
+    _usersBloc = BlocProvider.of<UsersBloc>(context);
 
     super.initState();
   }
@@ -80,16 +81,9 @@ class _DeleteBookDialogState extends State<DeleteBookDialog> {
                       color: Colors.transparent,
                       child: InkWell(
                         splashColor: Colors.black12,
-                        onTap: () {
-                          if (GlobalClass.pickedBookId.toString().isNotEmpty) {
-                            BlocProvider.of<BooksBloc>(context).add(DeleteEvent(
-                              bookId: GlobalClass.pickedBookId.toString(),
-                            ));
-                            Navigator.pop(context);
-                          }
-                        },
+                        onTap:  () => widget.onSubmitTap.call(),
                         borderRadius: BorderRadius.circular(8),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             'تایید',
                             style: TextStyle(
@@ -105,7 +99,7 @@ class _DeleteBookDialogState extends State<DeleteBookDialog> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Padding(
@@ -123,7 +117,7 @@ class _DeleteBookDialogState extends State<DeleteBookDialog> {
                         splashColor: Colors.black12,
                         onTap: () => Navigator.pop(context),
                         borderRadius: BorderRadius.circular(8),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             'انصراف',
                             style: TextStyle(

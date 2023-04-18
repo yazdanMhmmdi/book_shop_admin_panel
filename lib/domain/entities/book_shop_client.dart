@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:book_shop_admin_panel/data/models/book_model.dart';
 import 'package:book_shop_admin_panel/data/models/books_list_model.dart';
+import 'package:book_shop_admin_panel/data/models/users_list_model.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -59,6 +60,29 @@ abstract class BookShopClient {
   @GET('/admin_search_books.php')
   Future<HttpResponse<BooksListModel>> searchBooks({
     @Query("category_id") required String categoryId,
+    @Query("page") required String page,
+    @Query("search") required String search,
+  });
+//*****************USERS**********************
+  @GET('/admin_get_users.php')
+  Future<HttpResponse<UsersListModel>> getUsers({
+    @Query("page") required String page,
+  });
+
+  @GET('/admin_edit_users.php')
+  Future<HttpResponse<FunctionResponseModel>> editUsers({
+    @Query("user_id") required String userId,
+    @Query("username") required String username,
+    @Query("password") required String password,
+  });
+
+  @GET('/admin_delete_users.php')
+  Future<HttpResponse<FunctionResponseModel>> deleteUsers({
+    @Query("user_id") required String userId,
+  });
+
+  @GET('/admin_search_users.php')
+  Future<HttpResponse<UsersListModel>> searchUsers({
     @Query("page") required String page,
     @Query("search") required String search,
   });

@@ -166,7 +166,19 @@ class _BooksTabState extends State<BooksTab>
                         context,
                         BlocProvider.value(
                           value: BlocProvider.of<BooksBloc>(context),
-                          child: DeleteBookDialog(),
+                          child: DeleteBookDialog(
+                            onSubmitTap: () {
+                              if (GlobalClass.pickedBookId
+                                  .toString()
+                                  .isNotEmpty) {
+                                BlocProvider.of<BooksBloc>(context)
+                                    .add(DeleteEvent(
+                                  bookId: GlobalClass.pickedBookId.toString(),
+                                ));
+                                Navigator.pop(context);
+                              }
+                            },
+                          ),
                         ));
                   } else {
                     ToastWidget.showWarning(context,

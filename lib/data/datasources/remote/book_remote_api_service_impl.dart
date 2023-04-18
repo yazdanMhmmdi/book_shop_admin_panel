@@ -5,13 +5,13 @@ import 'package:book_shop_admin_panel/data/models/function_response_model.dart';
 import 'package:retrofit/dio.dart';
 
 import '../../../core/errors/exceptions.dart';
-import '../../../core/network/remote_api_service.dart';
+import '../../../core/network/book_remote_api_service.dart';
 import '../../../domain/entities/book_shop_client.dart';
 import '../../models/books_list_model.dart';
 
-class RemoteApiServiceImpl extends RemoteApiService {
+class BookRemoteApiServiceImpl extends BookRemoteApiService {
   BookShopClient? bookShopClient;
-  RemoteApiServiceImpl(this.bookShopClient);
+  BookRemoteApiServiceImpl(this.bookShopClient);
 
   @override
   Future<BooksListModel> getBooks(BooksRequestParams params) async {
