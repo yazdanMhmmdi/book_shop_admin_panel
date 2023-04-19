@@ -29,7 +29,13 @@ class BooksSuccess extends BooksState {
       ];
 }
 
-class BooksFailure extends BooksState {}
+class BooksFailure extends BooksState {
+  String message;
+  BooksFailure({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
 
 class BooksAdded extends BooksState {}
 

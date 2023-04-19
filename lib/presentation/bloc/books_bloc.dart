@@ -85,7 +85,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
       failureOrPosts.fold(
         (failure) {
           print("BookFailure");
-          emit(BooksFailure());
+        emit(BooksFailure(message: failure.toString()));
         },
         (BooksListModel booksListModel) {
           if (booksListModel.books!.isEmpty) {
@@ -125,12 +125,14 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     editBookRequestParams!.voteCount = event.voteCount!;
     editBookRequestParams!.writer = event.writer!;
     editBookRequestParams!.categoryId = event.categoryId;
+    editBookRequestParams!.price = event.price!;
+    editBookRequestParams!.salesCount = event.salesCount!;
     dynamic failureOrPosts = await editBookUsecase(editBookRequestParams!);
 
     failureOrPosts.fold(
       (failure) {
         print("TitleFailure");
-        emit(BooksFailure());
+        emit(BooksFailure(message: failure.toString()));
       },
       (FunctionResponseModel functionResponseModel) {
         // emit(BooksSuccess(
@@ -157,12 +159,15 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     addBooksRequestParams!.pictureFile = event.pictureFile;
     addBooksRequestParams!.voteCount = event.voteCount!;
     addBooksRequestParams!.writer = event.writer!;
+    addBooksRequestParams!.price = event.price!;
+    addBooksRequestParams!.salesCount = event.salesCount!;
+
     dynamic failureOrPosts = await addBookUsecase(addBooksRequestParams!);
 
     failureOrPosts.fold(
       (failure) {
         print("TitleFailure");
-        emit(BooksFailure());
+        emit(BooksFailure(message: failure.toString()));
       },
       (FunctionResponseModel functionResponseModel) {
         // emit(BooksSuccess(
@@ -188,7 +193,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     failureOrPosts.fold(
       (failure) {
         print("TitleFailure");
-        emit(BooksFailure());
+        emit(BooksFailure(message: failure.toString()));
       },
       (FunctionResponseModel functionResponseModel) {
         // emit(BooksSuccess(
@@ -230,7 +235,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
       failureOrPosts.fold(
         (failure) {
           print("BookFailure");
-          emit(BooksFailure());
+        emit(BooksFailure(message: failure.toString()));
         },
         (BooksListModel booksListModel) {
           print('BookSuccess');

@@ -1,3 +1,4 @@
+import 'package:book_shop_admin_panel/core/constants/constants.dart';
 import 'package:book_shop_admin_panel/domain/usecases/delete_users_usecase.dart';
 import 'package:book_shop_admin_panel/domain/usecases/edit_users_usecase.dart';
 import 'package:book_shop_admin_panel/domain/usecases/search_users_usecase.dart';
@@ -68,7 +69,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       failureOrPosts.fold(
         (failure) {
           print("UserFailure");
-          emit(UsersFailure());
+        emit(UsersFailure(message: failure.toString()));
         },
         (UsersListModel usersListModel) {
           if (usersListModel.users!.isEmpty) {
@@ -102,13 +103,14 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     editUsersRequestParams!.userId = event.userId!;
     editUsersRequestParams!.username = event.username!;
     editUsersRequestParams!.password = event.password!;
+    editUsersRequestParams!.ruleType = event.ruleType!;
 
     dynamic failureOrPosts = await editUsersUsecase(editUsersRequestParams!);
 
     failureOrPosts.fold(
       (failure) {
         print("UersFailure");
-        emit(UsersFailure());
+        emit(UsersFailure(message: failure.toString()));
       },
       (FunctionResponseModel functionResponseModel) {
         // emit(BooksSuccess(
@@ -135,7 +137,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     failureOrPosts.fold(
       (failure) {
         print("TitleFailure");
-        emit(UsersFailure());
+        emit(UsersFailure(message: failure.toString()));
       },
       (FunctionResponseModel functionResponseModel) {
         // emit(BooksSuccess(
@@ -167,7 +169,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       failureOrPosts.fold(
         (failure) {
           print("BookFailure");
-          emit(UsersFailure());
+        emit(UsersFailure(message: failure.toString()));
         },
         (UsersListModel usersListModel) {
           print('UsersSuccess');

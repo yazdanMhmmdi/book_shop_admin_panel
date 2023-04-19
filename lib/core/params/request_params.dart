@@ -15,7 +15,9 @@ class EditBookRequestParams {
       pagesCount = "",
       voteCount = "",
       categoryId = "",
-      bookId = "";
+      bookId = "",
+      salesCount = "",
+      price = "";
   File? pictureFile;
   EditBookRequestParams({
     this.pagesCount,
@@ -27,6 +29,8 @@ class EditBookRequestParams {
     this.writer,
     this.bookId,
     this.categoryId,
+    this.price,
+    this.salesCount,
     required this.pictureFile,
   });
 }
@@ -39,7 +43,10 @@ class AddBooksRequestParams {
       coverType = "",
       pagesCount = "",
       voteCount = "",
-      categoryId = "";
+      categoryId = "",
+      salesCount = "",
+      price = "";
+
   File? pictureFile;
 
   AddBooksRequestParams({
@@ -51,6 +58,8 @@ class AddBooksRequestParams {
     this.name,
     this.writer,
     this.categoryId,
+    this.price,
+    this.salesCount,
     required this.pictureFile,
   });
 }
@@ -84,11 +93,13 @@ class EditUsersRequestParams {
   String? userId = '';
   String? username = '';
   String? password = '';
+  String? ruleType = "user";
 
   EditUsersRequestParams({
     this.password,
     this.userId,
     this.username,
+    this.ruleType,
   });
 }
 

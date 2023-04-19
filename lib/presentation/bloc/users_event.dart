@@ -13,11 +13,15 @@ class EditUsersEvent extends UsersEvent {
   String? username;
   String? password;
   String? userId;
+  String? ruleType;
   EditUsersEvent(
-      {required this.username, required this.userId, required this.password});
+      {required this.username,
+      required this.userId,
+      required this.password,
+      required this.ruleType});
 
   @override
-  List<Object> get props => [password!, userId!, username!];
+  List<Object> get props => [password!, userId!, username!, ruleType!];
 }
 
 class DeleteUsersEvent extends UsersEvent {

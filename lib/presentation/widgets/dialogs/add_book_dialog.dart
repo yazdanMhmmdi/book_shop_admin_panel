@@ -8,6 +8,7 @@ import 'package:book_shop_admin_panel/domain/usecases/edit_books_usecase.dart';
 import 'package:book_shop_admin_panel/presentation/bloc/books_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/category_dropdown_widget.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/global_class.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +19,7 @@ import '../../../core/constants/strings.dart';
 import '../../../injector.dart';
 import '../custom_dropdown_widget.dart';
 import '../image_picker_widget.dart';
+import '../price_text_field.dart';
 
 //base dialog is EditDialog
 class AddBookDialog extends StatefulWidget {
@@ -44,22 +46,31 @@ class _EditBookDialogState extends State<AddBookDialog> {
   String? pageCount;
 
   String? vote;
-  TextEditingController _nameController = new TextEditingController();
-  TextEditingController _writerController = new TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _writerController = TextEditingController();
   String? _coverType = Strings.categoryOptionPhyisical;
   String? _categoryTypeId = categoryList[0]['category_id'];
+  CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter(
+    customPattern: customCurrencyPattern,
+    decimalDigits: 0,
+  );
+  TextEditingController _languageController = TextEditingController();
 
-  TextEditingController _languageController = new TextEditingController();
-
-  TextEditingController _descriptionController = new TextEditingController();
-  TextEditingController _voteCountController = new TextEditingController();
-  TextEditingController _pageCountController = new TextEditingController();
-  TextEditingController _categoryController = new TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _voteCountController = TextEditingController();
+  TextEditingController _pageCountController = TextEditingController();
+  TextEditingController _categoryController = TextEditingController();
+  TextEditingController _priceCountController = TextEditingController();
+  TextEditingController _salesCountCountController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _booksBloc = BlocProvider.of<BooksBloc>(context);
+    //notify price formatter
+    _priceCountController.addListener(() {
+      _formatter.format(_priceCountController.text);
+    });
     // _booksBloc!.add(ReturnSelectedBookEvent());
   }
 
@@ -71,7 +82,7 @@ class _EditBookDialogState extends State<AddBookDialog> {
             borderRadius: BorderRadius.circular(38),
             boxShadow: [
               BoxShadow(
-                offset: Offset(1, -1),
+                offset: const Offset(1, -1),
                 blurRadius: 4,
                 spreadRadius: 0,
                 color: IColors.black15,
@@ -90,13 +101,13 @@ class _EditBookDialogState extends State<AddBookDialog> {
           Wrap(
             children: [
               textField("نویسنده", 377, _writerController..text, 50),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               textField("موضوع کتاب", 377, _nameController..text, 50)
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           multiTextField("توضیحات", _descriptionController..text, 560),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Wrap(
@@ -111,16 +122,16 @@ class _EditBookDialogState extends State<AddBookDialog> {
                     Strings.categoryOptionPhyisical,
                     Strings.categoryOptionDigital,
                   ]),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               textField("زبان  ", 377, _languageController..text, 15),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Wrap(
             children: [
-              textField("رای  ", 377, _voteCountController..text, 3,
+              textField("رای  ", 186, _voteCountController..text, 3,
                   textInputType: TextInputType.number,
                   isOnlyDigit: true, onChanged: (val) {
                 if (val.isNotEmpty) {
@@ -129,15 +140,27 @@ class _EditBookDialogState extends State<AddBookDialog> {
                   }
                 }
               }),
-              SizedBox(width: 16),
+              const SizedBox(width: 8),
+              PriceTextField(
+                title: "قیمت",
+                controller: _priceCountController..text,
+                width: 186,
+                maxLengh: 14,
+                textInputType: TextInputType.number,
+              ),
+              const SizedBox(width: 8),
+              textField(
+                  "تعداد فروش  ", 186, _salesCountCountController..text, 3,
+                  textInputType: TextInputType.number, isOnlyDigit: true),
+              const SizedBox(width: 8),
               textField(
                 "تعداد صفحات",
-                377,
+                186,
                 _pageCountController..text,
                 4,
                 textInputType: TextInputType.number,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
             ],
@@ -155,7 +178,8 @@ class _EditBookDialogState extends State<AddBookDialog> {
                   GlobalClass.file = file;
                 },
               ),
-              const SizedBox(width: 16),
+
+              const SizedBox(width: 08),
               // textField("شماره دسته بندی  ", 377, _categoryController..text, 6),
               CategoryDropdownWidget(
                 selectedValue: Strings.categoryOptionSicence,
@@ -167,7 +191,7 @@ class _EditBookDialogState extends State<AddBookDialog> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Text(
@@ -177,7 +201,7 @@ class _EditBookDialogState extends State<AddBookDialog> {
                 fontSize: 14,
                 decoration: TextDecoration.none,
               )),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Container(
@@ -202,6 +226,8 @@ class _EditBookDialogState extends State<AddBookDialog> {
                       name: _nameController.text,
                       pagesCount: _pageCountController.text,
                       voteCount: _voteCountController.text,
+                      price: _formatter.getUnformattedValue().toString(),
+                      salesCount: _salesCountCountController.text,
                       writer: _writerController.text));
                   // EditBookUsecase usecase = EditBookUsecase(sl());
                   // var s = await usecase(EditBookRequestParams(
@@ -260,7 +286,7 @@ class _EditBookDialogState extends State<AddBookDialog> {
               color: IColors.black85,
               decoration: TextDecoration.none),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Material(
@@ -313,7 +339,7 @@ class _EditBookDialogState extends State<AddBookDialog> {
               color: IColors.black85,
               decoration: TextDecoration.none),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Material(
@@ -333,9 +359,9 @@ class _EditBookDialogState extends State<AddBookDialog> {
                   inputFormatters: <TextInputFormatter>[
                     LengthLimitingTextInputFormatter(maxLengh),
                   ],
-                  style:
-                      TextStyle(fontFamily: Strings.fontIranSans, fontSize: 16),
-                  decoration: InputDecoration(
+                  style: const TextStyle(
+                      fontFamily: Strings.fontIranSans, fontSize: 16),
+                  decoration: const InputDecoration(
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(
                           bottom: 11, right: 16, left: 16, top: 11)),

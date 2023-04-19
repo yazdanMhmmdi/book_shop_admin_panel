@@ -19,7 +19,7 @@ class EditUserDialog extends StatefulWidget {
 
 class _EditUserDialogState extends State<EditUserDialog> {
   TextEditingController _usernameController = new TextEditingController();
-  String? _coverType = ruleTypes[1]["title"]!;
+  String? _ruleType = ruleTypes[1]["title"]!;
 
   TextEditingController _passwordController = new TextEditingController();
   UsersBloc? _usersBloc;
@@ -56,15 +56,14 @@ class _EditUserDialogState extends State<EditUserDialog> {
         textField("نام کاربری", 660,
             _usernameController..text = userModel.username!, 20),
         Wrap(
-
           verticalDirection: VerticalDirection.up,
           children: [
             CustomDropdownWidget(
                 selectedValueChange: (val) {
-                  _coverType = val;
+                  _ruleType = val;
                 },
                 title: "نقش",
-                selectedValue: _coverType = userModel.ruleType!,
+                selectedValue: _ruleType = userModel.ruleType!,
                 width: 130,
                 optionList: [
                   ruleTypes[0]['title']!,
@@ -96,7 +95,8 @@ class _EditUserDialogState extends State<EditUserDialog> {
                 _usersBloc!.add(EditUsersEvent(
                     userId: userModel.id!,
                     username: _usernameController.text,
-                    password: _passwordController.text));
+                    password: _passwordController.text,
+                    ruleType: _ruleType));
 
                 _usersBloc!.add(GetUsersEvent());
                 Navigator.pop(context);

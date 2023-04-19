@@ -37,6 +37,7 @@ class UserRemoteApiServiceImpl extends UsersRemoteApiService {
         userId: params.userId!,
         password: params.password!,
         username: params.username!,
+        ruleType: params.ruleType!,
       );
 
       if (response.response.statusCode == 200) {

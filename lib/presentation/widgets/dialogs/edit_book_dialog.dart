@@ -6,6 +6,8 @@ import 'package:book_shop_admin_panel/domain/usecases/edit_books_usecase.dart';
 import 'package:book_shop_admin_panel/presentation/bloc/books_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/custom_dropdown_widget.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/global_class.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/price_text_field.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,20 +45,31 @@ class _EditBookDialogState extends State<EditBookDialog> {
   String? pageCount;
 
   String? vote;
-  TextEditingController _nameController = new TextEditingController();
-  TextEditingController _writerController = new TextEditingController();
+  CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter(
+    customPattern: customCurrencyPattern,
+    decimalDigits: 0,
+  );
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _writerController = TextEditingController();
   String? _coverType;
   String? _categoryTypeId;
-  TextEditingController _languageController = new TextEditingController();
+  String? _price;
+  TextEditingController _languageController = TextEditingController();
 
-  TextEditingController _descriptionController = new TextEditingController();
-  TextEditingController _voteCountController = new TextEditingController();
-  TextEditingController _pageCountController = new TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _voteCountController = TextEditingController();
+  TextEditingController _pageCountController = TextEditingController();
+  TextEditingController _priceCountController = TextEditingController();
+  TextEditingController _salesCountCountController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     initDialog();
+    //notify price formatter
+    _priceCountController.addListener(() {
+      _formatter.format(_priceCountController.text);
+    });
     // _booksBloc!.add(ReturnSelectedBookEvent());
   }
 
@@ -134,7 +147,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
             children: [
               textField(
                   "رای  ",
-                  377,
+                  186,
                   _voteCountController
                     ..text = "${widget.bookModel!.voteCount!}",
                   3,
@@ -146,15 +159,33 @@ class _EditBookDialogState extends State<EditBookDialog> {
                   }
                 }
               }),
-              const SizedBox(width: 16),
+              const SizedBox(width: 8),
+              PriceTextField(
+                title: "قیمت",
+                controller: _priceCountController
+                  ..text = _formatter.format(widget.bookModel!.price!),
+                width: 186,
+                maxLengh: 14,
+                textInputType: TextInputType.number,
+              ),
+              const SizedBox(width: 8),
+              textField(
+                  "تعداد فروش  ",
+                  186,
+                  _salesCountCountController
+                    ..text = "${widget.bookModel!.salesCount!}",
+                  3,
+                  textInputType: TextInputType.number,
+                  isOnlyDigit: true),
+              const SizedBox(width: 8),
               textField(
                 "تعداد صفحات",
-                377,
+                186,
                 _pageCountController..text = "${widget.bookModel!.pagesCount!}",
                 4,
                 textInputType: TextInputType.number,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
             ],
@@ -223,6 +254,8 @@ class _EditBookDialogState extends State<EditBookDialog> {
                       categoryId: _categoryTypeId,
                       pagesCount: _pageCountController.text,
                       voteCount: _voteCountController.text,
+                      price: _formatter.getUnformattedValue().toString(),
+                      salesCount: _salesCountCountController.text,
                       writer: _writerController.text));
                   // EditBookUsecase usecase = EditBookUsecase(sl());
                   // var s = await usecase(EditBookRequestParams(

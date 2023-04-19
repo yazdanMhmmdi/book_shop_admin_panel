@@ -21,9 +21,9 @@ class BookModel extends Book {
       String? picture,
       String? pictureThumb,
       String? posterText,
-      double? price,
+      String? price,
       String? salesCount,
-      dynamic? voteCount,
+      double? voteCount,
       String? writer})
       : super(
             blurhash: blurhash!,

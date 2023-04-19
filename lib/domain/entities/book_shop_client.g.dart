@@ -87,6 +87,8 @@ class _BookShopClient implements BookShopClient {
     required voteCount,
     required categoryId,
     required picture,
+    required salesCount,
+    required price,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -135,6 +137,14 @@ class _BookShopClient implements BookShopClient {
         filename: picture.path.split(Platform.pathSeparator).last,
       ),
     ));
+    _data.fields.add(MapEntry(
+      'sales_count',
+      salesCount,
+    ));
+    _data.fields.add(MapEntry(
+      'price',
+      price,
+    ));
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<FunctionResponseModel>>(Options(
       method: 'POST',
@@ -165,6 +175,8 @@ class _BookShopClient implements BookShopClient {
     required pagesCount,
     required voteCount,
     required picture,
+    required salesCount,
+    required price,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -208,6 +220,14 @@ class _BookShopClient implements BookShopClient {
         picture.path,
         filename: picture.path.split(Platform.pathSeparator).last,
       ),
+    ));
+    _data.fields.add(MapEntry(
+      'sales_count',
+      salesCount,
+    ));
+    _data.fields.add(MapEntry(
+      'price',
+      price,
     ));
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<FunctionResponseModel>>(Options(
@@ -289,12 +309,14 @@ class _BookShopClient implements BookShopClient {
     required userId,
     required username,
     required password,
+    required ruleType,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'user_id': userId,
       r'username': username,
       r'password': password,
+      r'rule_type': ruleType,
     };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};

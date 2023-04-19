@@ -9,20 +9,17 @@ import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
 import '../../bloc/books_bloc.dart';
 
-class DeleteBookDialog extends StatefulWidget {
+class DeleteDialog extends StatefulWidget {
   Function onSubmitTap;
-  DeleteBookDialog({required this.onSubmitTap});
+  DeleteDialog({required this.onSubmitTap});
   @override
-  _DeleteBookDialogState createState() => _DeleteBookDialogState();
+  _DeleteDialogState createState() => _DeleteDialogState();
 }
 
-class _DeleteBookDialogState extends State<DeleteBookDialog> {
+class _DeleteDialogState extends State<DeleteDialog> {
   bool isAnyBookSelected = false;
-  UsersBloc? _usersBloc;
   @override
   void initState() {
-    _usersBloc = BlocProvider.of<UsersBloc>(context);
-
     super.initState();
   }
 
@@ -81,7 +78,7 @@ class _DeleteBookDialogState extends State<DeleteBookDialog> {
                       color: Colors.transparent,
                       child: InkWell(
                         splashColor: Colors.black12,
-                        onTap:  () => widget.onSubmitTap.call(),
+                        onTap: () => widget.onSubmitTap.call(),
                         borderRadius: BorderRadius.circular(8),
                         child: const Center(
                           child: Text(

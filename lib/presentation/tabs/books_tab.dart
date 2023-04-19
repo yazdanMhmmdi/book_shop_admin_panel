@@ -14,7 +14,7 @@ import '../bloc/books_bloc.dart';
 import '../widgets/book_item.dart';
 import '../widgets/custom_scroll_behavior.dart';
 import '../widgets/dialogs/add_book_dialog.dart';
-import '../widgets/dialogs/delete_book_dialog.dart';
+import '../widgets/dialogs/delete_dialog.dart';
 import '../widgets/dialogs/edit_book_dialog.dart';
 import '../widgets/global_class.dart';
 import '../widgets/loading_widget.dart';
@@ -120,7 +120,7 @@ class _BooksTabState extends State<BooksTab>
             break;
           case BooksFailure:
             ToastWidget.showError(context,
-                title: "خطا", desc: "خطایی رخ داده است!");
+                title: "خطایی رخ داده است!", desc: "");
             break;
           default:
         }
@@ -171,7 +171,7 @@ class _BooksTabState extends State<BooksTab>
                         context,
                         BlocProvider.value(
                           value: BlocProvider.of<BooksBloc>(context),
-                          child: DeleteBookDialog(
+                          child: DeleteDialog(
                             onSubmitTap: () {
                               if (GlobalClass.pickedBookId
                                   .toString()

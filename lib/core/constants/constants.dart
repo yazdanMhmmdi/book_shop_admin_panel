@@ -11,6 +11,8 @@ const String kServerFailureMessage = 'server failure';
 
 const String kCacheFailureMessage = 'cache failure';
 
+const String customCurrencyPattern = "###,### تومان";
+
 const List<Map<String, String>> ruleTypes = [
   {
     "rule": Strings.ruleAdmin,

@@ -24,6 +24,8 @@ class EditEvent extends BooksEvent {
       pagesCount = "",
       voteCount = "",
       categoryId = "",
+      price = "",
+      salesCount = "",
       bookId = "";
   File? pictureFile;
   EditEvent({
@@ -36,6 +38,8 @@ class EditEvent extends BooksEvent {
     this.description,
     this.coverType,
     this.categoryId,
+    this.price,
+    this.salesCount,
     required this.pictureFile,
   });
 
@@ -51,6 +55,8 @@ class EditEvent extends BooksEvent {
         voteCount!,
         pictureFile!,
         categoryId!,
+        price!,
+        salesCount!,
       ];
 }
 
@@ -62,6 +68,8 @@ class AddEvent extends BooksEvent {
       coverType = "",
       pagesCount = "",
       voteCount = "",
+      price = "",
+      salesCount = "",
       categoryId = "";
   File? pictureFile;
   AddEvent({
@@ -73,6 +81,8 @@ class AddEvent extends BooksEvent {
     this.language,
     this.description,
     this.coverType,
+    this.price,
+    this.salesCount,
     required this.pictureFile,
   });
 
@@ -87,6 +97,8 @@ class AddEvent extends BooksEvent {
         pagesCount!,
         voteCount!,
         pictureFile!,
+        price!,
+        salesCount!,
       ];
 }
 
@@ -121,6 +133,4 @@ class SearchEvent extends BooksEvent {
       ];
 }
 
-class ResetEvent extends BooksEvent {
-  
-}
+class ResetEvent extends BooksEvent {}

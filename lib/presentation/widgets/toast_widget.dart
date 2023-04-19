@@ -11,7 +11,9 @@ class ToastWidget {
       position: MotionToastPosition.bottom,
       animationType: AnimationType.fromBottom,
       title: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8,),
+        padding: const EdgeInsets.symmetric(
+          vertical: 8,
+        ),
         child: Text("${title}",
             style: Typogaphy.Bold.copyWith(
               fontSize: 14,
@@ -48,7 +50,7 @@ class ToastWidget {
   }
 
   static showError(context, {required String title, required String desc}) {
-    MotionToast.success(
+    MotionToast.error(
       layoutOrientation: ToastOrientation.rtl,
       position: MotionToastPosition.bottom,
       animationType: AnimationType.fromBottom,

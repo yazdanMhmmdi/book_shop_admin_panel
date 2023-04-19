@@ -1,5 +1,6 @@
 import 'package:book_shop_admin_panel/core/network/user_remote_api_service.dart';
 import 'package:book_shop_admin_panel/core/params/request_params.dart';
+import 'package:book_shop_admin_panel/core/utils/map_rule_types.dart';
 import 'package:book_shop_admin_panel/data/models/function_response_model.dart';
 import 'package:book_shop_admin_panel/data/models/users_list_model.dart';
 import 'package:book_shop_admin_panel/domain/repositories/users_repository.dart';
@@ -28,6 +29,7 @@ class UsersRepositoryImpl implements UsersRepository {
   Future<Either<Failure, FunctionResponseModel>> editUsers(
       EditUsersRequestParams params) async {
     try {
+      params.ruleType = MapRuleTypes.returnRule(params.ruleType);
       final response = await remoteApiService.editUsers(params);
 
       return Right(response);

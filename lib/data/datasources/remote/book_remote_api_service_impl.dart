@@ -1,5 +1,3 @@
-import 'package:book_shop_admin_panel/data/models/book_model.dart';
-
 import 'package:book_shop_admin_panel/core/params/request_params.dart';
 import 'package:book_shop_admin_panel/data/models/function_response_model.dart';
 import 'package:retrofit/dio.dart';
@@ -45,6 +43,8 @@ class BookRemoteApiServiceImpl extends BookRemoteApiService {
         writer: params.writer!,
         name: params.name!,
         categoryId: params.categoryId!,
+        price: params.price!,
+        salesCount: params.salesCount!,
       );
 
       if (response.response.statusCode == 200) {
@@ -90,6 +90,8 @@ class BookRemoteApiServiceImpl extends BookRemoteApiService {
         writer: params.writer!,
         name: params.name!,
         categoryId: params.categoryId!,
+        price: params.price!,
+        salesCount: params.salesCount!,
       );
 
       if (response.response.statusCode == 200) {

@@ -20,7 +20,7 @@ BookModel _$BookModelFromJson(Map<String, dynamic> json) => BookModel(
       picture: json['picture'] as String? ?? '',
       pictureThumb: json['picture_thumb'] as String? ?? '',
       posterText: json['poster_text'] as String? ?? '',
-      price: json['price'] == null ? 0.0 : Book.dataFromJson(json['price']),
+      price: json['price'] as String? ?? '0',
       salesCount: json['sales_count'] as String? ?? '',
       voteCount: json['vote_count'] == null
           ? 0.0

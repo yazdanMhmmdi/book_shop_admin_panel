@@ -15,7 +15,7 @@ import '../../core/utils/throttler.dart';
 import '../widgets/book_item.dart';
 import '../widgets/category_item.dart';
 import '../widgets/custom_scroll_behavior.dart';
-import '../widgets/dialogs/delete_book_dialog.dart';
+import '../widgets/dialogs/delete_dialog.dart';
 import '../widgets/dialogs/edit_book_dialog.dart';
 import '../widgets/main_panel.dart';
 import '../widgets/pagination_loading_widget.dart';

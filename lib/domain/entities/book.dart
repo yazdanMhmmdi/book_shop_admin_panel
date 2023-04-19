@@ -16,8 +16,8 @@ class Book extends Equatable {
   late final String? description;
   @JsonKey(defaultValue: '')
   late final String? name;
-  @JsonKey(name: 'price', fromJson: dataFromJson, defaultValue: 0.0)
-  late final dynamic? price;
+  @JsonKey(name: 'price', defaultValue: '0')
+  late final String? price;
   @JsonKey(defaultValue: '')
   late final String? language;
   @JsonKey(defaultValue: '')

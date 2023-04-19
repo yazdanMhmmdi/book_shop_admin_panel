@@ -41,6 +41,8 @@ abstract class BookShopClient {
     @Part(name: "vote_count") required String voteCount,
     @Part(name: "category_id") required String categoryId,
     @Part(name: "picture") required File picture,
+    @Part(name: "sales_count") required String salesCount,
+    @Part(name: "price") required String price,
   });
 
   @POST('/admin_add_books.php')
@@ -55,6 +57,8 @@ abstract class BookShopClient {
     @Part(name: "pages_count") required String pagesCount,
     @Part(name: "vote_count") required String voteCount,
     @Part(name: "picture") required File picture,
+    @Part(name: "sales_count") required String salesCount,
+    @Part(name: "price") required String price,
   });
 
   @GET('/admin_search_books.php')
@@ -74,6 +78,7 @@ abstract class BookShopClient {
     @Query("user_id") required String userId,
     @Query("username") required String username,
     @Query("password") required String password,
+    @Query("rule_type") required String ruleType,
   });
 
   @GET('/admin_delete_users.php')

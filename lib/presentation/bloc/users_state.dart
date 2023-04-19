@@ -29,7 +29,13 @@ class UsersSuccess extends UsersState {
       ];
 }
 
-class UsersFailure extends UsersState {}
+class UsersFailure extends UsersState {
+  String message;
+  UsersFailure({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
 
 class UsersAdded extends UsersState {}
 
