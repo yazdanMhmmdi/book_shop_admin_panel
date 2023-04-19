@@ -1,3 +1,4 @@
+import 'package:book_shop_admin_panel/core/utils/map_categories.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
@@ -10,13 +11,14 @@ class CategoryDropdownWidget extends StatefulWidget {
   String? selectedValue;
   String? title;
   List<Map<String, String?>> optionList;
-
+  double? width;
   CategoryDropdownWidget({
     Key? key,
     required this.selectedValueChange,
     this.selectedValue = "",
     required this.title,
     required this.optionList,
+    this.width = 377,
   }) : super(key: key);
 
   @override
@@ -42,7 +44,7 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
           height: 8,
         ),
         Container(
-          width: 377,
+          width: widget.width,
           height: 35,
           color: IColors.lowBoldGreen,
           child: Material(
@@ -135,7 +137,7 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
               },
               onChanged: (value) {
                 widget.selectedValueChange
-                    .call(_mapCategories(value.toString()));
+                    .call(MapCategories.returnNumber((value.toString())));
               },
               onSaved: (value) {
                 widget.selectedValue = value.toString();
@@ -184,26 +186,5 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
         ],
       ),
     );
-  }
-
-  String _mapCategories(String value) {
-    switch (value) {
-      case Strings.categoryOptionSicence:
-        return '1';
-
-      case Strings.categoryOptionMedicine:
-        return '2';
-
-      case Strings.categoryOptionHistory:
-        return '3';
-
-      case Strings.categoryOptionJudiciary:
-        return '4';
-
-      case Strings.categoryOptionFoods:
-        return '5';
-      default:
-        return '1';
-    }
   }
 }

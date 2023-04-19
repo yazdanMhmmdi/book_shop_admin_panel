@@ -1,7 +1,10 @@
+import 'package:book_shop_admin_panel/core/utils/map_categories.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/category_dropdown_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/constants/assets.dart';
+import '../../core/constants/constants.dart';
 import '../../core/constants/i_colors.dart';
 import '../../core/constants/strings.dart';
 import '../../core/utils/image_address_provider.dart';
@@ -44,6 +47,7 @@ class _BooksTabState extends State<BooksTab>
   List<BookModel>? booksModels;
   BooksBloc? booksBloc;
   late Map<String, String> arguments;
+  String? _categoryTypeId = categoryList[0]['category_id'];
 
   @override
   void initState() {
@@ -205,6 +209,31 @@ class _BooksTabState extends State<BooksTab>
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 22),
+                          child: Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: CategoryDropdownWidget(
+                              width: 180,
+                              selectedValue: MapCategories.returnTitle(
+                                  GlobalClass.currentCategoryId),
+                              title: "",
+                              optionList: categoryList,
+                              selectedValueChange: (val) {
+                                GlobalClass.currentCategoryId = val;
+                                booksBloc!.add(ResetEvent());
+                                booksBloc!.add(FetchEvent(
+                                    category: GlobalClass.currentCategoryId));
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     searchFieldSpot(searchController, searchOnChange),
                     Stack(
                       children: [
@@ -319,7 +348,7 @@ class _BooksTabState extends State<BooksTab>
                   icon: Icon(isSearch == true ? Icons.close : Icons.search),
                   color: IColors.boldGreen,
                   onPressed: () {
-                    restartSearchField();
+                    _showSearchField();
                   },
                 ),
                 Container(

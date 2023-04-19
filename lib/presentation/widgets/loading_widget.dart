@@ -1,3 +1,4 @@
+import 'package:book_shop_admin_panel/core/constants/i_colors.dart';
 import 'package:flutter/material.dart';
 
 class LoadingWidget extends StatelessWidget {
@@ -7,6 +8,9 @@ class LoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: MediaQuery.of(context).size.height,
-        child: const Center(child: CircularProgressIndicator()));
+        child: Center(
+            child: CircularProgressIndicator(
+          color: IColors.boldGreen,
+        )));
   }
 }
