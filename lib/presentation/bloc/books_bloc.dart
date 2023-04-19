@@ -88,8 +88,6 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
           emit(BooksFailure());
         },
         (BooksListModel booksListModel) {
-          print('BookSuccess');
-
           if (booksListModel.books!.isEmpty) {
             noMoreData = false;
             emit(BooksLoading());
@@ -105,10 +103,15 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     if (page > totalPage) noMoreData = false;
     print("BooksSuccess");
 
-    emit(BooksSuccess(
-      _booksList,
-      noMoreData,
-    ));
+//empty list should emit EmptyList state not success
+    if (_booksList.isEmpty) {
+      emit(BookNothingFound());
+    } else {
+      emit(BooksSuccess(
+        _booksList,
+        noMoreData,
+      ));
+    }
   }
 
   Future<void> _editBook(EditEvent event, Emitter<BooksState> emit) async {

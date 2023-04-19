@@ -71,8 +71,6 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           emit(UsersFailure());
         },
         (UsersListModel usersListModel) {
-          print('Usersuccess');
-
           if (usersListModel.users!.isEmpty) {
             noMoreData = false;
             emit(UsersLoading());
@@ -86,12 +84,17 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       );
     }
     if (page > totalPage) noMoreData = false;
-    print("UsersSuccess");
 
-    emit(UsersSuccess(
-      _usersList,
-      noMoreData,
-    ));
+    //empty list should emit EmptyList state not success
+    if (_usersList.isEmpty) {
+      emit(UserNothingFound());
+    } else {
+      print('Usersuccess');
+      emit(UsersSuccess(
+        _usersList,
+        noMoreData,
+      ));
+    }
   }
 
   Future<void> _editUsers(
@@ -167,7 +170,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           emit(UsersFailure());
         },
         (UsersListModel usersListModel) {
-          print('BookSuccess');
+          print('UsersSuccess');
 
           if (usersListModel.users!.isEmpty) {
             noMoreData = false;

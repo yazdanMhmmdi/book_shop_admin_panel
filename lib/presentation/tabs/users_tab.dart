@@ -53,7 +53,8 @@ class _UsersTabState extends State<UsersTab> {
   void initState() {
     super.initState();
     usersBloc = BlocProvider.of<UsersBloc>(context);
-    restartSearchField();
+    // restartSearchField();
+    usersBloc!.add(ResetUsersEvent());
     usersBloc!.add(GetUsersEvent());
 
     scrollController.addListener(() {

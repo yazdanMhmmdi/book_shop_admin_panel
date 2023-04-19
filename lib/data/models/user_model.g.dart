@@ -10,7 +10,9 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       id: json['id'] as String? ?? '',
       username: json['username'] as String? ?? '',
       password: json['password'] as String? ?? '',
-      ruleType: json['rule_type'] as String? ?? '',
+      ruleType: json['rule_type'] == null
+          ? 'user'
+          : MapRuleTypes.returnTitle(json['rule_type']),
       picture: json['picture'] as String? ?? '',
       thumbPicture: json['thumb_picture'] as String? ?? '',
       createdAt: json['created_at'] as String? ?? '',

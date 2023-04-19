@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../core/utils/map_rule_types.dart';
+
 class User extends Equatable {
   @JsonKey(defaultValue: '')
   late final String? id;
@@ -8,7 +10,10 @@ class User extends Equatable {
   late final String? username;
   @JsonKey(defaultValue: '')
   late final String? password;
-  @JsonKey(defaultValue: '')
+  @JsonKey(
+      name: 'rule_type',
+      fromJson: MapRuleTypes.returnTitle,
+      defaultValue: 'user')
   late final String? ruleType;
   @JsonKey(defaultValue: '')
   late final String? picture;

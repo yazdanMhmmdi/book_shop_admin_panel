@@ -1,6 +1,7 @@
 import 'package:book_shop_admin_panel/core/utils/image_address_provider.dart';
 import 'package:book_shop_admin_panel/data/models/book_model.dart';
 import 'package:book_shop_admin_panel/presentation/bloc/books_bloc.dart';
+import 'package:book_shop_admin_panel/presentation/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/tabs/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tabs/users_tab.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/dialogs/add_book_dialog.dart';
@@ -48,15 +49,30 @@ class _PanelPageState extends State<PanelPage>
   List<Widget> items = [];
   List<BookModel>? booksModels;
   BooksBloc? booksBloc;
+  UsersBloc? usersBloc;
   late Map<String, String> arguments;
 
   @override
   void initState() {
+    booksBloc = BlocProvider.of<BooksBloc>(context);
+    usersBloc = BlocProvider.of<UsersBloc>(context);
+
     tabController = TabController(length: 2, vsync: this, initialIndex: 0)
       ..addListener(() {
-        if (tabController!.indexIsChanging) {
-          print('tab changed');
-        }
+        // if (tabController!.indexIsChanging) {
+        //   switch (tabController!.index) {
+        //     case 0:
+        //       booksBloc!.add(ResetEvent());
+        //       booksBloc!
+        //           .add(FetchEvent(category: GlobalClass.currentCategoryId));
+        //       break;
+        //     case 1:
+        //       usersBloc!.add(ResetUsersEvent());
+        //       usersBloc!.add(GetUsersEvent());
+        //       break;
+        //     default:
+        //   }
+        // }
       });
     super.initState();
   }

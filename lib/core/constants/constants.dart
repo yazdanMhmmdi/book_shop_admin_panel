@@ -11,6 +11,16 @@ const String kServerFailureMessage = 'server failure';
 
 const String kCacheFailureMessage = 'cache failure';
 
+const List<Map<String, String>> ruleTypes = [
+  {
+    "rule": Strings.ruleAdmin,
+    "title": Strings.ruleAdminTitle,
+  },
+  {
+    "rule": Strings.ruleUser,
+    "title": Strings.ruleUserTitle,
+  }
+];
 const List<Map<String, String>> categoryList = [
   {
     'title': Strings.categoryOptionSicence,

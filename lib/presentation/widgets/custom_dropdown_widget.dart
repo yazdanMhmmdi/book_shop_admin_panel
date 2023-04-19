@@ -9,13 +9,14 @@ class CustomDropdownWidget extends StatefulWidget {
   String? selectedValue;
   String? title;
   List<String> optionList = <String>['فیزیکی', 'دیجیتال'];
-
+  double width;
   CustomDropdownWidget({
     Key? key,
     required this.selectedValueChange,
     this.selectedValue = "",
     required this.title,
     required this.optionList,
+    this.width = 377,
   }) : super(key: key);
 
   @override
@@ -41,7 +42,7 @@ class _CustomDropdownWidgetState extends State<CustomDropdownWidget> {
           height: 8,
         ),
         Container(
-          width: 377,
+          width: widget.width,
           height: 35,
           color: IColors.lowBoldGreen,
           child: Material(
@@ -95,7 +96,7 @@ class _CustomDropdownWidgetState extends State<CustomDropdownWidget> {
               },
               buttonStyleData: ButtonStyleData(
                   height: 60,
-                  padding: EdgeInsets.only(left: 20, right: 10),
+                  padding: EdgeInsets.only(left: 10, right: 10),
                   decoration: BoxDecoration(
                     color: IColors.lowBoldGreen,
                     borderRadius: BorderRadius.circular(8),

@@ -1,3 +1,4 @@
+import 'package:book_shop_admin_panel/core/utils/map_rule_types.dart';
 import 'package:book_shop_admin_panel/domain/entities/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 

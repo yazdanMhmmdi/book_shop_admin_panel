@@ -52,7 +52,8 @@ class _BooksTabState extends State<BooksTab>
   @override
   void initState() {
     booksBloc = BlocProvider.of<BooksBloc>(context);
-    restartSearchField();
+    // restartSearchField();
+    booksBloc!.add(ResetEvent());
     booksBloc!.add(FetchEvent(category: GlobalClass.currentCategoryId));
 
     scrollController.addListener(() {
@@ -246,7 +247,7 @@ class _BooksTabState extends State<BooksTab>
                             if (state is BooksInitial) {
                               return Container();
                             } else if (state is BooksLoading) {
-                              return LoadingWidget();
+                              return const LoadingWidget();
                             } else if (state is BooksSuccess) {
                               items.clear();
                               state.booksModel.forEach((element) {

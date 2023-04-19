@@ -1,3 +1,5 @@
+import 'package:book_shop_admin_panel/core/constants/constants.dart';
+import 'package:book_shop_admin_panel/core/utils/map_rule_types.dart';
 import 'package:book_shop_admin_panel/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
 import '../../bloc/users_bloc.dart';
+import '../custom_dropdown_widget.dart';
 
 class EditUserDialog extends StatefulWidget {
   UserModel userModel;
@@ -16,6 +19,7 @@ class EditUserDialog extends StatefulWidget {
 
 class _EditUserDialogState extends State<EditUserDialog> {
   TextEditingController _usernameController = new TextEditingController();
+  String? _coverType = ruleTypes[1]["title"]!;
 
   TextEditingController _passwordController = new TextEditingController();
   UsersBloc? _usersBloc;
@@ -51,8 +55,28 @@ class _EditUserDialogState extends State<EditUserDialog> {
       children: [
         textField("نام کاربری", 660,
             _usernameController..text = userModel.username!, 20),
-        textField("رمز عبور", 660,
-            _passwordController..text = userModel.password!, 20),
+        Wrap(
+
+          verticalDirection: VerticalDirection.up,
+          children: [
+            CustomDropdownWidget(
+                selectedValueChange: (val) {
+                  _coverType = val;
+                },
+                title: "نقش",
+                selectedValue: _coverType = userModel.ruleType!,
+                width: 130,
+                optionList: [
+                  ruleTypes[0]['title']!,
+                  ruleTypes[1]['title']!,
+                ]),
+            SizedBox(
+              width: 16,
+            ),
+            textField("رمز عبور", 510,
+                _passwordController..text = userModel.password!, 20),
+          ],
+        ),
         SizedBox(
           height: 16,
         ),
