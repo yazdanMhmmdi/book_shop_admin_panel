@@ -45,12 +45,133 @@ class _CategoryPageState extends State<CategoryPage>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    initPage();
+    initListeners();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: IColors.lowBoldGreen,
+      body: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            MyTabBar(tabController: tabController!),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MainPanel(
+                    child: ScrollConfiguration(
+                      behavior: CustomScrollBehavior(),
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        controller: scrollController,
+                        child: Padding(
+                          padding: const EdgeInsets.all(26),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                Strings.categorySubject,
+                                style: TextStyle(
+                                    color: IColors.black85,
+                                    fontSize: 20,
+                                    fontFamily: Strings.fontIranSans,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 26),
+                              Wrap(
+                                children: [
+                                  CategoryItem(
+                                      title: categoryList[0]['title']!,
+                                      onTap: () {
+                                        GlobalClass.currentCategoryId =
+                                            categoryList[0]['category_id']!;
+                                        Navigator.pushNamed(
+                                          context,
+                                          '/panelpage',
+                                        );
+                                      },
+                                      child: Image.asset(
+                                          categoryList[0]['image']!)),
+                                  CategoryItem(
+                                    title: categoryList[1]['title']!,
+                                    onTap: () {
+                                      GlobalClass.currentCategoryId =
+                                          categoryList[1]['category_id']!;
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/panelpage',
+                                      );
+                                    },
+                                    child:
+                                        Image.asset(categoryList[1]['image']!),
+                                  ),
+                                  CategoryItem(
+                                    title: categoryList[2]['title']!,
+                                    onTap: () {
+                                      GlobalClass.currentCategoryId =
+                                          categoryList[2]['category_id']!;
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/panelpage',
+                                      );
+                                    },
+                                    child:
+                                        Image.asset(categoryList[2]['image']!),
+                                  ),
+                                  CategoryItem(
+                                    title: categoryList[3]['title']!,
+                                    onTap: () {
+                                      GlobalClass.currentCategoryId =
+                                          categoryList[2]['category_id']!;
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/panelpage',
+                                      );
+                                    },
+                                    child:
+                                        Image.asset(categoryList[3]['image']!),
+                                  ),
+                                  CategoryItem(
+                                    title: categoryList[4]['title']!,
+                                    onTap: () {
+                                      GlobalClass.currentCategoryId =
+                                          categoryList[4]['category_id']!;
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/panelpage',
+                                      );
+                                    },
+                                    child:
+                                        Image.asset(categoryList[4]['image']!),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
+          ],
+        ),
+      ),
+    );
+  }
+
+  initPage() {
     booksBloc = BlocProvider.of<BooksBloc>(context);
 
     tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+  }
 
+  initListeners() {
     scrollController.addListener(() {
       Throttler throttler = Throttler(throttleGapInMillis: 200);
       if (scrollController.position.pixels ==
@@ -60,138 +181,9 @@ class _CategoryPageState extends State<CategoryPage>
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocListener<BooksBloc, BooksState>(
-      listener: (context, state) {
-        if (state is BooksSuccess) {
-          booksModels = state.booksModel;
-        }
-
-        if (state is BooksEdited) {
-          scrollController.jumpTo(0);
-        }
-      },
-      child: Scaffold(
-        backgroundColor: IColors.lowBoldGreen,
-        body: Directionality(
-          textDirection: TextDirection.rtl,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              MyTabBar(tabController: tabController!),
-              Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    MainPanel(
-                      child: ScrollConfiguration(
-                        behavior: CustomScrollBehavior(),
-                        child: SingleChildScrollView(
-                          physics: const BouncingScrollPhysics(),
-                          controller: scrollController,
-                          child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(26),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "موضوعات",
-                                    style: TextStyle(
-                                        color: IColors.black85,
-                                        fontSize: 20,
-                                        fontFamily: Strings.fontIranSans,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(height: 26),
-                                  Wrap(
-                                    children: [
-                                      CategoryItem(
-                                          child: Image.asset(
-                                              categoryList[0]['image']!),
-                                          title: categoryList[0]['title']!,
-                                          onTap: () {
-                                            GlobalClass.currentCategoryId =
-                                                categoryList[0]['category_id']!;
-                                            Navigator.pushNamed(
-                                              context,
-                                              '/panelpage',
-                                            );
-                                          }),
-                                      CategoryItem(
-                                        child: Image.asset(
-                                            categoryList[1]['image']!),
-                                        title: categoryList[1]['title']!,
-                                        onTap: () {
-                                          GlobalClass.currentCategoryId =
-                                              categoryList[1]['category_id']!;
-                                          Navigator.pushNamed(
-                                            context,
-                                            '/panelpage',
-                                          );
-                                        },
-                                      ),
-                                      CategoryItem(
-                                        child: Image.asset(
-                                            categoryList[2]['image']!),
-                                        title: categoryList[2]['title']!,
-                                        onTap: () {
-                                          GlobalClass.currentCategoryId =
-                                              categoryList[2]['category_id']!;
-                                          Navigator.pushNamed(
-                                            context,
-                                            '/panelpage',
-                                          );
-                                        },
-                                      ),
-                                      CategoryItem(
-                                        child: Image.asset(
-                                            categoryList[3]['image']!),
-                                        title: categoryList[3]['title']!,
-                                        onTap: () {
-                                          GlobalClass.currentCategoryId =
-                                              categoryList[2]['category_id']!;
-                                          Navigator.pushNamed(
-                                            context,
-                                            '/panelpage',
-                                          );
-                                        },
-                                      ),
-                                      CategoryItem(
-                                        child: Image.asset(
-                                            categoryList[4]['image']!),
-                                        title: categoryList[4]['title']!,
-                                        onTap: () {
-                                          GlobalClass.currentCategoryId =
-                                              categoryList[4]['category_id']!;
-                                          Navigator.pushNamed(
-                                            context,
-                                            '/panelpage',
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ]),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   void rippleEffect(var element) {
     GlobalClass.pickedBookId = int.tryParse(element)!;
   }
-
 
   Widget searchFieldSpot(
       TextEditingController controller, Function(String) function) {

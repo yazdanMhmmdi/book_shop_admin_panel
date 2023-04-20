@@ -1,4 +1,50 @@
 class Strings {
+  static const String categorySubject = "موضوعات";
+
+  //*************** BOOK TAB TOASTING ***********************************************
+  static const String bookTabWarningEditBooks = "ویرایش کتاب";
+  static const String bookTabWarningEditBooksDesc =
+      "ویرایش کتاب با موفقیت انجام شد";
+  static const String bookTabWarningAddBooks = "افزودن کتاب";
+  static const String bookTabWarningAddBooksDesc =
+      "افزودن کتاب با موفقیت انجام شد";
+  static const String bookTabWarningDeleteBook = "حذف کتاب";
+  static const String bookTabWarningDeleteBookDesc =
+      "حذف کتاب با موفقیت انجام شد";
+  static const String bookTabWarningError = "خطایی رخ داده است!";
+  static const String bookTabSearchHint = "نام کتاب را جستجو کنید...";
+
+  //*************** BOOK TAB SIDE BAR ITEMS ***********************************************
+  static const String bookTabSideBarAdd = "افزودن";
+  static const String bookTabSideBarEdit = "ویرایش";
+  static const String bookTabSideBarDelete = "حذف";
+  static const String bookTabSideBarSearch = "جستجو";
+
+  //*************** USER TAB SIDE BAR ITEMS ***********************************************
+  static const String userTabSideBarEdit = "ویرایش";
+  static const String userTabSideBarDelete = "حذف";
+  static const String userTabSideBarSearch = "جستجو";
+
+  //*************** BOOK TAB TOASTING ***********************************************
+  static const String userTabWarningEditBooks = "ویرایش کاربر";
+  static const String userTabWarningEditBooksDesc =
+      "ویرایش کاربر با موفقیت انجام شد";
+  static const String userTabWarningDeleteBook = "حذف کاربر";
+  static const String userTabWarningDeleteBookDesc =
+      "حذف کاربر با موفقیت انجام شد";
+  static const String userTabWarningError = "خطایی رخ داده است!";
+  static const String userTabSearchHint = "نام کاربر را جستجو کنید...";
+
+  static const String bookTabSideBarEditWarning =
+      "!آیتمی برای ویرایش وجود ندارد";
+  static const String bookTabSideBarDeleteWarning =
+      "!آیتمی برای حذف کردن وجود ندارد";
+
+  static const String bookTabSideBarEditWarningDesc =
+      "لطفا کتابی را برای ویرایش انتخاب کنید";
+  static const String bookTabSideBarDeleteWarningDesc =
+      "لطفا کتابی را برای حذف کردن انتخاب کنید";
+
   static const String ruleAdmin = "admin";
   static const String ruleAdminTitle = "ادمین";
 

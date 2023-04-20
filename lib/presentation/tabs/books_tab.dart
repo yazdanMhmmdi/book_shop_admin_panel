@@ -1,5 +1,3 @@
-import 'package:book_shop_admin_panel/core/utils/map_categories.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/category_dropdown_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,10 +6,12 @@ import '../../core/constants/constants.dart';
 import '../../core/constants/i_colors.dart';
 import '../../core/constants/strings.dart';
 import '../../core/utils/image_address_provider.dart';
+import '../../core/utils/map_categories.dart';
 import '../../core/utils/throttler.dart';
 import '../../data/models/book_model.dart';
 import '../bloc/books_bloc.dart';
 import '../widgets/book_item.dart';
+import '../widgets/category_dropdown_widget.dart';
 import '../widgets/custom_scroll_behavior.dart';
 import '../widgets/dialogs/add_book_dialog.dart';
 import '../widgets/dialogs/delete_dialog.dart';
@@ -47,15 +47,199 @@ class _BooksTabState extends State<BooksTab>
   List<BookModel>? booksModels;
   BooksBloc? booksBloc;
   late Map<String, String> arguments;
-  String? _categoryTypeId = categoryList[0]['category_id'];
 
   @override
   void initState() {
-    booksBloc = BlocProvider.of<BooksBloc>(context);
-    // restartSearchField();
+    super.initState();
+    initTab();
+    initListeners();
     booksBloc!.add(ResetEvent());
     booksBloc!.add(FetchEvent(category: GlobalClass.currentCategoryId));
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<BooksBloc, BooksState>(
+      listener: (context, state) {
+        if (state is BooksSuccess) {
+          booksModels = state.booksModel;
+        }
+
+        switchCaseToasting(state);
+      },
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        SideBar(
+          children: [
+            SideBarItem(
+              title: Strings.bookTabSideBarAdd,
+              onTap: () {
+                ShowDialog.showDialog(
+                    context,
+                    BlocProvider.value(
+                      value: BlocProvider.of<BooksBloc>(context),
+                      child: AddBookDialog(),
+                    ));
+              },
+              child: Image.asset(Assets.add),
+            ),
+            SideBarItem(
+              title: Strings.bookTabSideBarEdit,
+              onTap: () {
+                if (GlobalClass.pickedBookId != 0) {
+                  for (var book in booksModels!) {
+                    if (GlobalClass.pickedBookId.toString() == book.id) {
+                      ShowDialog.showDialog(
+                          context,
+                          BlocProvider.value(
+                            value: BlocProvider.of<BooksBloc>(context),
+                            child: EditBookDialog(
+                              bookModel: book,
+                            ),
+                          ));
+                    }
+                  }
+                } else {
+                  ToastWidget.showWarning(context,
+                      title: Strings.bookTabSideBarEditWarning,
+                      desc: Strings.bookTabSideBarEditWarningDesc);
+                }
+              },
+              child: Image.asset(Assets.edit),
+            ),
+            SideBarItem(
+              title: Strings.bookTabSideBarDelete,
+              onTap: () {
+                if (GlobalClass.pickedBookId != 0) {
+                  ShowDialog.showDialog(
+                      context,
+                      BlocProvider.value(
+                        value: BlocProvider.of<BooksBloc>(context),
+                        child: DeleteDialog(
+                          onSubmitTap: () {
+                            if (GlobalClass.pickedBookId
+                                .toString()
+                                .isNotEmpty) {
+                              BlocProvider.of<BooksBloc>(context)
+                                  .add(DeleteEvent(
+                                bookId: GlobalClass.pickedBookId.toString(),
+                              ));
+                              Navigator.pop(context);
+                            }
+                          },
+                        ),
+                      ));
+                } else {
+                  ToastWidget.showWarning(context,
+                      title: Strings.bookTabSideBarDeleteWarning,
+                      desc: Strings.bookTabSideBarDeleteWarningDesc);
+                }
+              },
+              child: Image.asset(Assets.delete),
+            ),
+            SideBarItem(
+              title: Strings.bookTabSideBarSearch,
+              onTap: () {
+                _showSearchField();
+              },
+              child: Image.asset(Assets.search),
+            ),
+          ],
+        ),
+        MainPanel(
+          child: ScrollConfiguration(
+            behavior: CustomScrollBehavior(),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              controller: scrollController,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 22),
+                        child: Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: CategoryDropdownWidget(
+                            width: 180,
+                            selectedValue: MapCategories.returnTitle(
+                                GlobalClass.currentCategoryId),
+                            title: "",
+                            optionList: categoryList,
+                            selectedValueChange: (val) {
+                              GlobalClass.currentCategoryId = val;
+                              booksBloc!.add(ResetEvent());
+                              booksBloc!.add(FetchEvent(
+                                  category: GlobalClass.currentCategoryId));
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  searchFieldSpot(searchController, searchOnChange),
+                  Stack(
+                    children: [
+                      AnimatedPadding(
+                          duration: const Duration(milliseconds: 300),
+                          padding: EdgeInsets.only(top: padding),
+                          child: Container()),
+                      BlocBuilder<BooksBloc, BooksState>(
+                        builder: (context, state) {
+                          if (state is BooksInitial) {
+                            return Container();
+                          } else if (state is BooksLoading) {
+                            return const LoadingWidget();
+                          } else if (state is BooksSuccess) {
+                            items.clear();
+                            for (var element in state.booksModel) {
+                              items.add(returnCard(element));
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.all(26.0),
+                              child: ListView(
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                children: [
+                                  Wrap(
+                                    children: items,
+                                  ),
+                                  if (state.noMoreData) ...[
+                                    const Center(
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 16),
+                                        child: PaginationLoadingWidget(),
+                                      ),
+                                    ),
+                                  ]
+                                ],
+                              ),
+                            );
+                          } else if (state is BooksFailure) {
+                            return Container();
+                          } else if (state is BookNothingFound) {
+                            return const NothingFoundWidget();
+                          } else {
+                            return Container();
+                          }
+                        },
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
+
+  initListeners() {
     scrollController.addListener(() {
       //prevent from calling event twice
       Throttler throttler = Throttler(throttleGapInMillis: 200);
@@ -94,205 +278,36 @@ class _BooksTabState extends State<BooksTab>
     };
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocListener<BooksBloc, BooksState>(
-      listener: (context, state) {
-        if (state is BooksSuccess) {
-          booksModels = state.booksModel;
-        }
+  switchCaseToasting(BooksState state) {
+    //swtich/case Toasting
+    switch (state.runtimeType) {
+      case BooksEdited:
+        ToastWidget.showSuccess(context,
+            title: Strings.bookTabWarningEditBooks,
+            desc: Strings.bookTabWarningEditBooksDesc);
+        // notify when book edited to scroll up screen
+        scrollController.jumpTo(0);
+        break;
+      case BooksAdded:
+        ToastWidget.showSuccess(context,
+            title: Strings.bookTabWarningAddBooks,
+            desc: Strings.bookTabWarningAddBooksDesc);
+        break;
+      case BooksDeleted:
+        ToastWidget.showSuccess(context,
+            title: Strings.bookTabWarningDeleteBook,
+            desc: Strings.bookTabWarningDeleteBookDesc);
+        break;
+      case BooksFailure:
+        ToastWidget.showError(context,
+            title: Strings.bookTabWarningError, desc: "");
+        break;
+      default:
+    }
+  }
 
-        //swtich/case Toasting
-        switch (state.runtimeType) {
-          case BooksEdited:
-            ToastWidget.showSuccess(context,
-                title: "ویرایش کتاب", desc: "ویرایش کتاب با موفقیت انجام شد");
-            // notify when book edited to scroll up screen
-            scrollController.jumpTo(0);
-            break;
-          case BooksAdded:
-            ToastWidget.showSuccess(context,
-                title: "افزودن کتاب", desc: "افزودن کتاب با موفقیت انجام شد");
-            break;
-          case BooksDeleted:
-            ToastWidget.showSuccess(context,
-                title: "حذف کتاب", desc: "حذف کتاب با موفقیت انجام شد");
-            break;
-          case BooksFailure:
-            ToastWidget.showError(context,
-                title: "خطایی رخ داده است!", desc: "");
-            break;
-          default:
-        }
-      },
-      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        SideBar(
-          children: [
-            SideBarItem(
-                child: Image.asset(Assets.add),
-                title: "افزودن",
-                onTap: () {
-                  ShowDialog.showDialog(
-                      context,
-                      BlocProvider.value(
-                        value: BlocProvider.of<BooksBloc>(context),
-                        child: AddBookDialog(),
-                      ));
-                }),
-            SideBarItem(
-                child: Image.asset(Assets.edit),
-                title: "ویرایش",
-                onTap: () {
-                  if (GlobalClass.pickedBookId != 0) {
-                    booksModels!.forEach((book) {
-                      if (GlobalClass.pickedBookId.toString() == book.id) {
-                        ShowDialog.showDialog(
-                            context,
-                            BlocProvider.value(
-                              value: BlocProvider.of<BooksBloc>(context),
-                              child: EditBookDialog(
-                                bookModel: book,
-                              ),
-                            ));
-                      }
-                    });
-                  } else {
-                    ToastWidget.showWarning(context,
-                        title: "!آیتمی برای ویرایش وجود ندارد",
-                        desc: "لطفا کتابی را برای ویرایش انتخاب کنید");
-                  }
-                }),
-            SideBarItem(
-                child: Image.asset(Assets.delete),
-                title: "حذف",
-                onTap: () {
-                  if (GlobalClass.pickedBookId != 0) {
-                    ShowDialog.showDialog(
-                        context,
-                        BlocProvider.value(
-                          value: BlocProvider.of<BooksBloc>(context),
-                          child: DeleteDialog(
-                            onSubmitTap: () {
-                              if (GlobalClass.pickedBookId
-                                  .toString()
-                                  .isNotEmpty) {
-                                BlocProvider.of<BooksBloc>(context)
-                                    .add(DeleteEvent(
-                                  bookId: GlobalClass.pickedBookId.toString(),
-                                ));
-                                Navigator.pop(context);
-                              }
-                            },
-                          ),
-                        ));
-                  } else {
-                    ToastWidget.showWarning(context,
-                        title: "!آیتمی برای حذف کردن وجود ندارد",
-                        desc: "لطفا کتابی را برای حذف کردن انتخاب کنید");
-                  }
-                }),
-            SideBarItem(
-                child: Image.asset(Assets.search),
-                title: "جستجو",
-                onTap: () {
-                  _showSearchField();
-                }),
-          ],
-        ),
-        MainPanel(
-          child: ScrollConfiguration(
-            behavior: CustomScrollBehavior(),
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              controller: scrollController,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 22),
-                          child: Directionality(
-                            textDirection: TextDirection.ltr,
-                            child: CategoryDropdownWidget(
-                              width: 180,
-                              selectedValue: MapCategories.returnTitle(
-                                  GlobalClass.currentCategoryId),
-                              title: "",
-                              optionList: categoryList,
-                              selectedValueChange: (val) {
-                                GlobalClass.currentCategoryId = val;
-                                booksBloc!.add(ResetEvent());
-                                booksBloc!.add(FetchEvent(
-                                    category: GlobalClass.currentCategoryId));
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    searchFieldSpot(searchController, searchOnChange),
-                    Stack(
-                      children: [
-                        AnimatedPadding(
-                            duration: Duration(milliseconds: 300),
-                            padding: EdgeInsets.only(top: padding),
-                            child: Container()),
-                        BlocBuilder<BooksBloc, BooksState>(
-                          builder: (context, state) {
-                            if (state is BooksInitial) {
-                              return Container();
-                            } else if (state is BooksLoading) {
-                              return const LoadingWidget();
-                            } else if (state is BooksSuccess) {
-                              items.clear();
-                              state.booksModel.forEach((element) {
-                                items.add(returnCard(element));
-                              });
-                              return Padding(
-                                padding: const EdgeInsets.all(26.0),
-                                child: ListView(
-                                  shrinkWrap: true,
-                                  physics: const BouncingScrollPhysics(),
-                                  children: [
-                                    Wrap(
-                                      children: items,
-                                    ),
-                                    if (state.noMoreData) ...[
-                                      const Center(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 16),
-                                          child: PaginationLoadingWidget(),
-                                        ),
-                                      ),
-                                    ]
-                                  ],
-                                ),
-                              );
-                            } else if (state is BooksFailure) {
-                              return Container();
-                            } else if (state is BookNothingFound) {
-                              return NothingFoundWidget();
-                            } else {
-                              return Container();
-                            }
-                          },
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ]),
-    );
+  initTab() {
+    booksBloc = BlocProvider.of<BooksBloc>(context);
   }
 
   void rippleEffect(var element) {
@@ -325,10 +340,8 @@ class _BooksTabState extends State<BooksTab>
 
   Widget searchFieldSpot(
       TextEditingController controller, Function(String) function) {
-    bool iconStatus; //true : X, false: search
-
     return AnimatedOpacity(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       opacity: opacity,
       child: Visibility(
         visible: visiblity,
@@ -342,7 +355,7 @@ class _BooksTabState extends State<BooksTab>
             ),
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 IconButton(
@@ -364,11 +377,11 @@ class _BooksTabState extends State<BooksTab>
                           maxLines: 3,
                           onChanged: function,
                           controller: controller,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: Strings.fontIranSans, fontSize: 16),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
-                            hintText: "نام کتاب را جستجو کنید...",
+                            hintText: Strings.bookTabSearchHint,
                             hintStyle: TextStyle(
                                 fontFamily: Strings.fontIranSans, fontSize: 16),
                             focusedBorder: InputBorder.none,
@@ -406,9 +419,6 @@ class _BooksTabState extends State<BooksTab>
         }
       });
     }
-    // booksBloc!.add(SearchEvent(
-    //     categoryId: GlobalClass.currentCategoryId,
-    //     search: searchController.text));
   }
 
   void _showSearchField() {
@@ -433,6 +443,4 @@ class _BooksTabState extends State<BooksTab>
       }
     });
   }
-
-  void _getArguments() {}
 }

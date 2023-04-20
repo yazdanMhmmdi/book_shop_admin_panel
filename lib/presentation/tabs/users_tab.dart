@@ -52,11 +52,181 @@ class _UsersTabState extends State<UsersTab> {
   @override
   void initState() {
     super.initState();
-    usersBloc = BlocProvider.of<UsersBloc>(context);
-    // restartSearchField();
+    initTab();
+    initListeners();
     usersBloc!.add(ResetUsersEvent());
     usersBloc!.add(GetUsersEvent());
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<UsersBloc, UsersState>(
+      listener: (context, state) {
+        if (state is UsersSuccess) {
+          usersList = state.usersModel;
+        }
+
+        switchCaseToasting(state);
+      },
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        SideBar(
+          children: [
+            SideBarItem(
+              title: Strings.userTabSideBarEdit,
+              onTap: () {
+                if (GlobalClass.pickedUserId != 0) {
+                  for (var user in usersList!) {
+                    if (GlobalClass.pickedUserId.toString() == user.id) {
+                      ShowDialog.showDialog(
+                          context,
+                          BlocProvider.value(
+                            value: BlocProvider.of<UsersBloc>(context),
+                            child: EditUserDialog(
+                              userModel: user,
+                            ),
+                          ));
+                    }
+                  }
+                } else {
+                  ToastWidget.showWarning(context,
+                      title: Strings.userTabWarningEditBooks,
+                      desc: Strings.userTabWarningEditBooksDesc);
+                }
+              },
+              child: Image.asset(Assets.edit),
+            ),
+            SideBarItem(
+              title: Strings.userTabSideBarDelete,
+              onTap: () {
+                if (GlobalClass.pickedUserId != 0) {
+                  ShowDialog.showDialog(
+                      context,
+                      BlocProvider.value(
+                        value: BlocProvider.of<UsersBloc>(context),
+                        child: DeleteDialog(
+                          onSubmitTap: () {
+                            if (GlobalClass.pickedUserId
+                                .toString()
+                                .isNotEmpty) {
+                              BlocProvider.of<UsersBloc>(context)
+                                  .add(DeleteUsersEvent(
+                                userId: GlobalClass.pickedUserId.toString(),
+                              ));
+                              Navigator.pop(context);
+                            }
+                          },
+                        ),
+                      ));
+                } else {
+                  ToastWidget.showWarning(context,
+                      title: Strings.userTabWarningDeleteBook,
+                      desc: Strings.userTabWarningDeleteBookDesc);
+                }
+              },
+              child: Image.asset(Assets.delete),
+            ),
+            SideBarItem(
+              title: Strings.userTabSideBarSearch,
+              onTap: () {
+                _showSearchField();
+              },
+              child: Image.asset(Assets.search),
+            ),
+          ],
+        ),
+        MainPanel(
+          child: ScrollConfiguration(
+            behavior: CustomScrollBehavior(),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              controller: scrollController,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  searchFieldSpot(searchController, searchOnChange),
+                  Stack(
+                    children: [
+                      AnimatedPadding(
+                          duration: const Duration(milliseconds: 300),
+                          padding: EdgeInsets.only(top: padding),
+                          child: Container()),
+                      BlocBuilder<UsersBloc, UsersState>(
+                        builder: (context, state) {
+                          if (state is UsersInitial) {
+                            return Container();
+                          } else if (state is UsersLoading) {
+                            return const LoadingWidget();
+                          } else if (state is UsersSuccess) {
+                            items.clear();
+                            for (var element in state.usersModel) {
+                              items.add(returnCard(element));
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.all(26.0),
+                              child: ListView(
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                children: [
+                                  Wrap(
+                                    children: items,
+                                  ),
+                                  if (state.noMoreData) ...[
+                                    const Center(
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 16),
+                                        child: PaginationLoadingWidget(),
+                                      ),
+                                    ),
+                                  ]
+                                ],
+                              ),
+                            );
+                          } else if (state is BooksFailure) {
+                            return Container();
+                          } else if (state is BookNothingFound) {
+                            return const NothingFoundWidget();
+                          } else {
+                            return Container();
+                          }
+                        },
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
+
+  switchCaseToasting(UsersState state) {
+    //swtich/case Toasting
+    switch (state.runtimeType) {
+      case UsersEdited:
+        ToastWidget.showSuccess(context,
+            title: Strings.userTabWarningEditBooks,
+            desc: Strings.userTabWarningEditBooksDesc);
+        // notify when book edited to scroll up screen
+        scrollController.jumpTo(0);
+        break;
+      case UsersDeleted:
+        ToastWidget.showSuccess(context,
+            title: Strings.userTabWarningDeleteBook,
+            desc: Strings.userTabWarningDeleteBookDesc);
+        break;
+      case UsersFailure:
+        ToastWidget.showError(context,
+            title: Strings.userTabWarningError, desc: "خطایی رخ داده است!");
+        break;
+      default:
+    }
+  }
+
+  initListeners() {
     scrollController.addListener(() {
       //prevent from calling event twice
       Throttler throttler = Throttler(throttleGapInMillis: 200);
@@ -91,178 +261,10 @@ class _UsersTabState extends State<UsersTab> {
         search: val,
       ));
     };
-    // booksBloc!.add(ResetEvent());
-    // booksBloc!.add(SearchEvent(
-    //   categoryId: GlobalClass.currentCategoryId,
-    //   search: val,
-    // ));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocListener<UsersBloc, UsersState>(
-      listener: (context, state) {
-        if (state is UsersSuccess) {
-          usersList = state.usersModel;
-        }
-
-//swtich/case Toasting
-        switch (state.runtimeType) {
-          case UsersEdited:
-            ToastWidget.showSuccess(context,
-                title: "ویرایش کاربر", desc: "ویرایش کاربر با موفقیت انجام شد");
-            // notify when book edited to scroll up screen
-            scrollController.jumpTo(0);
-            break;
-          case UsersAdded:
-            ToastWidget.showSuccess(context,
-                title: "افزودن کاربر", desc: "افزودن کاربر با موفقیت انجام شد");
-            break;
-          case UsersDeleted:
-            ToastWidget.showSuccess(context,
-                title: "حذف کاربر", desc: "حذف کاربر با موفقیت انجام شد");
-            break;
-          case UsersFailure:
-            ToastWidget.showError(context,
-                title: "خطا", desc: "خطایی رخ داده است!");
-            break;
-          default:
-        }
-      },
-      child: Container(
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SideBar(
-            children: [
-              SideBarItem(
-                  child: Image.asset(Assets.edit),
-                  title: "ویرایش",
-                  onTap: () {
-                    if (GlobalClass.pickedUserId != 0) {
-                      usersList!.forEach((user) {
-                        if (GlobalClass.pickedUserId.toString() == user.id) {
-                          ShowDialog.showDialog(
-                              context,
-                              BlocProvider.value(
-                                value: BlocProvider.of<UsersBloc>(context),
-                                child: EditUserDialog(
-                                  userModel: user,
-                                ),
-                              ));
-                        }
-                      });
-                    } else {
-                      ToastWidget.showWarning(context,
-                          title: "!آیتمی برای ویرایش وجود ندارد",
-                          desc: "لطفا کاربری را برای ویرایش انتخاب کنید");
-                    }
-                  }),
-              SideBarItem(
-                  child: Image.asset(Assets.delete),
-                  title: "حذف",
-                  onTap: () {
-                    if (GlobalClass.pickedUserId != 0) {
-                      ShowDialog.showDialog(
-                          context,
-                          BlocProvider.value(
-                            value: BlocProvider.of<UsersBloc>(context),
-                            child: DeleteDialog(
-                              onSubmitTap: () {
-                                if (GlobalClass.pickedUserId
-                                    .toString()
-                                    .isNotEmpty) {
-                                  BlocProvider.of<UsersBloc>(context)
-                                      .add(DeleteUsersEvent(
-                                    userId: GlobalClass.pickedUserId.toString(),
-                                  ));
-                                  Navigator.pop(context);
-                                }
-                              },
-                            ),
-                          ));
-                    } else {
-                      ToastWidget.showWarning(context,
-                          title: "!آیتمی برای حذف کردن وجود ندارد",
-                          desc: "لطفا کتابی را برای حذف کردن انتخاب کنید");
-                    }
-                  }),
-              SideBarItem(
-                  child: Image.asset(Assets.search),
-                  title: "جستجو",
-                  onTap: () {
-                    _showSearchField();
-                  }),
-            ],
-          ),
-          MainPanel(
-            child: ScrollConfiguration(
-              behavior: CustomScrollBehavior(),
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                controller: scrollController,
-                child: Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      searchFieldSpot(searchController, searchOnChange),
-                      Stack(
-                        children: [
-                          AnimatedPadding(
-                              duration: const Duration(milliseconds: 300),
-                              padding: EdgeInsets.only(top: padding),
-                              child: Container()),
-                          BlocBuilder<UsersBloc, UsersState>(
-                            builder: (context, state) {
-                              if (state is UsersInitial) {
-                                return Container();
-                              } else if (state is UsersLoading) {
-                                return const LoadingWidget();
-                              } else if (state is UsersSuccess) {
-                                items.clear();
-                                state.usersModel.forEach((element) {
-                                  items.add(returnCard(element));
-                                });
-                                return Padding(
-                                  padding: const EdgeInsets.all(26.0),
-                                  child: ListView(
-                                    shrinkWrap: true,
-                                    physics: const BouncingScrollPhysics(),
-                                    children: [
-                                      Wrap(
-                                        children: items,
-                                      ),
-                                      if (state.noMoreData) ...[
-                                        const Center(
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 16),
-                                            child: PaginationLoadingWidget(),
-                                          ),
-                                        ),
-                                      ]
-                                    ],
-                                  ),
-                                );
-                              } else if (state is BooksFailure) {
-                                return Container();
-                              } else if (state is BookNothingFound) {
-                                return const NothingFoundWidget();
-                              } else {
-                                return Container();
-                              }
-                            },
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ]),
-      ),
-    );
+  initTab() {
+    usersBloc = BlocProvider.of<UsersBloc>(context);
   }
 
   void rippleEffect(var element) {
@@ -286,10 +288,8 @@ class _UsersTabState extends State<UsersTab> {
 
   Widget searchFieldSpot(
       TextEditingController controller, Function(String) function) {
-    bool iconStatus; //true : X, false: search
-
     return AnimatedOpacity(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       opacity: opacity,
       child: Visibility(
         visible: visiblity,
@@ -303,7 +303,7 @@ class _UsersTabState extends State<UsersTab> {
             ),
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 IconButton(
@@ -325,9 +325,9 @@ class _UsersTabState extends State<UsersTab> {
                           maxLines: 3,
                           onChanged: function,
                           controller: controller,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: Strings.fontIranSans, fontSize: 16),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "نام کاربر را جستجو کنید...",
                             hintStyle: TextStyle(

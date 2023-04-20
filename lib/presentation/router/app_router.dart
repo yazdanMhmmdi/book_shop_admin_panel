@@ -29,7 +29,7 @@ class AppRouter {
         return MaterialPageRoute(
             builder: ((context) => BlocProvider.value(
                   value: booksBloc,
-                  child: CategoryPage(),
+                  child: const CategoryPage(),
                 )));
       case '/panelpage':
         return MaterialPageRoute(
@@ -42,7 +42,7 @@ class AppRouter {
                       value: usersBloc,
                     ),
                   ],
-                  child: PanelPage(),
+                  child: const PanelPage(),
                 )));
       default:
         return MaterialPageRoute(builder: ((context) => LoginPage()));

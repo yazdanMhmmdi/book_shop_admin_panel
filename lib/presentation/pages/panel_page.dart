@@ -1,36 +1,16 @@
-import 'package:book_shop_admin_panel/core/utils/image_address_provider.dart';
 import 'package:book_shop_admin_panel/data/models/book_model.dart';
 import 'package:book_shop_admin_panel/presentation/bloc/books_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/bloc/users_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/tabs/books_tab.dart';
 import 'package:book_shop_admin_panel/presentation/tabs/users_tab.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/dialogs/add_book_dialog.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/global_class.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/my_tab_bar.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/nothing_found_widget.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/toast_widget.dart';
-import 'package:motion_toast/motion_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:motion_toast/resources/arrays.dart';
-
-import '../../core/constants/assets.dart';
 import '../../core/constants/i_colors.dart';
 import '../../core/constants/strings.dart';
-import '../../core/utils/throttler.dart';
-import '../widgets/book_item.dart';
 import '../widgets/circular_indicator.dart';
-import '../widgets/custom_scroll_behavior.dart';
-import '../widgets/dialogs/delete_dialog.dart';
-import '../widgets/dialogs/edit_book_dialog.dart';
-import '../widgets/main_panel.dart';
-import '../widgets/pagination_loading_widget.dart';
-import '../widgets/show_dialog.dart';
-import '../widgets/side_bar.dart';
-import '../widgets/side_bar_item.dart';
 
 class PanelPage extends StatefulWidget {
-  PanelPage({Key? key}) : super(key: key);
+  const PanelPage({Key? key}) : super(key: key);
 
   @override
   State<PanelPage> createState() => _PanelPageState();
@@ -50,30 +30,12 @@ class _PanelPageState extends State<PanelPage>
   List<BookModel>? booksModels;
   BooksBloc? booksBloc;
   UsersBloc? usersBloc;
-  late Map<String, String> arguments;
 
   @override
   void initState() {
-    booksBloc = BlocProvider.of<BooksBloc>(context);
-    usersBloc = BlocProvider.of<UsersBloc>(context);
+    initPage();
+    initListeners();
 
-    tabController = TabController(length: 2, vsync: this, initialIndex: 0)
-      ..addListener(() {
-        // if (tabController!.indexIsChanging) {
-        //   switch (tabController!.index) {
-        //     case 0:
-        //       booksBloc!.add(ResetEvent());
-        //       booksBloc!
-        //           .add(FetchEvent(category: GlobalClass.currentCategoryId));
-        //       break;
-        //     case 1:
-        //       usersBloc!.add(ResetUsersEvent());
-        //       usersBloc!.add(GetUsersEvent());
-        //       break;
-        //     default:
-        //   }
-        // }
-      });
     super.initState();
   }
 
@@ -97,11 +59,11 @@ class _PanelPageState extends State<PanelPage>
             ),
             Expanded(
               child: TabBarView(
-                children: [
+                controller: tabController,
+                children: const [
                   BooksTab(),
                   UsersTab(),
                 ],
-                controller: tabController,
               ),
             )
           ],
@@ -110,12 +72,25 @@ class _PanelPageState extends State<PanelPage>
     );
   }
 
+  initPage() {
+    booksBloc = BlocProvider.of<BooksBloc>(context);
+    usersBloc = BlocProvider.of<UsersBloc>(context);
+  }
+
+  initListeners() {
+    tabController = TabController(length: 2, vsync: this, initialIndex: 0)
+      ..addListener(() {});
+  }
+
   TabBar _tabBar() {
     return TabBar(
       isScrollable: true,
       unselectedLabelColor: Colors.grey,
       labelColor: IColors.black85,
-      indicator: CircularIndicator(color: Colors.black87, radius: 4),
+      indicator: CircularIndicator(
+        color: Colors.black87,
+        radius: 4,
+      ),
       labelStyle: const TextStyle(
         fontSize: 22,
         fontFamily: "IranSans",
@@ -127,7 +102,7 @@ class _PanelPageState extends State<PanelPage>
         fontWeight: FontWeight.w700,
       ),
       controller: tabController,
-      tabs: [
+      tabs: const [
         Tab(
           text: Strings.tabBooks,
         ),

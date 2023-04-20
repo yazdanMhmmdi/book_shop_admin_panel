@@ -1,3 +1,4 @@
+import 'package:book_shop_admin_panel/core/constants/i_colors.dart';
 import 'package:flutter/material.dart';
 
 class PaginationLoadingWidget extends StatelessWidget {
@@ -7,6 +8,8 @@ class PaginationLoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CircularProgressIndicator();
+    return CircularProgressIndicator(
+      color: IColors.boldGreen,
+    );
   }
 }

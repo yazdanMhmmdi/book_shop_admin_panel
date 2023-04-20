@@ -1,3 +1,4 @@
+import 'package:book_shop_admin_panel/core/utils/typogaphy.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/top_right_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -18,6 +19,7 @@ class BooksItem extends StatelessWidget {
   Function onDoubleTap;
   bool selected;
   BooksItem({
+    super.key,
     required this.image,
     required this.title,
     required this.writer,
@@ -35,7 +37,7 @@ class BooksItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 26, bottom: 26),
       child: AnimatedContainer(
-        duration: Duration(
+        duration: const Duration(
           milliseconds: 300,
         ),
         width: 125,
@@ -46,7 +48,7 @@ class BooksItem extends StatelessWidget {
           boxShadow: selected
               ? [
                   BoxShadow(
-                    offset: Offset(0, 10),
+                    offset: const Offset(0, 10),
                     blurRadius: 30,
                     spreadRadius: -2,
                     color: IColors.boldGreen75,
@@ -72,42 +74,40 @@ class BooksItem extends StatelessWidget {
                     number: number,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 ImageHolder(
                   address: image,
                   blurhash: blurhash,
                 ),
-                SizedBox(height: 12),
-                Container(
+                const SizedBox(height: 12),
+                SizedBox(
                   width: 95,
                   child: Text(
-                    "$title",
+                    title,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: Strings.fontIranSans,
-                      fontSize: 16,
-                      color: IColors.black85,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 95,
-                  child: Text(
-                    "$writer",
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: Typogaphy.Bold.copyWith(
                       fontFamily: Strings.fontIranSans,
                       fontSize: 14,
-                      color: IColors.black35,
+                      color: IColors.black85,
                     ),
                   ),
                 ),
+                const SizedBox(height: 6),
                 SizedBox(
+                  width: 95,
+                  child: Text(writer,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: Typogaphy.Medium.copyWith(
+                        fontFamily: Strings.fontIranSans,
+                        fontSize: 12,
+                        color: IColors.black35,
+                      )),
+                ),
+                const SizedBox(
                   height: 8,
                 ),
                 RegularRatingBar(
