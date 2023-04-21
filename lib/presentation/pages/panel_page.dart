@@ -1,8 +1,8 @@
-import 'package:book_shop_admin_panel/data/models/book_model.dart';
-import 'package:book_shop_admin_panel/presentation/bloc/books_bloc.dart';
-import 'package:book_shop_admin_panel/presentation/bloc/users_bloc.dart';
-import 'package:book_shop_admin_panel/presentation/tabs/books_tab.dart';
-import 'package:book_shop_admin_panel/presentation/tabs/users_tab.dart';
+import '../../data/models/book_model.dart';
+import '../bloc/books_bloc.dart';
+import '../bloc/users_bloc.dart';
+import '../tabs/books_tab.dart';
+import '../tabs/users_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constants/i_colors.dart';

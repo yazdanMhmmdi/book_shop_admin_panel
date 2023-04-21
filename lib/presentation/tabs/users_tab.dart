@@ -1,6 +1,6 @@
-import 'package:book_shop_admin_panel/data/models/users_list_model.dart';
-import 'package:book_shop_admin_panel/presentation/bloc/users_bloc.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/dialogs/edit_user_dialog.dart';
+import '../../data/models/users_list_model.dart';
+import '../bloc/users_bloc.dart';
+import '../widgets/dialogs/edit_user_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

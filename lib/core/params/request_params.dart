@@ -120,3 +120,8 @@ class SearchUsersRequestParams {
     this.page,
   });
 }
+
+class AuthLoginRequestParams {
+  String? username, password;
+  AuthLoginRequestParams({this.password = "", this.username = ""});
+}

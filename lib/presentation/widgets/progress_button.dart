@@ -160,10 +160,12 @@ class _MyProgressButtonState extends State<MyProgressButton>
       }
     });
 
-    progressIndicator = widget.progressIndicator ??
-        CircularProgressIndicator(
-            backgroundColor: widget.stateColors[widget.state!],
-            valueColor:const AlwaysStoppedAnimation<Color>(Colors.white));
+    progressIndicator = Center(
+      child: widget.progressIndicator ??
+          CircularProgressIndicator(
+              backgroundColor: widget.stateColors[widget.state!],
+              valueColor:const AlwaysStoppedAnimation<Color>(Colors.white)),
+    );
   }
 
   @override
@@ -186,7 +188,7 @@ class _MyProgressButtonState extends State<MyProgressButton>
     Widget? buttonChild = widget.stateWidgets[widget.state!];
     if (widget.state == ButtonState.loading) {
       return Row(
-        mainAxisAlignment: widget.progressIndicatorAlignment,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(
             child: progressIndicator,

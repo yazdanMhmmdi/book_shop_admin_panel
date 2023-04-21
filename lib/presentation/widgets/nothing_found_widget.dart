@@ -1,5 +1,5 @@
-import 'package:book_shop_admin_panel/core/constants/i_colors.dart';
-import 'package:book_shop_admin_panel/core/utils/typogaphy.dart';
+import '../../core/constants/i_colors.dart';
+import '../../core/utils/typogaphy.dart';
 import 'package:flutter/material.dart';
 
 class NothingFoundWidget extends StatelessWidget {

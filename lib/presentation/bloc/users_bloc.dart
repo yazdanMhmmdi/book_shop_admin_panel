@@ -1,7 +1,7 @@
-import 'package:book_shop_admin_panel/core/constants/constants.dart';
-import 'package:book_shop_admin_panel/domain/usecases/delete_users_usecase.dart';
-import 'package:book_shop_admin_panel/domain/usecases/edit_users_usecase.dart';
-import 'package:book_shop_admin_panel/domain/usecases/search_users_usecase.dart';
+import '../../core/constants/constants.dart';
+import '../../domain/usecases/delete_users_usecase.dart';
+import '../../domain/usecases/edit_users_usecase.dart';
+import '../../domain/usecases/search_users_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

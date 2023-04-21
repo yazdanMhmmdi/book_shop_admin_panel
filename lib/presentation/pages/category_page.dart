@@ -1,9 +1,9 @@
-import 'package:book_shop_admin_panel/core/utils/image_address_provider.dart';
-import 'package:book_shop_admin_panel/data/models/book_model.dart';
-import 'package:book_shop_admin_panel/presentation/bloc/books_bloc.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/dialogs/add_book_dialog.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/global_class.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/my_tab_bar.dart';
+import '../../core/utils/image_address_provider.dart';
+import '../../data/models/book_model.dart';
+import '../bloc/books_bloc.dart';
+import '../widgets/dialogs/add_book_dialog.dart';
+import '../widgets/global_class.dart';
+import '../widgets/my_tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,7 +41,6 @@ class _CategoryPageState extends State<CategoryPage>
   bool visiblity = false;
   List<Widget> items = [];
   List<BookModel>? booksModels;
-  BooksBloc? booksBloc;
 
   @override
   void initState() {
@@ -166,7 +165,6 @@ class _CategoryPageState extends State<CategoryPage>
   }
 
   initPage() {
-    booksBloc = BlocProvider.of<BooksBloc>(context);
 
     tabController = TabController(length: 2, vsync: this, initialIndex: 0);
   }

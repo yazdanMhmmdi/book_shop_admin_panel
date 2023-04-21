@@ -1,5 +1,6 @@
-import 'package:book_shop_admin_panel/core/constants/i_colors.dart';
 import 'package:flutter/material.dart';
+
+import '../../core/constants/i_colors.dart';
 
 class PaginationLoadingWidget extends StatelessWidget {
   const PaginationLoadingWidget({

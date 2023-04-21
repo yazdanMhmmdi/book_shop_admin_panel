@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:book_shop_admin_panel/presentation/widgets/progress_button.dart';
+import 'progress_button.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/i_colors.dart';
@@ -47,24 +47,24 @@ class _MyButtonState extends State<MyButton> {
       height: 46.0,
       maxWidth: maxWidth!,
       radius: buttonRadius,
-      progressIndicator: CircularProgressIndicator(
+      progressIndicator: const CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
       ),
       stateWidgets: {
         ButtonState.idle: Text(
-          "${widget.text}",
-          style: TextStyle(
+          widget.text,
+          style: const TextStyle(
               color: Colors.white,
               fontFamily: Strings.fontIranSans,
               fontWeight: FontWeight.w700,
               fontSize: 16),
         ),
         ButtonState.loading: Container(),
-        ButtonState.fail: Icon(
+        ButtonState.fail: const Icon(
           Icons.close,
           color: Colors.white,
         ),
-        ButtonState.success: Icon(
+        ButtonState.success: const Icon(
           Icons.check,
           color: Colors.white,
         )

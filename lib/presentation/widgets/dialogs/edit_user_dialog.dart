@@ -1,6 +1,6 @@
-import 'package:book_shop_admin_panel/core/constants/constants.dart';
-import 'package:book_shop_admin_panel/core/utils/map_rule_types.dart';
-import 'package:book_shop_admin_panel/data/models/user_model.dart';
+import '../../../core/constants/constants.dart';
+import '../../../core/utils/map_rule_types.dart';
+import '../../../data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

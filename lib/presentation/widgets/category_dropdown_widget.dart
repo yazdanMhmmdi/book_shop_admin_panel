@@ -1,4 +1,4 @@
-import 'package:book_shop_admin_panel/core/utils/map_categories.dart';
+import '../../core/utils/map_categories.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 

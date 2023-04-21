@@ -1,5 +1,5 @@
-import 'package:book_shop_admin_panel/data/models/data_model.dart';
-import 'package:book_shop_admin_panel/data/models/user_model.dart';
+import 'data_model.dart';
+import 'user_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'users_list_model.g.dart';

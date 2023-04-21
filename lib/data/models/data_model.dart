@@ -1,4 +1,4 @@
-import 'package:book_shop_admin_panel/domain/entities/data.dart';
+import '../../domain/entities/data.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'data_model.g.dart';
 

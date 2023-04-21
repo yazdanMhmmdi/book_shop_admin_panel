@@ -1,4 +1,4 @@
-import 'package:book_shop_admin_panel/presentation/widgets/circular_indicator.dart';
+import 'circular_indicator.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/i_colors.dart';

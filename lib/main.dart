@@ -1,6 +1,6 @@
-import 'package:book_shop_admin_panel/core/constants/assets.dart';
-import 'package:book_shop_admin_panel/core/constants/strings.dart';
-import 'package:book_shop_admin_panel/presentation/router/app_router.dart';
+import 'core/constants/assets.dart';
+import 'core/constants/strings.dart';
+import 'presentation/router/app_router.dart';
 import 'package:flutter/material.dart';
 
 import 'injector.dart';

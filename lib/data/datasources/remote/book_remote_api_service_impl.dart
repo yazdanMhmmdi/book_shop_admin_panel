@@ -1,5 +1,5 @@
-import 'package:book_shop_admin_panel/core/params/request_params.dart';
-import 'package:book_shop_admin_panel/data/models/function_response_model.dart';
+import '../../../core/params/request_params.dart';
+import '../../models/function_response_model.dart';
 import 'package:retrofit/dio.dart';
 
 import '../../../core/errors/exceptions.dart';

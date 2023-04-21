@@ -1,4 +1,4 @@
-import 'package:book_shop_admin_panel/presentation/widgets/circle_on_tap.dart';
+import 'circle_on_tap.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/i_colors.dart';

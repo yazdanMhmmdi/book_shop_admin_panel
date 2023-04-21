@@ -1,8 +1,8 @@
-import 'package:book_shop_admin_panel/core/errors/failures.dart';
-import 'package:book_shop_admin_panel/core/params/request_params.dart';
-import 'package:book_shop_admin_panel/data/models/book_model.dart';
-import 'package:book_shop_admin_panel/data/models/books_list_model.dart';
-import 'package:book_shop_admin_panel/data/models/function_response_model.dart';
+import '../../core/errors/failures.dart';
+import '../../core/params/request_params.dart';
+import '../../data/models/book_model.dart';
+import '../../data/models/books_list_model.dart';
+import '../../data/models/function_response_model.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class BooksRepository {

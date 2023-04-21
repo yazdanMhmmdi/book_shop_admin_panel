@@ -1,10 +1,10 @@
-import 'package:book_shop_admin_panel/core/network/book_remote_api_service.dart';
-import 'package:book_shop_admin_panel/core/params/request_params.dart';
-import 'package:book_shop_admin_panel/data/datasources/remote/book_remote_api_service_impl.dart';
-import 'package:book_shop_admin_panel/data/models/book_model.dart';
-import 'package:book_shop_admin_panel/core/errors/failures.dart';
-import 'package:book_shop_admin_panel/data/models/function_response_model.dart';
-import 'package:book_shop_admin_panel/domain/repositories/books_repository.dart';
+import '../../core/network/book_remote_api_service.dart';
+import '../../core/params/request_params.dart';
+import '../datasources/remote/book_remote_api_service_impl.dart';
+import '../models/book_model.dart';
+import '../../core/errors/failures.dart';
+import '../models/function_response_model.dart';
+import '../../domain/repositories/books_repository.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../core/constants/strings.dart';

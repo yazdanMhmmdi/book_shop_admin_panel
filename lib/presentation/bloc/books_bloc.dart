@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:book_shop_admin_panel/core/constants/assets.dart';
-import 'package:book_shop_admin_panel/core/params/request_params.dart';
-import 'package:book_shop_admin_panel/data/models/book_model.dart';
-import 'package:book_shop_admin_panel/data/models/function_response_model.dart';
-import 'package:book_shop_admin_panel/domain/usecases/delete_books_usecase.dart';
-import 'package:book_shop_admin_panel/domain/usecases/edit_books_usecase.dart';
-import 'package:book_shop_admin_panel/domain/usecases/get_books_usecase.dart';
-import 'package:book_shop_admin_panel/domain/usecases/serach_books_usecase.dart';
+import '../../core/constants/assets.dart';
+import '../../core/params/request_params.dart';
+import '../../data/models/book_model.dart';
+import '../../data/models/function_response_model.dart';
+import '../../domain/usecases/delete_books_usecase.dart';
+import '../../domain/usecases/edit_books_usecase.dart';
+import '../../domain/usecases/get_books_usecase.dart';
+import '../../domain/usecases/serach_books_usecase.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../core/constants/constants.dart';

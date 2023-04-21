@@ -1,5 +1,5 @@
-import 'package:book_shop_admin_panel/core/constants/i_colors.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/side_bar_item.dart';
+import '../../core/constants/i_colors.dart';
+import 'side_bar_item.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/assets.dart';

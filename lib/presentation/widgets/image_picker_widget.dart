@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:book_shop_admin_panel/core/constants/assets.dart';
-import 'package:book_shop_admin_panel/core/utils/image_address_provider.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/global_class.dart';
+import '../../core/constants/assets.dart';
+import '../../core/utils/image_address_provider.dart';
+import 'global_class.dart';
 import 'package:flutter/material.dart';
 import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:http/http.dart';

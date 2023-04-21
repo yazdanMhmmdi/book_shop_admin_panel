@@ -1,4 +1,4 @@
-import 'package:book_shop_admin_panel/data/models/function_response_model.dart';
+import '../../data/models/function_response_model.dart';
 
 import '../../data/models/book_model.dart';
 import '../../data/models/books_list_model.dart';

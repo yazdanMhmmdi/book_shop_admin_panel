@@ -1,5 +1,5 @@
-import 'package:book_shop_admin_panel/core/utils/typogaphy.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/top_right_widget.dart';
+import '../../core/utils/typogaphy.dart';
+import 'top_right_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 

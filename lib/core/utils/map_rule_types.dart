@@ -1,4 +1,4 @@
-import 'package:book_shop_admin_panel/core/constants/strings.dart';
+import '../constants/strings.dart';
 
 class MapRuleTypes {
   MapRuleTypes._();

@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:book_shop_admin_panel/data/models/book_model.dart';
-import 'package:book_shop_admin_panel/data/models/books_list_model.dart';
-import 'package:book_shop_admin_panel/data/models/users_list_model.dart';
+import '../../data/models/auth_model.dart';
+import '../../data/models/book_model.dart';
+import '../../data/models/books_list_model.dart';
+import '../../data/models/users_list_model.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -90,5 +91,14 @@ abstract class BookShopClient {
   Future<HttpResponse<UsersListModel>> searchUsers({
     @Query("page") required String page,
     @Query("search") required String search,
+  });
+
+//********************** AUTH ***************************************
+
+  @POST('/admin_login.php')
+  @MultiPart()
+  Future<HttpResponse<AuthModel>> login({
+    @Part(name: 'username') required String username,
+    @Part(name: 'password') required String password,
   });
 }

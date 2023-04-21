@@ -1,9 +1,9 @@
-import 'package:book_shop_admin_panel/core/network/user_remote_api_service.dart';
-import 'package:book_shop_admin_panel/core/params/request_params.dart';
-import 'package:book_shop_admin_panel/core/utils/map_rule_types.dart';
-import 'package:book_shop_admin_panel/data/models/function_response_model.dart';
-import 'package:book_shop_admin_panel/data/models/users_list_model.dart';
-import 'package:book_shop_admin_panel/domain/repositories/users_repository.dart';
+import '../../core/network/user_remote_api_service.dart';
+import '../../core/params/request_params.dart';
+import '../../core/utils/map_rule_types.dart';
+import '../models/function_response_model.dart';
+import '../models/users_list_model.dart';
+import '../../domain/repositories/users_repository.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../core/errors/exceptions.dart';

@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:book_shop_admin_panel/core/constants/assets.dart';
-import 'package:book_shop_admin_panel/core/params/request_params.dart';
-import 'package:book_shop_admin_panel/core/utils/typogaphy.dart';
-import 'package:book_shop_admin_panel/data/models/book_model.dart';
-import 'package:book_shop_admin_panel/domain/usecases/edit_books_usecase.dart';
-import 'package:book_shop_admin_panel/presentation/bloc/books_bloc.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/category_dropdown_widget.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/global_class.dart';
+import '../../../core/constants/assets.dart';
+import '../../../core/params/request_params.dart';
+import '../../../core/utils/typogaphy.dart';
+import '../../../data/models/book_model.dart';
+import '../../../domain/usecases/edit_books_usecase.dart';
+import '../../bloc/books_bloc.dart';
+import '../category_dropdown_widget.dart';
+import '../global_class.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

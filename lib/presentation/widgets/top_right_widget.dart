@@ -1,8 +1,7 @@
-import 'package:book_shop_admin_panel/core/utils/typogaphy.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/i_colors.dart';
-import '../../core/constants/strings.dart';
+import '../../core/utils/typogaphy.dart';
 
 class TopRightBookWidget extends StatelessWidget {
   String id;
