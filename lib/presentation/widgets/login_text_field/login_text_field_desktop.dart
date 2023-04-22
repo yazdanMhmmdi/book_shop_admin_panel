@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../core/constants/i_colors.dart';
-import '../../core/constants/strings.dart';
+import '../../../core/constants/i_colors.dart';
+import '../../../core/constants/strings.dart';
 
-class LoginTextField extends StatefulWidget {
+class LoginTextFieldDesktop extends StatefulWidget {
   TextEditingController? textEditingController;
   String? hintText;
   int? lengthLimiting;
   IconData? iconData;
   bool? obscureText;
-  LoginTextField(
+  LoginTextFieldDesktop(
       {this.hintText,
       this.textEditingController,
       this.lengthLimiting,
       required this.iconData,
       required this.obscureText});
   @override
-  _LoginTextFieldState createState() => _LoginTextFieldState();
+  _LoginTextFieldDesktopState createState() => _LoginTextFieldDesktopState();
 }
 
-class _LoginTextFieldState extends State<LoginTextField> {
+class _LoginTextFieldDesktopState extends State<LoginTextFieldDesktop> {
   @override
   Widget build(BuildContext context) {
     return Container(

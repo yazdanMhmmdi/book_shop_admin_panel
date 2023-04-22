@@ -18,7 +18,10 @@ class Assets {
   static const String circle_2 = "assets/images/circle_2.png";
   static const String circle_3 = "assets/images/circle_3.png";
   static const String circle_4 = "assets/images/circle_4.png";
-
+  static const String mobileCircle_1 = "assets/images/mobile/circle_1.png";
+  static const String mobileCircle_2 = "assets/images/mobile/circle_2.png";
+  static const String mobileCircle_3 = "assets/images/mobile/circle_3.png";
+  static const String mobileCircle_4 = "assets/images/mobile/circle_4.png";
   static const String bookLoading = "assets/flare/loading_book.flr";
   static const String bookDropping = "assets/flare/book_dropping.flr";
   static const String noNetworkAvailable = "assets/flare/no_network.flr";

@@ -59,6 +59,8 @@ dependencies:
   progressive_image: ^2.0.1
   retrofit: ^3.3.1
   shared_preferences: ^2.0.11
+  simple_animations: 4.0.1
+  supercharged: ^2.1.1
   web_socket_channel: ^2.3.0
 
 dev_dependencies:
@@ -69,7 +71,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: 1.0.4
   flutter_test:
     sdk: flutter
   json_serializable: ^6.5.1
@@ -104,6 +106,10 @@ flutter:
     - assets/images/circle_2.png
     - assets/images/circle_3.png
     - assets/images/circle_4.png
+    - assets/images/mobile/circle_1.png
+    - assets/images/mobile/circle_2.png
+    - assets/images/mobile/circle_3.png
+    - assets/images/mobile/circle_4.png    
     - assets/images/empty.png
     - assets/flare/loading_book.flr
     - assets/flare/book_dropping.flr

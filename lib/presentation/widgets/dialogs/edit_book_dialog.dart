@@ -1,14 +1,6 @@
 import 'dart:io';
 
-import '../../../core/params/request_params.dart';
-import '../../../data/models/book_model.dart';
-import '../../../domain/usecases/edit_books_usecase.dart';
-import '../../bloc/books_bloc.dart';
-import '../custom_dropdown_widget.dart';
-import '../global_class.dart';
-import '../price_text_field.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,9 +8,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
-import '../../../injector.dart';
+import '../../../data/models/book_model.dart';
+import '../../bloc/books_bloc.dart';
 import '../category_dropdown_widget.dart';
+import '../custom_dropdown_widget.dart';
+import '../global_class.dart';
 import '../image_picker_widget.dart';
+import '../price_text_field.dart';
 
 class EditBookDialog extends StatefulWidget {
   BookModel? bookModel;

@@ -1,9 +1,8 @@
-import 'core/constants/assets.dart';
-import 'core/constants/strings.dart';
-import 'presentation/router/app_router.dart';
 import 'package:flutter/material.dart';
 
+import 'core/constants/strings.dart';
 import 'injector.dart';
+import 'presentation/router/app_router.dart';
 
 void main() async {
   await init();

@@ -1,10 +1,10 @@
-import '../../core/utils/map_categories.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/assets.dart';
 import '../../core/constants/i_colors.dart';
 import '../../core/constants/strings.dart';
+import '../../core/utils/map_categories.dart';
 
 class CategoryDropdownWidget extends StatefulWidget {
   Function(String) selectedValueChange;

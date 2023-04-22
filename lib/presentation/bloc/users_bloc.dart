@@ -1,7 +1,3 @@
-import '../../core/constants/constants.dart';
-import '../../domain/usecases/delete_users_usecase.dart';
-import '../../domain/usecases/edit_users_usecase.dart';
-import '../../domain/usecases/search_users_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,8 +5,10 @@ import '../../core/params/request_params.dart';
 import '../../data/models/function_response_model.dart';
 import '../../data/models/user_model.dart';
 import '../../data/models/users_list_model.dart';
+import '../../domain/usecases/delete_users_usecase.dart';
+import '../../domain/usecases/edit_users_usecase.dart';
 import '../../domain/usecases/get_users_usecase.dart';
-import '../widgets/global_class.dart';
+import '../../domain/usecases/search_users_usecase.dart';
 
 part 'users_event.dart';
 part 'users_state.dart';

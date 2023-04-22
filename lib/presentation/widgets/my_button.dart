@@ -1,10 +1,8 @@
-import 'dart:async';
-
-import 'progress_button.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/i_colors.dart';
 import '../../core/constants/strings.dart';
+import 'progress_button.dart';
 
 class MyButton extends StatefulWidget {
   String text;

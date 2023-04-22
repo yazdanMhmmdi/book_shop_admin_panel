@@ -1,11 +1,11 @@
-import '../../../core/network/user_remote_api_service.dart';
-import '../../models/function_response_model.dart';
-import '../../models/users_list_model.dart';
-import '../../../core/params/request_params.dart';
 import 'package:retrofit/dio.dart';
 
 import '../../../core/errors/exceptions.dart';
+import '../../../core/network/user_remote_api_service.dart';
+import '../../../core/params/request_params.dart';
 import '../../../domain/entities/book_shop_client.dart';
+import '../../models/function_response_model.dart';
+import '../../models/users_list_model.dart';
 
 class UserRemoteApiServiceImpl extends UsersRemoteApiService {
   BookShopClient? bookShopClient;

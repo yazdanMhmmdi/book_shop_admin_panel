@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+
 import '../../core/constants/i_colors.dart';
 import '../../core/utils/typogaphy.dart';
-import 'package:flutter/material.dart';
 
 class NothingFoundWidget extends StatelessWidget {
   const NothingFoundWidget({Key? key}) : super(key: key);

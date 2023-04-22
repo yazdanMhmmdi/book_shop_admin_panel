@@ -1,9 +1,11 @@
-import 'package:book_shop_admin_panel/core/network/auth_remote_api_service.dart';
-import 'package:book_shop_admin_panel/data/datasources/remote/auth_remote_api_service_impl.dart';
-import 'package:book_shop_admin_panel/data/repositories/auth_repository_impl.dart';
-import 'package:book_shop_admin_panel/domain/repositories/auth_repository.dart';
-import 'package:book_shop_admin_panel/domain/usecases/login_usecase.dart';
-import 'package:book_shop_admin_panel/presentation/bloc/auth_bloc.dart';
+import 'package:book_shop_admin_panel/presentation/cubit/form_validation_cubit.dart';
+
+import 'core/network/auth_remote_api_service.dart';
+import 'data/datasources/remote/auth_remote_api_service_impl.dart';
+import 'data/repositories/auth_repository_impl.dart';
+import 'domain/repositories/auth_repository.dart';
+import 'domain/usecases/login_usecase.dart';
+import 'presentation/bloc/auth_bloc.dart';
 
 import 'core/network/book_remote_api_service.dart';
 import 'core/network/user_remote_api_service.dart';
@@ -56,6 +58,8 @@ Future<void> init() async {
   sl.registerFactory(() => AuthBloc(
         loginUsecase: sl(),
       ));
+
+  sl.registerFactory(() => FormValidationCubit());
 //  usecases
   sl.registerLazySingleton(() => GetBooksUsecase(sl()));
   sl.registerLazySingleton(() => EditBookUsecase(sl()));

@@ -1,12 +1,11 @@
-import '../../../core/constants/constants.dart';
-import '../../../core/utils/map_rule_types.dart';
-import '../../../data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/constants/constants.dart';
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
+import '../../../data/models/user_model.dart';
 import '../../bloc/users_bloc.dart';
 import '../custom_dropdown_widget.dart';
 

@@ -1,20 +1,20 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+
 import '../../core/constants/assets.dart';
+import '../../core/constants/constants.dart';
+import '../../core/errors/failures.dart';
 import '../../core/params/request_params.dart';
 import '../../data/models/book_model.dart';
+import '../../data/models/books_list_model.dart';
 import '../../data/models/function_response_model.dart';
+import '../../domain/usecases/add_books_usecase.dart';
 import '../../domain/usecases/delete_books_usecase.dart';
 import '../../domain/usecases/edit_books_usecase.dart';
 import '../../domain/usecases/get_books_usecase.dart';
 import '../../domain/usecases/serach_books_usecase.dart';
-import 'package:equatable/equatable.dart';
-
-import '../../core/constants/constants.dart';
-import '../../core/errors/failures.dart';
-import '../../data/models/books_list_model.dart';
-import '../../domain/usecases/add_books_usecase.dart';
 import '../widgets/global_class.dart';
 
 part 'books_event.dart';

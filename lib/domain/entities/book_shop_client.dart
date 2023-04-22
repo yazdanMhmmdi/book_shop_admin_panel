@@ -1,14 +1,13 @@
 import 'dart:io';
 
-import '../../data/models/auth_model.dart';
-import '../../data/models/book_model.dart';
-import '../../data/models/books_list_model.dart';
-import '../../data/models/users_list_model.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../core/constants/constants.dart';
+import '../../data/models/auth_model.dart';
+import '../../data/models/books_list_model.dart';
 import '../../data/models/function_response_model.dart';
+import '../../data/models/users_list_model.dart';
 
 part 'book_shop_client.g.dart';
 

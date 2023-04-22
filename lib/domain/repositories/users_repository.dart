@@ -1,9 +1,9 @@
-import '../../core/errors/failures.dart';
-import '../../core/params/request_params.dart';
-import '../../data/models/users_list_model.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../core/errors/failures.dart';
+import '../../core/params/request_params.dart';
 import '../../data/models/function_response_model.dart';
+import '../../data/models/users_list_model.dart';
 
 abstract class UsersRepository {
   Future<Either<Failure, UsersListModel>> getUsers(

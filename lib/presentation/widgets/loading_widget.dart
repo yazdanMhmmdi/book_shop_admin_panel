@@ -1,5 +1,6 @@
-import '../../core/constants/i_colors.dart';
 import 'package:flutter/material.dart';
+
+import '../../core/constants/i_colors.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({Key? key}) : super(key: key);

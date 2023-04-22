@@ -1,24 +1,26 @@
-import 'package:book_shop_admin_panel/presentation/widgets/toast_widget.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/background_shapes/background_shapes_mobile.dart';
 
-import '../bloc/auth_bloc.dart';
-import '../widgets/progress_button.dart';
+import '../../widgets/toast_widget.dart';
+
+import '../../bloc/auth_bloc.dart';
+import '../../widgets/progress_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/constants/i_colors.dart';
-import '../../core/constants/strings.dart';
-import '../widgets/background_shapes.dart';
-import '../widgets/login_text_field.dart';
-import '../widgets/my_button.dart';
+import '../../../core/constants/i_colors.dart';
+import '../../../core/constants/strings.dart';
+import '../../widgets/background_shapes/background_shapes_desktop.dart';
+import '../../widgets/login_text_field/login_text_field_desktop.dart';
+import '../../widgets/my_button.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage({Key? key}) : super(key: key);
+class LoginPageDesktop extends StatefulWidget {
+  LoginPageDesktop({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginPageDesktop> createState() => _LoginPageDesktopState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageDesktopState extends State<LoginPageDesktop> {
   TextEditingController _userController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   ButtonState buttonState = ButtonState.idle;
@@ -46,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         backgroundColor: IColors.green,
         body: Stack(
           children: [
-            BackgroundShapes(),
+            const BackgroundShapesMobile(),
             Center(
               child: Container(
                 width: 348,
@@ -80,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: 16,
                       ),
-                      LoginTextField(
+                      LoginTextFieldDesktop(
                         obscureText: false,
                         lengthLimiting: 20,
                         iconData: Icons.person,
@@ -90,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: 16,
                       ),
-                      LoginTextField(
+                      LoginTextFieldDesktop(
                         obscureText: true,
                         iconData: Icons.lock,
                         lengthLimiting: 12,

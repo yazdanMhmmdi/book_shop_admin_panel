@@ -1,7 +1,8 @@
-import '../../core/utils/typogaphy.dart';
 import 'package:flutter/material.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
+
+import '../../core/utils/typogaphy.dart';
 
 class ToastWidget {
   ToastWidget._();

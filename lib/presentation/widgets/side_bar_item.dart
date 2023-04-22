@@ -1,8 +1,8 @@
-import 'circle_on_tap.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/i_colors.dart';
 import '../../core/constants/strings.dart';
+import 'circle_on_tap.dart';
 
 class SideBarItem extends StatelessWidget {
   Widget? child;

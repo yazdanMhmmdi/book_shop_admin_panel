@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:book_shop_admin_panel/core/errors/failures.dart';
+import '../../core/errors/failures.dart';
 import '../../core/params/request_params.dart';
 import '../../data/models/auth_model.dart';
 import '../../domain/usecases/login_usecase.dart';
