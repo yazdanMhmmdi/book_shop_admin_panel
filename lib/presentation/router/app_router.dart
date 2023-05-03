@@ -1,4 +1,7 @@
+import 'package:book_shop_admin_panel/presentation/cubit/detail_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/cubit/form_validation_cubit.dart';
+import 'package:book_shop_admin_panel/presentation/cubit/internet_cubit.dart';
+import 'package:book_shop_admin_panel/presentation/pages/edit_page/edit_page_mobile.dart';
 
 import '../pages/category_page.dart';
 import 'package:flutter/material.dart';
@@ -9,26 +12,29 @@ import '../bloc/auth_bloc.dart';
 import '../bloc/books_bloc.dart';
 import '../bloc/users_bloc.dart';
 import '../pages/login_page/login_page.dart';
-import '../pages/panel_page.dart';
+import '../pages/panel_page/panel_page.dart';
 
 class AppRouter {
   BooksBloc booksBloc = sl();
   UsersBloc usersBloc = sl();
   AuthBloc authBloc = sl();
   FormValidationCubit formValidationCubit = sl();
+  InternetCubit internetCubit = sl();
 
   Route onGeneratedRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return loginPage();
+        return panelPage();
       case '/categorypage':
         return categoryPage();
       case '/panelpage':
         return panelPage();
       case '/loginpage':
         return loginPage();
+      case '/editPage':
+        return editPage();
       default:
-        return loginPage();
+        return panelPage();
     }
   }
 
@@ -63,6 +69,30 @@ class AppRouter {
                 ),
               ],
               child: const PanelPage(),
+            )));
+  }
+
+  MaterialPageRoute editPage() {
+    return MaterialPageRoute(
+        builder: ((context) => MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => DetailCubit(),
+                ),
+                BlocProvider.value(
+                  value: internetCubit,
+                ),
+                BlocProvider(
+                  create: (context) => BooksBloc(
+                    addBookUsecase: sl(),
+                    booksUsecase: sl(),
+                    deleteBooksUsecase: sl(),
+                    editBookUsecase: sl(),
+                    searchBooksUsecase: sl(),
+                  ),
+                ),
+              ],
+              child: EditPageMobile(),
             )));
   }
 }

@@ -1,41 +1,40 @@
-import '../../data/models/users_list_model.dart';
-import '../bloc/users_bloc.dart';
-import '../widgets/dialogs/edit_user_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/constants/assets.dart';
-import '../../core/constants/i_colors.dart';
-import '../../core/constants/strings.dart';
-import '../../core/utils/image_address_provider.dart';
-import '../../core/utils/throttler.dart';
-import '../../data/models/book_model.dart';
-import '../../data/models/user_model.dart';
-import '../bloc/books_bloc.dart';
-import '../widgets/book_item.dart';
-import '../widgets/custom_scroll_behavior.dart';
-import '../widgets/dialogs/add_book_dialog.dart';
-import '../widgets/dialogs/delete_dialog.dart';
-import '../widgets/dialogs/edit_book_dialog.dart';
-import '../widgets/global_class.dart';
-import '../widgets/loading_widget.dart';
-import '../widgets/main_panel.dart';
-import '../widgets/nothing_found_widget.dart';
-import '../widgets/pagination_loading_widget.dart';
-import '../widgets/show_dialog.dart';
-import '../widgets/side_bar.dart';
-import '../widgets/side_bar_item.dart';
-import '../widgets/toast_widget.dart';
-import '../widgets/user_item.dart';
+import '../../../core/constants/assets.dart';
+import '../../../core/constants/constants.dart';
+import '../../../core/constants/i_colors.dart';
+import '../../../core/constants/strings.dart';
+import '../../../core/utils/image_address_provider.dart';
+import '../../../core/utils/map_categories.dart';
+import '../../../core/utils/throttler.dart';
+import '../../../data/models/book_model.dart';
+import '../../bloc/books_bloc.dart';
+import '../../widgets/book_item/book_item_desktop.dart';
+import '../../widgets/category_drowp_down_widget/category_dropdown_widget_desktop.dart';
+import '../../widgets/custom_scroll_behavior.dart';
+import '../../widgets/dialogs/add_book_dialog.dart';
+import '../../widgets/dialogs/delete_dialog.dart';
+import '../../widgets/dialogs/edit_book_dialog.dart';
+import '../../widgets/global_class.dart';
+import '../../widgets/loading_widget.dart';
+import '../../widgets/main_panel.dart';
+import '../../widgets/nothing_found_widget.dart';
+import '../../widgets/pagination_loading_widget.dart';
+import '../../widgets/show_dialog.dart';
+import '../../widgets/side_bar.dart';
+import '../../widgets/side_bar_item.dart';
+import '../../widgets/toast_widget.dart';
 
-class UsersTab extends StatefulWidget {
-  const UsersTab({Key? key}) : super(key: key);
+class BooksTabDesktop extends StatefulWidget {
+  const BooksTabDesktop({Key? key}) : super(key: key);
 
   @override
-  State<UsersTab> createState() => _UsersTabState();
+  State<BooksTabDesktop> createState() => _BooksTabDesktopState();
 }
 
-class _UsersTabState extends State<UsersTab> {
+class _BooksTabDesktopState extends State<BooksTabDesktop>
+    with SingleTickerProviderStateMixin {
   TabController? tabController;
   ScrollController scrollController = ScrollController();
   TextEditingController searchController = TextEditingController();
@@ -45,25 +44,24 @@ class _UsersTabState extends State<UsersTab> {
   bool isSearch = false;
   bool visiblity = false;
   List<Widget> items = [];
-  List<UserModel>? usersList;
-  UsersBloc? usersBloc;
-  late Map<String, String> arguments;
+  List<BookModel>? booksModels;
+  BooksBloc? booksBloc;
 
   @override
   void initState() {
     super.initState();
     initTab();
     initListeners();
-    usersBloc!.add(ResetUsersEvent());
-    usersBloc!.add(GetUsersEvent());
+    booksBloc!.add(ResetEvent());
+    booksBloc!.add(FetchEvent(category: GlobalClass.currentCategoryId));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UsersBloc, UsersState>(
+    return BlocListener<BooksBloc, BooksState>(
       listener: (context, state) {
-        if (state is UsersSuccess) {
-          usersList = state.usersModel;
+        if (state is BooksSuccess) {
+          booksModels = state.booksModel;
         }
 
         switchCaseToasting(state);
@@ -72,45 +70,57 @@ class _UsersTabState extends State<UsersTab> {
         SideBar(
           children: [
             SideBarItem(
-              title: Strings.userTabSideBarEdit,
+              title: Strings.bookTabSideBarAdd,
               onTap: () {
-                if (GlobalClass.pickedUserId != 0) {
-                  for (var user in usersList!) {
-                    if (GlobalClass.pickedUserId.toString() == user.id) {
+                ShowDialog.showDialog(
+                    context,
+                    BlocProvider.value(
+                      value: BlocProvider.of<BooksBloc>(context),
+                      child: AddBookDialog(),
+                    ));
+              },
+              child: Image.asset(Assets.add),
+            ),
+            SideBarItem(
+              title: Strings.bookTabSideBarEdit,
+              onTap: () {
+                if (GlobalClass.pickedBookId != 0) {
+                  for (var book in booksModels!) {
+                    if (GlobalClass.pickedBookId.toString() == book.id) {
                       ShowDialog.showDialog(
                           context,
                           BlocProvider.value(
-                            value: BlocProvider.of<UsersBloc>(context),
-                            child: EditUserDialog(
-                              userModel: user,
+                            value: BlocProvider.of<BooksBloc>(context),
+                            child: EditBookDialog(
+                              bookModel: book,
                             ),
                           ));
                     }
                   }
                 } else {
                   ToastWidget.showWarning(context,
-                      title: Strings.userTabWarningEditBooks,
-                      desc: Strings.userTabWarningEditBooksDesc);
+                      title: Strings.bookTabSideBarEditWarning,
+                      desc: Strings.bookTabSideBarEditWarningDesc);
                 }
               },
               child: Image.asset(Assets.edit),
             ),
             SideBarItem(
-              title: Strings.userTabSideBarDelete,
+              title: Strings.bookTabSideBarDelete,
               onTap: () {
-                if (GlobalClass.pickedUserId != 0) {
+                if (GlobalClass.pickedBookId != 0) {
                   ShowDialog.showDialog(
                       context,
                       BlocProvider.value(
-                        value: BlocProvider.of<UsersBloc>(context),
+                        value: BlocProvider.of<BooksBloc>(context),
                         child: DeleteDialog(
                           onSubmitTap: () {
-                            if (GlobalClass.pickedUserId
+                            if (GlobalClass.pickedBookId
                                 .toString()
                                 .isNotEmpty) {
-                              BlocProvider.of<UsersBloc>(context)
-                                  .add(DeleteUsersEvent(
-                                userId: GlobalClass.pickedUserId.toString(),
+                              BlocProvider.of<BooksBloc>(context)
+                                  .add(DeleteEvent(
+                                bookId: GlobalClass.pickedBookId.toString(),
                               ));
                               Navigator.pop(context);
                             }
@@ -119,14 +129,14 @@ class _UsersTabState extends State<UsersTab> {
                       ));
                 } else {
                   ToastWidget.showWarning(context,
-                      title: Strings.userTabWarningDeleteBook,
-                      desc: Strings.userTabWarningDeleteBookDesc);
+                      title: Strings.bookTabSideBarDeleteWarning,
+                      desc: Strings.bookTabSideBarDeleteWarningDesc);
                 }
               },
               child: Image.asset(Assets.delete),
             ),
             SideBarItem(
-              title: Strings.userTabSideBarSearch,
+              title: Strings.bookTabSideBarSearch,
               onTap: () {
                 _showSearchField();
               },
@@ -144,6 +154,31 @@ class _UsersTabState extends State<UsersTab> {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 22),
+                        child: Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: CategoryDropdownWidgetDesktop(
+                            width: 180,
+                            selectedValue: MapCategories.returnTitle(
+                                GlobalClass.currentCategoryId),
+                            title: "",
+                            optionList: categoryList,
+                            selectedValueChange: (val) {
+                              GlobalClass.currentCategoryId = val;
+                              booksBloc!.add(ResetEvent());
+                              booksBloc!.add(FetchEvent(
+                                  category: GlobalClass.currentCategoryId));
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   searchFieldSpot(searchController, searchOnChange),
                   Stack(
                     children: [
@@ -151,15 +186,15 @@ class _UsersTabState extends State<UsersTab> {
                           duration: const Duration(milliseconds: 300),
                           padding: EdgeInsets.only(top: padding),
                           child: Container()),
-                      BlocBuilder<UsersBloc, UsersState>(
+                      BlocBuilder<BooksBloc, BooksState>(
                         builder: (context, state) {
-                          if (state is UsersInitial) {
+                          if (state is BooksInitial) {
                             return Container();
-                          } else if (state is UsersLoading) {
+                          } else if (state is BooksLoading) {
                             return const LoadingWidget();
-                          } else if (state is UsersSuccess) {
+                          } else if (state is BooksSuccess) {
                             items.clear();
-                            for (var element in state.usersModel) {
+                            for (var element in state.booksModel) {
                               items.add(returnCard(element));
                             }
                             return Padding(
@@ -203,29 +238,6 @@ class _UsersTabState extends State<UsersTab> {
     );
   }
 
-  switchCaseToasting(UsersState state) {
-    //swtich/case Toasting
-    switch (state.runtimeType) {
-      case UsersEdited:
-        ToastWidget.showSuccess(context,
-            title: Strings.userTabWarningEditBooks,
-            desc: Strings.userTabWarningEditBooksDesc);
-        // notify when book edited to scroll up screen
-        scrollController.jumpTo(0);
-        break;
-      case UsersDeleted:
-        ToastWidget.showSuccess(context,
-            title: Strings.userTabWarningDeleteBook,
-            desc: Strings.userTabWarningDeleteBookDesc);
-        break;
-      case UsersFailure:
-        ToastWidget.showError(context,
-            title: Strings.userTabWarningError, desc: "خطایی رخ داده است!");
-        break;
-      default:
-    }
-  }
-
   initListeners() {
     scrollController.addListener(() {
       //prevent from calling event twice
@@ -234,12 +246,13 @@ class _UsersTabState extends State<UsersTab> {
           scrollController.position.maxScrollExtent) {
         throttler.run(() {
           if (visiblity) {
-            usersBloc!.add(SearchUsersEvent(
+            booksBloc!.add(SearchEvent(
+              categoryId: GlobalClass.currentCategoryId,
               search: searchController.text,
               increasePage: true,
             ));
           } else {
-            usersBloc!.add(GetUsersEvent());
+            booksBloc!.add(FetchEvent(category: GlobalClass.currentCategoryId));
           }
         });
       }
@@ -256,33 +269,71 @@ class _UsersTabState extends State<UsersTab> {
         });
       }
       // _bookBloc!.add(DisposeBookEvent());
-      usersBloc!.add(ResetUsersEvent());
-      usersBloc!.add(SearchUsersEvent(
+      booksBloc!.add(ResetEvent());
+      booksBloc!.add(SearchEvent(
+        categoryId: GlobalClass.currentCategoryId,
         search: val,
       ));
     };
   }
 
+  switchCaseToasting(BooksState state) {
+    //swtich/case Toasting
+    switch (state.runtimeType) {
+      case BooksEdited:
+        ToastWidget.showSuccess(context,
+            title: Strings.bookTabWarningEditBooks,
+            desc: Strings.bookTabWarningEditBooksDesc);
+        // notify when book edited to scroll up screen
+        scrollController.jumpTo(0);
+        break;
+      case BooksAdded:
+        ToastWidget.showSuccess(context,
+            title: Strings.bookTabWarningAddBooks,
+            desc: Strings.bookTabWarningAddBooksDesc);
+        break;
+      case BooksDeleted:
+        ToastWidget.showSuccess(context,
+            title: Strings.bookTabWarningDeleteBook,
+            desc: Strings.bookTabWarningDeleteBookDesc);
+        break;
+      case BooksFailure:
+        ToastWidget.showError(context,
+            title: Strings.bookTabWarningError, desc: "");
+        break;
+      default:
+    }
+  }
+
   initTab() {
-    usersBloc = BlocProvider.of<UsersBloc>(context);
+    booksBloc = BlocProvider.of<BooksBloc>(context);
   }
 
   void rippleEffect(var element) {
     GlobalClass.pickedBookId = int.tryParse(element)!;
   }
 
-  Widget returnCard(UserModel user) {
-    return UserItem(
-      id: "${user.id}",
-      name: "${user.username}",
-      username: "${user.password}",
-      number: int.parse(user.id!),
-      onTap: () async {
+  Widget returnCard(BookModel book) {
+    return BooksItemDesktop(
+      number: int.tryParse(book.id!)!,
+      selected: (GlobalClass.pickedBookId == int.parse(book.id.toString())
+          ? true
+          : false),
+      image: ImageAddressProvider.getAddress(book.pictureThumb!),
+      title: book.name!,
+      writer: book.writer!,
+      rate: book.voteCount!,
+      id: book.id!,
+      blurhash: book.blurhash!,
+      onTap: () {
         setState(() {
-          GlobalClass.pickedUserId = int.parse(user.id.toString());
+          //show green ripple effect animation.
+          rippleEffect(book.id);
+          //select book that user choosed it.
+          print('selected book: ${GlobalClass.pickedBookId}');
         });
-        // usersBloc!.add(SelectUsersEvent(user_id: user.id!));
       },
+      onDoubleTap: () {},
     );
   }
 
@@ -310,7 +361,7 @@ class _UsersTabState extends State<UsersTab> {
                   icon: Icon(isSearch == true ? Icons.close : Icons.search),
                   color: IColors.boldGreen,
                   onPressed: () {
-                    restartSearchField();
+                    _showSearchField();
                   },
                 ),
                 Container(
@@ -329,7 +380,7 @@ class _UsersTabState extends State<UsersTab> {
                               fontFamily: Strings.fontIranSans, fontSize: 16),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            hintText: "نام کاربر را جستجو کنید...",
+                            hintText: Strings.bookTabSearchHint,
                             hintStyle: TextStyle(
                                 fontFamily: Strings.fontIranSans, fontSize: 16),
                             focusedBorder: InputBorder.none,
@@ -347,25 +398,6 @@ class _UsersTabState extends State<UsersTab> {
         ),
       ),
     );
-  }
-
-  void _showSearchField() {
-    setState(() {
-      if (visiblity == false) {
-        usersBloc!.add(GetUsersEvent());
-        padding = 57.0;
-        visiblity = true;
-        opacity = 1.0;
-      } else {
-        usersBloc!.add(ResetUsersEvent());
-
-        usersBloc!.add(GetUsersEvent());
-
-        padding = 0.0;
-        visiblity = false;
-        opacity = 0.0;
-      }
-    });
   }
 
   void restartSearchField() {
@@ -386,8 +418,28 @@ class _UsersTabState extends State<UsersTab> {
         }
       });
     }
-    // booksBloc!.add(SearchEvent(
-    //     categoryId: GlobalClass.currentCategoryId,
-    //     search: searchController.text));
+  }
+
+  void _showSearchField() {
+    setState(() {
+      if (visiblity == false) {
+        booksBloc!.add(FetchEvent(
+          category: GlobalClass.currentCategoryId,
+        ));
+        padding = 57.0;
+        visiblity = true;
+        opacity = 1.0;
+      } else {
+        booksBloc!.add(ResetEvent());
+
+        booksBloc!.add(FetchEvent(
+          category: GlobalClass.currentCategoryId,
+        ));
+
+        padding = 0.0;
+        visiblity = false;
+        opacity = 0.0;
+      }
+    });
   }
 }

@@ -1,14 +1,14 @@
-import '../../core/utils/typogaphy.dart';
-import 'top_right_widget.dart';
+import '../../../core/utils/typogaphy.dart';
+import '../top_right_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import '../../core/constants/i_colors.dart';
-import '../../core/constants/strings.dart';
-import 'image_holder.dart';
-import 'regular_item_bar.dart';
+import '../../../core/constants/i_colors.dart';
+import '../../../core/constants/strings.dart';
+import '../image_holder.dart';
+import '../regular_item_bar.dart';
 
-class BooksItem extends StatelessWidget {
+class BooksItemDesktop extends StatelessWidget {
   String image;
   String title, writer;
   String blurhash;
@@ -18,7 +18,7 @@ class BooksItem extends StatelessWidget {
   Function onTap;
   Function onDoubleTap;
   bool selected;
-  BooksItem({
+  BooksItemDesktop({
     super.key,
     required this.image,
     required this.title,

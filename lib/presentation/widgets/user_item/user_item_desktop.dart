@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../core/constants/assets.dart';
-import '../../core/constants/i_colors.dart';
-import '../../core/constants/strings.dart';
-import 'global_class.dart';
-import 'top_right_widget.dart';
+import '../../../core/constants/assets.dart';
+import '../../../core/constants/i_colors.dart';
+import '../../../core/constants/strings.dart';
+import '../global_class.dart';
+import '../top_right_widget.dart';
 
-class UserItem extends StatelessWidget {
+class UserItemDesktop extends StatelessWidget {
   int number;
   Function onTap;
   String name, username;
   String id;
-  UserItem({
+  UserItemDesktop({
     required this.number,
     required this.onTap,
     required this.name,
@@ -21,9 +21,9 @@ class UserItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 26, bottom: 26),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         width: 145,
         height: 179,
         decoration: BoxDecoration(
@@ -34,7 +34,7 @@ class UserItem extends StatelessWidget {
           boxShadow: GlobalClass.pickedUserId == number
               ? [
                   BoxShadow(
-                    offset: Offset(0, 10),
+                    offset: const Offset(0, 10),
                     blurRadius: 30,
                     spreadRadius: -2,
                     color: IColors.boldGreen75,
@@ -57,7 +57,7 @@ class UserItem extends StatelessWidget {
                   ),
                   alignment: Alignment.topRight,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 Container(
@@ -73,13 +73,13 @@ class UserItem extends StatelessWidget {
                     height: 64,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
-                Container(
+                SizedBox(
                   width: 94,
                   child: Text(
-                    '$name',
+                    name,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -90,10 +90,10 @@ class UserItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: 94,
                   child: Text(
-                    '$username',
+                    username,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     style: TextStyle(

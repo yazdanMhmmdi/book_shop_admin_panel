@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import 'core/constants/strings.dart';
 import 'injector.dart';
@@ -17,13 +18,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppRouter _router = AppRouter();
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: Strings.fontIranSans,
-      ),
-      onGenerateRoute: _router.onGeneratedRoute,
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            fontFamily: Strings.fontIranSans,
+          ),
+          onGenerateRoute: _router.onGeneratedRoute,
+        );
+      },
     );
   }
 }

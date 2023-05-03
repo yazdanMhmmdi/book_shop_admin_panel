@@ -1,18 +1,18 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/constants/assets.dart';
-import '../../core/constants/i_colors.dart';
-import '../../core/constants/strings.dart';
-import '../../core/utils/map_categories.dart';
+import '../../../core/constants/assets.dart';
+import '../../../core/constants/i_colors.dart';
+import '../../../core/constants/strings.dart';
+import '../../../core/utils/map_categories.dart';
 
-class CategoryDropdownWidget extends StatefulWidget {
+class CategoryDropdownWidgetDesktop extends StatefulWidget {
   Function(String) selectedValueChange;
   String? selectedValue;
   String? title;
   List<Map<String, String?>> optionList;
   double? width;
-  CategoryDropdownWidget({
+  CategoryDropdownWidgetDesktop({
     Key? key,
     required this.selectedValueChange,
     this.selectedValue = "",
@@ -22,10 +22,10 @@ class CategoryDropdownWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CategoryDropdownWidget> createState() => _CategoryDropdownWidgetState();
+  State<CategoryDropdownWidgetDesktop> createState() => _CategoryDropdownWidgetDesktopState();
 }
 
-class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
+class _CategoryDropdownWidgetDesktopState extends State<CategoryDropdownWidgetDesktop> {
   @override
   Widget build(BuildContext context) {
     return Column(

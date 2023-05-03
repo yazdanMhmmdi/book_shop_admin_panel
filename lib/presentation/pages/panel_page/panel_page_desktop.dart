@@ -1,22 +1,22 @@
-import '../../data/models/book_model.dart';
-import '../bloc/books_bloc.dart';
-import '../bloc/users_bloc.dart';
-import '../tabs/books_tab.dart';
-import '../tabs/users_tab.dart';
+import '../../../data/models/book_model.dart';
+import '../../bloc/books_bloc.dart';
+import '../../bloc/users_bloc.dart';
+import '../../tabs/book_tab/books_tab_desktop.dart';
+import '../../tabs/users_tab/users_tab_desktop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../core/constants/i_colors.dart';
-import '../../core/constants/strings.dart';
-import '../widgets/circular_indicator.dart';
+import '../../../core/constants/i_colors.dart';
+import '../../../core/constants/strings.dart';
+import '../../widgets/circular_indicator.dart';
 
-class PanelPage extends StatefulWidget {
-  const PanelPage({Key? key}) : super(key: key);
+class PanelPageDesktop extends StatefulWidget {
+  const PanelPageDesktop({Key? key}) : super(key: key);
 
   @override
-  State<PanelPage> createState() => _PanelPageState();
+  State<PanelPageDesktop> createState() => _PanelPageDesktopState();
 }
 
-class _PanelPageState extends State<PanelPage>
+class _PanelPageDesktopState extends State<PanelPageDesktop>
     with SingleTickerProviderStateMixin {
   TabController? tabController;
   ScrollController scrollController = ScrollController();
@@ -61,8 +61,8 @@ class _PanelPageState extends State<PanelPage>
               child: TabBarView(
                 controller: tabController,
                 children: const [
-                  BooksTab(),
-                  UsersTab(),
+                  BooksTabDesktop(),
+                  UsersTabDesktop(),
                 ],
               ),
             )

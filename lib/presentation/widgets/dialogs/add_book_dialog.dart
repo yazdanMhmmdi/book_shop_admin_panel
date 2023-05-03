@@ -6,7 +6,7 @@ import '../../../core/utils/typogaphy.dart';
 import '../../../data/models/book_model.dart';
 import '../../../domain/usecases/edit_books_usecase.dart';
 import '../../bloc/books_bloc.dart';
-import '../category_dropdown_widget.dart';
+import '../category_drowp_down_widget/category_dropdown_widget_desktop.dart';
 import '../global_class.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ import '../../../core/constants/strings.dart';
 import '../../../injector.dart';
 import '../custom_dropdown_widget.dart';
 import '../image_picker_widget.dart';
-import '../price_text_field.dart';
+import '../price_text_field_desktop.dart';
 
 //base dialog is EditDialog
 class AddBookDialog extends StatefulWidget {
@@ -141,7 +141,7 @@ class _EditBookDialogState extends State<AddBookDialog> {
                 }
               }),
               const SizedBox(width: 8),
-              PriceTextField(
+              PriceTextFieldDesktop(
                 title: "قیمت",
                 controller: _priceCountController..text,
                 width: 186,
@@ -181,7 +181,7 @@ class _EditBookDialogState extends State<AddBookDialog> {
 
               const SizedBox(width: 08),
               // textField("شماره دسته بندی  ", 377, _categoryController..text, 6),
-              CategoryDropdownWidget(
+              CategoryDropdownWidgetDesktop(
                 selectedValue: Strings.categoryOptionSicence,
                 title: "دسته بندی",
                 optionList: categoryList,

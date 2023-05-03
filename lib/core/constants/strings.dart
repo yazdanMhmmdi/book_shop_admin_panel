@@ -67,4 +67,29 @@ class Strings {
   static const String categoryOptionHistory = "تاریخی";
   static const String categoryOptionJudiciary = "قضائی";
   static const String categoryOptionFoods = "غذایی";
+
+  //details
+  static const String detailAboutBook = "درباره کتاب";
+  static const String detailABoutPublisher = "درباره ناشر";
+  static const String detailsDescription = "توضیحات";
+  static const String detailsLoremIpsom =
+      " لورم ایپسوملورم ایپسوملورم ایپسوملورم ایپسوملورم ایپسوملورم ایپسوملورم ایپسوملورم ایپسوملورم ایپسوملورم ایپسوملورم ایپسوملورمایپسوملورمایپسوملورمایپسوملورمایپسوملورمایپسوملورمایپسوملورمایپسوملورمایپسوملورمایپسوملورمایپسوملورمایپسوملورمایپسوملورمایپسوملورمایپسوملورمایپسوملورمایپسوملورم ایپسوم";
+  static const String detailsBuy = "خرید";
+  static const String detailsAlreadyBookChoosed =
+      "کتاب انتخاب شده قبلا به سبذ خرید اضافه شده";
+  static const String detailsDuplicatedBookTitle =
+      "این کتاب قبلا اضافه شده است!";
+  static const String detailsDuplicatedBookSubTitle =
+      "لطفا کتاب دیگری را به سبد خرید خود اضافه کنید.";
+
+  static const String detailsDuplicatedBookbuttonText = "باشه";
+  static const String detailsGuestUserTitle = "خطا شما حساب کاربری فعال ندارید";
+  static const String detailsGuestUserSubTitle =
+      "برای ادامه خرید حساب کاربری ساخته و یا وارد حساب خود شوید";
+  static const String detailsGuestUserButtonText = "ساخت حساب کاربری";
+
+  static const String detailsAddToBasketServerErrorTitle = "خطای سرور";
+  static const String detailsAddToBasketServerErrorSubTitle =
+      "خطایی هنگام اضافه کردن محصول به سبد خرید رخ داده لطفا دوباره تلاش کنید";
+  static const String detailsAddToBasketServerErrorButtonText = "باشه";
 }

@@ -6,8 +6,8 @@ import '../../core/constants/constants.dart';
 import '../../core/constants/i_colors.dart';
 import '../../core/constants/strings.dart';
 
-class PriceTextField extends StatefulWidget {
-  PriceTextField({
+class PriceTextFieldDesktop extends StatefulWidget {
+  PriceTextFieldDesktop({
     Key? key,
     required this.title,
     this.width = 377,
@@ -22,10 +22,10 @@ class PriceTextField extends StatefulWidget {
   final TextEditingController controller;
 
   @override
-  State<PriceTextField> createState() => _PriceTextFieldState();
+  State<PriceTextFieldDesktop> createState() => _PriceTextFieldDesktopState();
 }
 
-class _PriceTextFieldState extends State<PriceTextField> {
+class _PriceTextFieldDesktopState extends State<PriceTextFieldDesktop> {
   final _controller = TextEditingController();
 
   @override

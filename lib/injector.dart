@@ -1,4 +1,7 @@
+import 'package:book_shop_admin_panel/presentation/cubit/detail_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/cubit/form_validation_cubit.dart';
+import 'package:book_shop_admin_panel/presentation/cubit/internet_cubit.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 import 'core/network/auth_remote_api_service.dart';
 import 'data/datasources/remote/auth_remote_api_service_impl.dart';
@@ -58,6 +61,10 @@ Future<void> init() async {
   sl.registerFactory(() => AuthBloc(
         loginUsecase: sl(),
       ));
+  sl.registerFactory(() => DetailCubit());
+  sl.registerFactory(() => InternetCubit(
+        connectivity: sl(),
+      ));
 
   sl.registerFactory(() => FormValidationCubit());
 //  usecases
@@ -94,6 +101,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DataConnectionChecker());
   final sharedPrefs = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPrefs);
+  sl.registerLazySingleton(() => Connectivity());
 
   //! Domain
   //entities

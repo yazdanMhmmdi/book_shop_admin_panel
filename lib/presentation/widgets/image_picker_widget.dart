@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:book_shop_admin_panel/core/utils/typogaphy.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/edit_page_banner_image_mobile.dart';
+
 import '../../core/constants/assets.dart';
 import '../../core/utils/image_address_provider.dart';
 import 'global_class.dart';
@@ -92,15 +95,12 @@ class _ImagePickerSpotState extends State<ImagePickerWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
-                "انتخاب عکس",
-                style: TextStyle(
-                  fontFamily: Strings.fontIranSans,
-                  fontSize: 16,
-                  color: IColors.black85,
-                ),
-              ),
-              SizedBox(
+              Text("انتخاب عکس",
+                  style: Typogaphy.Regular.copyWith(
+                    fontSize: 16,
+                    color: IColors.black85,
+                  )),
+              const SizedBox(
                 width: 8,
               ),
               Padding(
@@ -112,7 +112,7 @@ class _ImagePickerSpotState extends State<ImagePickerWidget> {
                       shape: BoxShape.circle,
                       color: Colors.transparent,
                       image: DecorationImage(
-                        image: FileImage(widget.image!),
+                        image: FileImage(GlobalClass.file!),
                         fit: BoxFit.cover,
                       )),
                 ),

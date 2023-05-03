@@ -10,11 +10,11 @@ import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
 import '../../../data/models/book_model.dart';
 import '../../bloc/books_bloc.dart';
-import '../category_dropdown_widget.dart';
+import '../category_drowp_down_widget/category_dropdown_widget_desktop.dart';
 import '../custom_dropdown_widget.dart';
 import '../global_class.dart';
 import '../image_picker_widget.dart';
-import '../price_text_field.dart';
+import '../price_text_field_desktop.dart';
 
 class EditBookDialog extends StatefulWidget {
   BookModel? bookModel;
@@ -156,7 +156,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
                 }
               }),
               const SizedBox(width: 8),
-              PriceTextField(
+              PriceTextFieldDesktop(
                 title: "قیمت",
                 controller: _priceCountController
                   ..text = _formatter.format(widget.bookModel!.price!),
@@ -202,7 +202,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
               const SizedBox(
                 width: 16,
               ),
-              CategoryDropdownWidget(
+              CategoryDropdownWidgetDesktop(
                 selectedValue: _mapCategoriesFromId(_categoryTypeId!),
                 title: "دسته بندی",
                 optionList: categoryList,

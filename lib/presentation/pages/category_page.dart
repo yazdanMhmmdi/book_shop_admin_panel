@@ -12,7 +12,7 @@ import '../../core/constants/constants.dart';
 import '../../core/constants/i_colors.dart';
 import '../../core/constants/strings.dart';
 import '../../core/utils/throttler.dart';
-import '../widgets/book_item.dart';
+import '../widgets/book_item/book_item_desktop.dart';
 import '../widgets/category_item.dart';
 import '../widgets/custom_scroll_behavior.dart';
 import '../widgets/dialogs/delete_dialog.dart';

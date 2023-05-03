@@ -1,17 +1,18 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/constants/i_colors.dart';
-import '../../core/constants/strings.dart';
+import '../../../core/constants/assets.dart';
+import '../../../core/constants/i_colors.dart';
+import '../../../core/constants/strings.dart';
+import '../../../core/utils/map_categories.dart';
 
-class CustomDropdownWidget extends StatefulWidget {
+class CategoryDropdownWidgetMobile extends StatefulWidget {
   Function(String) selectedValueChange;
   String? selectedValue;
   String? title;
-  List<String> optionList = <String>['فیزیکی', 'دیجیتال'];
-  double width;
-
-  CustomDropdownWidget({
+  List<Map<String, String?>> optionList;
+  double? width;
+  CategoryDropdownWidgetMobile({
     Key? key,
     required this.selectedValueChange,
     this.selectedValue = "",
@@ -21,27 +22,27 @@ class CustomDropdownWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomDropdownWidget> createState() => _CustomDropdownWidgetState();
+  State<CategoryDropdownWidgetMobile> createState() =>
+      _CategoryDropdownWidgetMobileState();
 }
 
-class _CustomDropdownWidgetState extends State<CustomDropdownWidget> {
+class _CategoryDropdownWidgetMobileState
+    extends State<CategoryDropdownWidgetMobile> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
       children: [
-        widget.title != ""
-            ? Text(
-                widget.title!,
-                style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: Strings.fontIranSans,
-                    color: IColors.black85,
-                    decoration: TextDecoration.none),
-              )
-            : Container(),
-        SizedBox(
+        Text(
+          widget.title!,
+          style: TextStyle(
+              fontSize: 16,
+              fontFamily: Strings.fontIranSans,
+              color: IColors.black85,
+              decoration: TextDecoration.none),
+        ),
+        const SizedBox(
           height: 8,
         ),
         Container(
@@ -69,22 +70,67 @@ class _CustomDropdownWidgetState extends State<CustomDropdownWidget> {
                 style: TextStyle(fontSize: 14),
               ),
               items: widget.optionList
-                  .map((item) => DropdownMenuItem<String>(
-                        value: item,
+                  .map((e) => DropdownMenuItem<String>(
+                        value: e['title']!,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              item,
+                              e['title']!,
                               textDirection: TextDirection.rtl,
                               style: const TextStyle(
                                 fontSize: 14,
                               ),
                             ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            SizedBox(
+                                width: 20,
+                                height: 25,
+                                child: Image.asset(e['image']!)),
                           ],
                         ),
                       ))
                   .toList(),
+              //  [
+              //   DropdownMenuItem<String>(
+              //     value: 'فیزیکی',
+              //     child: Row(
+              //       children: [
+              //         Container(
+              //             width: 20,
+              //             height: 25,
+              //             child: Image.asset(Assets.hourglass)),
+              //         Text(
+              //           'فیزیکی',
+              //           textDirection: TextDirection.rtl,
+              //           style: const TextStyle(
+              //             fontSize: 14,
+              //           ),
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              //   DropdownMenuItem<String>(
+              //     value: 'دیجیتال',
+              //     child: Row(
+              //       children: [
+              //         Container(
+              //             width: 20,
+              //             height: 25,
+              //             child: Image.asset(Assets.hourglass)),
+              //         Text(
+              //           'دیجیتال',
+              //           textDirection: TextDirection.rtl,
+              //           style: const TextStyle(
+              //             fontSize: 14,
+              //           ),
+              //         )
+              //       ],
+              //     ),
+              //   )
+              // ],
               validator: (value) {
                 if (value == null) {
                   return 'نوع جلد را انتخاب کنید...';
@@ -92,14 +138,15 @@ class _CustomDropdownWidgetState extends State<CustomDropdownWidget> {
                 return null;
               },
               onChanged: (value) {
-                widget.selectedValueChange.call(value!);
+                widget.selectedValueChange
+                    .call(MapCategories.returnNumber((value.toString())));
               },
               onSaved: (value) {
                 widget.selectedValue = value.toString();
               },
               buttonStyleData: ButtonStyleData(
                   height: 60,
-                  padding: EdgeInsets.only(left: 10, right: 10),
+                  padding: EdgeInsets.only( right: 10),
                   decoration: BoxDecoration(
                     color: IColors.lowBoldGreen,
                     borderRadius: BorderRadius.circular(8),
@@ -121,6 +168,25 @@ class _CustomDropdownWidgetState extends State<CustomDropdownWidget> {
           ),
         ),
       ],
+    );
+  }
+
+  DropdownMenuItem<String> getDropdownItem() {
+    return DropdownMenuItem<String>(
+      value: 'دیجیتال',
+      child: Row(
+        children: [
+          Container(
+              width: 20, height: 25, child: Image.asset(Assets.hourglass)),
+          Text(
+            'دیجیتال',
+            textDirection: TextDirection.rtl,
+            style: const TextStyle(
+              fontSize: 14,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
