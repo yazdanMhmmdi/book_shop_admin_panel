@@ -1,3 +1,5 @@
+import 'package:book_shop_admin_panel/presentation/cubit/user_validation_cubit.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/warning_bar/warning_bar_desktop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,22 +11,26 @@ import '../../../data/models/user_model.dart';
 import '../../bloc/users_bloc.dart';
 import '../custom_dropdown_widget.dart';
 
-class EditUserDialog extends StatefulWidget {
+class EditUserDialogDesktop extends StatefulWidget {
   UserModel userModel;
-  EditUserDialog({required this.userModel});
+  EditUserDialogDesktop({required this.userModel});
   @override
-  _EditUserDialogState createState() => _EditUserDialogState();
+  _EditUserDialogDesktopState createState() => _EditUserDialogDesktopState();
 }
 
-class _EditUserDialogState extends State<EditUserDialog> {
+class _EditUserDialogDesktopState extends State<EditUserDialogDesktop> {
   TextEditingController _usernameController = new TextEditingController();
   String? _ruleType = ruleTypes[1]["title"]!;
 
   TextEditingController _passwordController = new TextEditingController();
   UsersBloc? _usersBloc;
+  UserValidationCubit? _userValidationCubit;
   @override
   void initState() {
     _usersBloc = BlocProvider.of<UsersBloc>(context);
+    _userValidationCubit = BlocProvider.of<UserValidationCubit>(context);
+
+    initListeners();
     super.initState();
   }
 
@@ -52,8 +58,28 @@ class _EditUserDialogState extends State<EditUserDialog> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        textField("نام کاربری", 660,
-            _usernameController..text = userModel.username!, 20),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            textField("نام کاربری", 660,
+                _usernameController..text = userModel.username!, 20),
+            SizedBox(
+              width: 660,
+              child: BlocBuilder<UserValidationCubit, UserValidationState>(
+                builder: (context, state) {
+                  if (state is UserValidationStatus) {
+                    return state.username.isNotEmpty
+                        ? WarningBarDesktop(text: state.username)
+                        : Container();
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
         Wrap(
           verticalDirection: VerticalDirection.up,
           children: [
@@ -68,14 +94,34 @@ class _EditUserDialogState extends State<EditUserDialog> {
                   ruleTypes[0]['title']!,
                   ruleTypes[1]['title']!,
                 ]),
-            SizedBox(
+            const SizedBox(
               width: 16,
             ),
-            textField("رمز عبور", 510,
-                _passwordController..text = userModel.password!, 20),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                textField("رمز عبور", 510,
+                    _passwordController..text = userModel.password!, 20),
+                SizedBox(
+                  width: 260,
+                  child: BlocBuilder<UserValidationCubit, UserValidationState>(
+                    builder: (context, state) {
+                      if (state is UserValidationStatus) {
+                        return state.password.isNotEmpty
+                            ? WarningBarDesktop(text: state.password)
+                            : Container();
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         Container(
@@ -91,14 +137,17 @@ class _EditUserDialogState extends State<EditUserDialog> {
               splashColor: Colors.black26,
               borderRadius: BorderRadius.circular(8),
               onTap: () {
-                _usersBloc!.add(EditUsersEvent(
-                    userId: userModel.id!,
-                    username: _usernameController.text,
-                    password: _passwordController.text,
-                    ruleType: _ruleType));
+                if (_userValidationCubit!.passwordError.isEmpty &&
+                    _userValidationCubit!.usernameError.isEmpty) {
+                  _usersBloc!.add(EditUsersEvent(
+                      userId: userModel.id!,
+                      username: _usernameController.text,
+                      password: _passwordController.text,
+                      ruleType: _ruleType));
 
-                _usersBloc!.add(GetUsersEvent());
-                Navigator.pop(context);
+                  _usersBloc!.add(GetUsersEvent());
+                  Navigator.pop(context);
+                }
               },
               child: const Center(
                 child: Text(
@@ -171,5 +220,14 @@ class _EditUserDialogState extends State<EditUserDialog> {
         ),
       ],
     );
+  }
+
+  void initListeners() {
+    _usernameController.addListener(() {
+      _userValidationCubit!.usernameValidation(_usernameController.text);
+    });
+    _passwordController.addListener(() {
+      _userValidationCubit!.passwrodValidation(_passwordController.text);
+    });
   }
 }

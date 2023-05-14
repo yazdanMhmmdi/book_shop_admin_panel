@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../core/constants/assets.dart';
 import '../../core/constants/constants.dart';
@@ -85,7 +86,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
       failureOrPosts.fold(
         (failure) {
           print("BookFailure");
-        emit(BooksFailure(message: failure.toString()));
+          emit(BooksFailure(message: failure.toString()));
         },
         (BooksListModel booksListModel) {
           if (booksListModel.books!.isEmpty) {
@@ -127,7 +128,10 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     editBookRequestParams!.categoryId = event.categoryId;
     editBookRequestParams!.price = event.price!;
     editBookRequestParams!.salesCount = event.salesCount!;
+    emit(BooksLoading());
     dynamic failureOrPosts = await editBookUsecase(editBookRequestParams!);
+
+    if (event.isMobile) await delay(seconds: 2);
 
     failureOrPosts.fold(
       (failure) {
@@ -147,6 +151,11 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
         }
       },
     );
+    if (event.isMobile) await delay(seconds: 2);
+    emit(BooksInitial());
+    if (event.isMobile)
+      Navigator.pushNamedAndRemoveUntil(
+          event.context!, '/panelpage', (route) => false);
   }
 
   Future<void> _addBook(AddEvent event, Emitter<BooksState> emit) async {
@@ -235,7 +244,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
       failureOrPosts.fold(
         (failure) {
           print("BookFailure");
-        emit(BooksFailure(message: failure.toString()));
+          emit(BooksFailure(message: failure.toString()));
         },
         (BooksListModel booksListModel) {
           print('BookSuccess');
@@ -262,6 +271,10 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
   Future<void> _resetBook(ResetEvent event, Emitter<BooksState> emit) async {
     page = 1;
     _booksList = [];
+  }
+
+  Future<void> delay({int seconds = 2}) async {
+    await Future.delayed(Duration(seconds: seconds));
   }
 
   String _mapFailureToMessage(Failure failure) {

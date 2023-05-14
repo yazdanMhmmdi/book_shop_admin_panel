@@ -27,6 +27,8 @@ class EditEvent extends BooksEvent {
       price = "",
       salesCount = "",
       bookId = "";
+  bool isMobile = false;
+  BuildContext? context;
   File? pictureFile;
   EditEvent({
     this.bookId,
@@ -40,7 +42,9 @@ class EditEvent extends BooksEvent {
     this.categoryId,
     this.price,
     this.salesCount,
+    required this.isMobile,
     required this.pictureFile,
+    this.context,
   });
 
   @override

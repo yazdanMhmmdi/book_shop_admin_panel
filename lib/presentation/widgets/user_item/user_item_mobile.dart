@@ -15,10 +15,13 @@ import '../slidable_action.dart';
 
 class UserItemMobile extends StatelessWidget {
   UserModel? userModel;
-  late Function(BuildContext context) onTap;
+  late Function(BuildContext context) onDelete;
+  late Function(BuildContext context) onEdit;
+
   UserItemMobile({
     required this.userModel,
-    required this.onTap,
+    required this.onDelete,
+    required this.onEdit,
   });
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,13 @@ class UserItemMobile extends StatelessWidget {
             label: 'حذف',
             backgroundColor: Colors.red,
             icon: Icons.delete,
-            onPressed: onTap,
+            onPressed: onDelete,
+          ),
+          MySlidableAction(
+            label: 'ویرایش',
+            backgroundColor: Colors.blue,
+            icon: Icons.edit,
+            onPressed: onEdit,
           ),
         ],
       ),
@@ -43,7 +52,13 @@ class UserItemMobile extends StatelessWidget {
             label: 'حذف',
             backgroundColor: Colors.red,
             icon: Icons.delete,
-            onPressed: onTap,
+            onPressed: onDelete,
+          ),
+          MySlidableAction(
+            label: 'ویرایش',
+            backgroundColor: Colors.blue,
+            icon: Icons.edit,
+            onPressed: onEdit,
           ),
         ],
       ),

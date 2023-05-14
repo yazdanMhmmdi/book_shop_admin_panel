@@ -1,7 +1,12 @@
 import 'dart:async';
 
 import 'package:book_shop_admin_panel/core/constants/constants.dart';
+import 'package:book_shop_admin_panel/presentation/cubit/book_edit_validation_cubit.dart';
+import 'package:book_shop_admin_panel/presentation/cubit/user_validation_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/custom_scroll_behavior.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/dialogs/edit_book_dialog.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/dialogs/edit_user_dialog_desktop.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/dialogs/edit_user_dialog_mobile.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/user_item/user_item_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +20,7 @@ import '../../widgets/global_class.dart';
 import '../../widgets/loading_widget.dart';
 import '../../widgets/nothing_found_widget.dart';
 import '../../widgets/pagination_loading_widget.dart';
+import '../../widgets/show_dialog.dart';
 import '../../widgets/toast_widget.dart';
 import '../../widgets/user_item/user_item_desktop.dart';
 
@@ -271,12 +277,29 @@ class _UsersTabMobileState extends State<UsersTabMobile> {
   Widget returnCard(UserModel user) {
     return UserItemMobile(
       userModel: user,
-      onTap: (context) {
+      onDelete: (context) {
         usersBloc!.add(DeleteUsersEvent(userId: user.id));
         usersBloc!.add(ResetUsersEvent());
         usersBloc!.add(GetUsersEvent());
 
         // usersBloc!.add(SelectUsersEvent(user_id: user.id!));
+      },
+      onEdit: (context) {
+        ShowDialog.showDialog(
+            context,
+            MultiBlocProvider(
+              providers: [
+                BlocProvider.value(
+                  value: BlocProvider.of<UsersBloc>(context),
+                ),
+                BlocProvider(
+                  create: (context) => UserValidationCubit(),
+                ),
+              ],
+              child: EditUserDialogMobile(
+                userModel: user,
+              ),
+            ));
       },
     );
   }

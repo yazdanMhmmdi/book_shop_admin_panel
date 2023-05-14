@@ -4,11 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'form_validation_state.dart';
 
 class FormValidationCubit extends Cubit<FormValidationState> {
-  static bool isUsernameValid = true, isPasswordValid = true;
+  static bool isUsernameValid = true,
+      isPasswordValid = true,
+      isBookNameVaild = true,
+      isBookWriterValid = true;
   FormValidationCubit()
       : super(FormValidationState(
           isUsernameValid: isUsernameValid,
           isPasswordValid: isPasswordValid,
+          isBookNameValid: isBookNameVaild,
+          isBookWriterValid: isBookWriterValid,
         ));
 
   void usernameValidate(String username) {
@@ -19,7 +24,10 @@ class FormValidationCubit extends Cubit<FormValidationState> {
     }
 
     emit(FormValidationState(
-        isUsernameValid: isUsernameValid, isPasswordValid: isPasswordValid));
+        isBookNameValid: isBookNameVaild,
+        isBookWriterValid: isBookWriterValid,
+        isUsernameValid: isUsernameValid,
+        isPasswordValid: isPasswordValid));
   }
 
   void passwordValidate(String password) {
@@ -30,13 +38,19 @@ class FormValidationCubit extends Cubit<FormValidationState> {
     }
 
     emit(FormValidationState(
-        isUsernameValid: isUsernameValid, isPasswordValid: isPasswordValid));
+        isBookNameValid: isBookNameVaild,
+        isBookWriterValid: isBookWriterValid,
+        isUsernameValid: isUsernameValid,
+        isPasswordValid: isPasswordValid));
   }
 
   void usernameIsAlreadyExists(String errorMessage) {
     emit(FormValidationState(
         isUsernameValid: false,
         isPasswordValid: true,
+        isBookNameValid: isBookNameVaild,
+        isBookWriterValid: isBookWriterValid,
         errorMessage: errorMessage));
   }
+
 }

@@ -1,6 +1,8 @@
+import 'package:book_shop_admin_panel/presentation/cubit/user_validation_cubit.dart';
+
 import '../../../data/models/users_list_model.dart';
 import '../../bloc/users_bloc.dart';
-import '../../widgets/dialogs/edit_user_dialog.dart';
+import '../../widgets/dialogs/edit_user_dialog_desktop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -78,9 +80,16 @@ class _UsersTabDesktopState extends State<UsersTabDesktop> {
                     if (GlobalClass.pickedUserId.toString() == user.id) {
                       ShowDialog.showDialog(
                           context,
-                          BlocProvider.value(
-                            value: BlocProvider.of<UsersBloc>(context),
-                            child: EditUserDialog(
+                          MultiBlocProvider(
+                            providers: [
+                              BlocProvider.value(
+                                value: BlocProvider.of<UsersBloc>(context),
+                              ),
+                              BlocProvider(
+                                create: (context) => UserValidationCubit(),
+                              ),
+                            ],
+                            child: EditUserDialogDesktop(
                               userModel: user,
                             ),
                           ));

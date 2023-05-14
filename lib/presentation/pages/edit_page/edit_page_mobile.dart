@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:book_shop_admin_panel/core/constants/constants.dart';
+import 'package:book_shop_admin_panel/core/utils/url_to_image_file.dart';
+import 'package:book_shop_admin_panel/presentation/cubit/book_edit_validation_cubit.dart';
+import 'package:book_shop_admin_panel/presentation/cubit/form_validation_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/category_drowp_down_widget/category_drop_down_widget_mobile.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/category_drowp_down_widget/category_dropdown_widget_desktop.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/custom_dropdown_widget.dart';
@@ -8,6 +11,7 @@ import 'package:book_shop_admin_panel/presentation/widgets/custom_scroll_behavio
 import 'package:book_shop_admin_panel/presentation/widgets/edit_multi_text_field.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/edit_page_banner_image_mobile.dart';
 import 'package:book_shop_admin_panel/presentation/widgets/edit_text_field.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/warning_bar/warning_bar_mobile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +36,9 @@ import '../../widgets/price_text_field_mobile.dart';
 import '../../widgets/progress_button.dart';
 
 class EditPageMobile extends StatefulWidget {
-  EditPageMobile();
+  late Map<String, String?> args;
+
+  EditPageMobile({required this.args});
 
   @override
   State<EditPageMobile> createState() => _EditPageMobileState();
@@ -42,7 +48,7 @@ class _EditPageMobileState extends State<EditPageMobile> {
   Color backgroundColor = IColors.green;
 
   late DetailCubit _animationCubit;
-
+  BookEditValidationCubit? bookEditValidationCubit;
   TextEditingController bookNameController = TextEditingController();
   TextEditingController bookWriterController = TextEditingController();
   TextEditingController bookLanguageController = TextEditingController();
@@ -64,26 +70,27 @@ class _EditPageMobileState extends State<EditPageMobile> {
   BooksBloc? booksBloc;
   final GlobalKey<EditPageBannerImageMobileState> _bannerImageKey = GlobalKey();
 
+  late Map<String, String?> arguments;
+  String? pictureUrl, opration, bookId;
+
   @override
   void initState() {
     booksBloc = BlocProvider.of<BooksBloc>(context);
+    bookEditValidationCubit = BlocProvider.of<BookEditValidationCubit>(context);
     _animationCubit = BlocProvider.of<DetailCubit>(context);
     GlobalClass.file = File(Assets.bookPlaceHolder);
     booksBloc!.add(ResetEvent());
+    _getArguments();
 
     super.initState();
 
-    priceController.addListener(() {
-      _formatter.format(priceController.text);
-    });
+    initListeners();
   }
 
   @override
   Widget build(BuildContext context) {
     // _detailsBloc.add(GetDetails(post_id: arguments["post_id"]));
     _animationCubit.initializeAnimations(context);
-
-    // _getArguments();
 
     return WillPopScope(
       onWillPop: () async {
@@ -170,7 +177,7 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                                       const EdgeInsets.only(
                                                           top: 32),
                                                   child: ImagePickerWidget(
-                                                    imgUrl: "",
+                                                    imgUrl: pictureUrl,
                                                     onFilePicked: (file) {
                                                       GlobalClass.file = file;
                                                       _bannerImageKey
@@ -217,6 +224,21 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                                     "نام کتاب را وارد کنید...",
                                                 textFieldColor:
                                                     IColors.lowBoldGreen),
+                                            BlocBuilder<BookEditValidationCubit,
+                                                BookEditValidationState>(
+                                              builder: (context, state) {
+                                                if (state is ValidationStatus) {
+                                                  return state.bookNameError!
+                                                          .isNotEmpty
+                                                      ? WarningBarMobile(
+                                                          text: state
+                                                              .bookNameError!)
+                                                      : Container();
+                                                } else {
+                                                  return Container();
+                                                }
+                                              },
+                                            ),
                                             const SizedBox(
                                               height: 16,
                                             ),
@@ -231,6 +253,21 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                                     "نام نویسنده را وارد کنید...",
                                                 textFieldColor:
                                                     IColors.lowBoldGreen),
+                                            BlocBuilder<BookEditValidationCubit,
+                                                BookEditValidationState>(
+                                              builder: (context, state) {
+                                                if (state is ValidationStatus) {
+                                                  return state.bookWriterError!
+                                                          .isNotEmpty
+                                                      ? WarningBarMobile(
+                                                          text: state
+                                                              .bookWriterError!)
+                                                      : Container();
+                                                } else {
+                                                  return Container();
+                                                }
+                                              },
+                                            ),
                                             const SizedBox(
                                               height: 16,
                                             ),
@@ -241,17 +278,46 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                               children: [
                                                 Expanded(
                                                   flex: 1,
-                                                  child: EditTextField(
-                                                      width: 200,
-                                                      controller:
-                                                          bookLanguageController,
-                                                      obscureText: false,
-                                                      icon: Icons.language,
-                                                      isOnlyDigit: false,
-                                                      text:
-                                                          "زبان را وارد کنید...",
-                                                      textFieldColor:
-                                                          IColors.lowBoldGreen),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      EditTextField(
+                                                          width:
+                                                              double.infinity,
+                                                          controller:
+                                                              bookLanguageController,
+                                                          obscureText: false,
+                                                          icon: Icons.language,
+                                                          isOnlyDigit: false,
+                                                          text:
+                                                              "زبان را وارد کنید...",
+                                                          textFieldColor: IColors
+                                                              .lowBoldGreen),
+                                                      BlocBuilder<
+                                                          BookEditValidationCubit,
+                                                          BookEditValidationState>(
+                                                        builder:
+                                                            (context, state) {
+                                                          if (state
+                                                              is ValidationStatus) {
+                                                            return state
+                                                                    .bookLanguageError!
+                                                                    .isNotEmpty
+                                                                ? WarningBarMobile(
+                                                                    text: state
+                                                                        .bookLanguageError!)
+                                                                : Container();
+                                                          } else {
+                                                            return Container();
+                                                          }
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                                 const SizedBox(
                                                   width: 16,
@@ -289,46 +355,95 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                               children: [
                                                 Expanded(
                                                   flex: 1,
-                                                  child: EditTextField(
-                                                      width: 200,
-                                                      controller:
-                                                          bookPageCountController,
-                                                      obscureText: false,
-                                                      icon: Icons.book,
-                                                      isOnlyDigit: false,
-                                                      maxLengh: 5,
-                                                      text:
-                                                          "تعداد صفحات را وارد کنید...",
-                                                      textFieldColor:
-                                                          IColors.lowBoldGreen),
+                                                  child: Column(
+                                                    children: [
+                                                      EditTextField(
+                                                          width:
+                                                              double.infinity,
+                                                          controller:
+                                                              bookPageCountController,
+                                                          obscureText: false,
+                                                          icon: Icons.book,
+                                                          isOnlyDigit: true,
+                                                          maxLengh: 5,
+                                                          text:
+                                                              "تعداد صفحات را وارد کنید...",
+                                                          textFieldColor: IColors
+                                                              .lowBoldGreen),
+                                                      BlocBuilder<
+                                                          BookEditValidationCubit,
+                                                          BookEditValidationState>(
+                                                        builder:
+                                                            (context, state) {
+                                                          if (state
+                                                              is ValidationStatus) {
+                                                            return state
+                                                                    .bookPagesCountError!
+                                                                    .isNotEmpty
+                                                                ? WarningBarMobile(
+                                                                    text: state
+                                                                        .bookPagesCountError!)
+                                                                : Container();
+                                                          } else {
+                                                            return Container();
+                                                          }
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                                 const SizedBox(
                                                   width: 16,
                                                 ),
                                                 Expanded(
                                                   flex: 1,
-                                                  child: EditTextField(
-                                                      width: 200,
-                                                      controller:
-                                                          bookVoteController,
-                                                      obscureText: false,
-                                                      icon: Icons.favorite,
-                                                      isOnlyDigit: true,
-                                                      maxLengh: 3,
-                                                      onChanged: (val) {
-                                                        if (val.isNotEmpty) {
-                                                          if (double.parse(
-                                                                  val) >=
-                                                              5.0) {
-                                                            bookVoteController
-                                                                .text = "5";
+                                                  child: Column(
+                                                    children: [
+                                                      EditTextField(
+                                                          width:
+                                                              double.infinity,
+                                                          controller:
+                                                              bookVoteController,
+                                                          obscureText: false,
+                                                          icon: Icons.favorite,
+                                                          isOnlyDigit: true,
+                                                          maxLengh: 3,
+                                                          onChanged: (val) {
+                                                            if (val
+                                                                .isNotEmpty) {
+                                                              if (double.parse(
+                                                                      val) >=
+                                                                  5.0) {
+                                                                bookVoteController
+                                                                    .text = "5";
+                                                              }
+                                                            }
+                                                          },
+                                                          text:
+                                                              "تعداد رای  را وارد کنید...",
+                                                          textFieldColor: IColors
+                                                              .lowBoldGreen),
+                                                      BlocBuilder<
+                                                          BookEditValidationCubit,
+                                                          BookEditValidationState>(
+                                                        builder:
+                                                            (context, state) {
+                                                          if (state
+                                                              is ValidationStatus) {
+                                                            return state
+                                                                    .bookVoteCountError!
+                                                                    .isNotEmpty
+                                                                ? WarningBarMobile(
+                                                                    text: state
+                                                                        .bookVoteCountError!)
+                                                                : Container();
+                                                          } else {
+                                                            return Container();
                                                           }
-                                                        }
-                                                      },
-                                                      text:
-                                                          "تعداد رای  را وارد کنید...",
-                                                      textFieldColor:
-                                                          IColors.lowBoldGreen),
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -340,50 +455,124 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                               children: [
                                                 Expanded(
                                                   flex: 1,
-                                                  child: EditTextField(
-                                                      width: 200,
-                                                      controller:
-                                                          bookSellCountController,
-                                                      maxLengh: 9,
-                                                      obscureText: false,
-                                                      icon:
-                                                          Icons.shopping_basket,
-                                                      text:
-                                                          "تعداد فروش را وارد کنید...",
-                                                      textFieldColor:
-                                                          IColors.lowBoldGreen),
+                                                  child: Column(
+                                                    children: [
+                                                      EditTextField(
+                                                          width:
+                                                              double.infinity,
+                                                          controller:
+                                                              bookSellCountController,
+                                                          maxLengh: 9,
+                                                          obscureText: false,
+                                                          isOnlyDigit: true,
+                                                          icon: Icons
+                                                              .shopping_basket,
+                                                          text:
+                                                              "تعداد فروش را وارد کنید...",
+                                                          textFieldColor: IColors
+                                                              .lowBoldGreen),
+                                                      BlocBuilder<
+                                                          BookEditValidationCubit,
+                                                          BookEditValidationState>(
+                                                        builder:
+                                                            (context, state) {
+                                                          if (state
+                                                              is ValidationStatus) {
+                                                            return state
+                                                                    .bookSalesCountError!
+                                                                    .isNotEmpty
+                                                                ? WarningBarMobile(
+                                                                    text: state
+                                                                        .bookSalesCountError!)
+                                                                : Container();
+                                                          } else {
+                                                            return Container();
+                                                          }
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                                 const SizedBox(
                                                   width: 16,
                                                 ),
                                                 Expanded(
                                                   flex: 1,
-                                                  child: PriceTextFieldMobile(
-                                                      width: 200,
-                                                      controller:
-                                                          priceController..text,
-                                                      obscureText: false,
-                                                      maxLengh: 16,
-                                                      icon: Icons.price_change,
-                                                      text:
-                                                          "قیمت را وارد کنید...",
-                                                      textFieldColor:
-                                                          IColors.lowBoldGreen),
+                                                  child: Column(
+                                                    children: [
+                                                      PriceTextFieldMobile(
+                                                          width:
+                                                              double.infinity,
+                                                          controller:
+                                                              priceController
+                                                                ..text,
+                                                          obscureText: false,
+                                                          maxLengh: 16,
+                                                          icon: Icons
+                                                              .price_change,
+                                                          text:
+                                                              "قیمت را وارد کنید...",
+                                                          textFieldColor: IColors
+                                                              .lowBoldGreen),
+                                                      BlocBuilder<
+                                                          BookEditValidationCubit,
+                                                          BookEditValidationState>(
+                                                        builder:
+                                                            (context, state) {
+                                                          if (state
+                                                              is ValidationStatus) {
+                                                            return state
+                                                                    .bookPriceError!
+                                                                    .isNotEmpty
+                                                                ? WarningBarMobile(
+                                                                    text: state
+                                                                        .bookPriceError!)
+                                                                : Container();
+                                                          } else {
+                                                            return Container();
+                                                          }
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ],
                                             ),
                                             const SizedBox(
                                               height: 16,
                                             ),
-                                            EditMultiTextField(
-                                                controller: bookDescController,
-                                                obscureText: false,
-                                                icon: Icons.description,
-                                                text:
-                                                    "توضیحات کتاب را وارد کنید...",
-                                                textFieldColor:
-                                                    IColors.lowBoldGreen,
-                                                width: double.infinity),
+                                            Column(
+                                              children: [
+                                                EditMultiTextField(
+                                                    controller:
+                                                        bookDescController,
+                                                    obscureText: false,
+                                                    icon: Icons.description,
+                                                    text:
+                                                        "توضیحات کتاب را وارد کنید...",
+                                                    textFieldColor:
+                                                        IColors.lowBoldGreen,
+                                                    width: double.infinity),
+                                                BlocBuilder<
+                                                    BookEditValidationCubit,
+                                                    BookEditValidationState>(
+                                                  builder: (context, state) {
+                                                    if (state
+                                                        is ValidationStatus) {
+                                                      return state
+                                                              .bookDescError!
+                                                              .isNotEmpty
+                                                          ? WarningBarMobile(
+                                                              text: state
+                                                                  .bookDescError!)
+                                                          : Container();
+                                                    } else {
+                                                      return Container();
+                                                    }
+                                                  },
+                                                )
+                                              ],
+                                            ),
                                             const SizedBox(
                                               height: 16,
                                             ),
@@ -409,9 +598,7 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                                       buttonState:
                                                           ButtonState.idle);
                                                 } else {
-                                                  return myButton(
-                                                      buttonState:
-                                                          ButtonState.idle);
+                                                  return Container();
                                                 }
                                               },
                                             ),
@@ -508,20 +695,118 @@ class _EditPageMobileState extends State<EditPageMobile> {
   Widget myButton({ButtonState buttonState = ButtonState.idle}) {
     return MyButton(
         buttonState: buttonState,
-        text: "افزودن کتاب",
-        onTap: () {
-          booksBloc!.add(AddEvent(
-              categoryId: GlobalClass.currentCategoryId,
-              coverType: customDropDownController.text,
-              description: bookDescController.text,
-              language: bookLanguageController.text,
-              name: bookNameController.text,
-              pagesCount: bookPageCountController.text,
-              price: _formatter.getUnformattedValue().toString(),
-              salesCount: bookSellCountController.text,
-              voteCount: bookVoteController.text,
-              writer: bookWriterController.text,
-              pictureFile: GlobalClass.file));
-        });
+        text: opration == "edit" ? "ویرایش کتاب" : "افزودن کتاب",
+        onTap: opration == "edit"
+            ? () {
+                if (bookEditValidationCubit!.bookNameError!.isEmpty &&
+                    bookEditValidationCubit!.bookPagesCountError!.isEmpty &&
+                    bookEditValidationCubit!.bookPriceError!.isEmpty &&
+                    bookEditValidationCubit!.bookSalesCountError!.isEmpty &&
+                    bookEditValidationCubit!.bookVoteCountError!.isEmpty &&
+                    bookEditValidationCubit!.bookLanguageError!.isEmpty &&
+                    bookEditValidationCubit!.bookDescError!.isEmpty &&
+                    bookEditValidationCubit!.bookWroterError!.isEmpty) {
+                  booksBloc!.add(EditEvent(
+                    context: context,
+                    pictureFile: GlobalClass.file,
+                    bookId: bookId,
+                    categoryId: GlobalClass.currentCategoryId,
+                    coverType: customDropDownController.text,
+                    description: bookDescController.text,
+                    language: bookLanguageController.text,
+                    name: bookNameController.text,
+                    pagesCount: bookPageCountController.text,
+                    price: _formatter.getUnformattedValue().toString(),
+                    salesCount: bookSellCountController.text,
+                    voteCount: bookVoteController.text,
+                    writer: bookWriterController.text,
+                    isMobile: true,
+                  ));
+                }
+              }
+            : () {
+                if (bookEditValidationCubit!.bookNameError!.isEmpty &&
+                    bookEditValidationCubit!.bookPagesCountError!.isEmpty &&
+                    bookEditValidationCubit!.bookPriceError!.isEmpty &&
+                    bookEditValidationCubit!.bookSalesCountError!.isEmpty &&
+                    bookEditValidationCubit!.bookVoteCountError!.isEmpty &&
+                    bookEditValidationCubit!.bookLanguageError!.isEmpty &&
+                    bookEditValidationCubit!.bookDescError!.isEmpty &&
+                    bookEditValidationCubit!.bookWroterError!.isEmpty) {
+                  booksBloc!.add(AddEvent(
+                      categoryId: GlobalClass.currentCategoryId,
+                      coverType: customDropDownController.text,
+                      description: bookDescController.text,
+                      language: bookLanguageController.text,
+                      name: bookNameController.text,
+                      pagesCount: bookPageCountController.text,
+                      price: _formatter.getUnformattedValue().toString(),
+                      salesCount: bookSellCountController.text,
+                      voteCount: bookVoteController.text,
+                      writer: bookWriterController.text,
+                      pictureFile: GlobalClass.file));
+                }
+              });
+  }
+
+  _getArguments() {
+    arguments = widget.args;
+    if (arguments['opration'] == "edit") {
+      bookId = arguments['bookId'];
+      bookNameController.text = arguments['name'] ?? "";
+      bookWriterController.text = arguments['writer'] ?? "";
+      bookDescController.text = arguments['desc'] ?? "";
+      bookPageCountController.text = arguments['pagesCount'] ?? "";
+      bookVoteController.text = arguments['voteCount'] ?? "";
+      priceController.text = _formatter.format(arguments['price'].toString());
+      bookLanguageController.text = arguments['language'] ?? "";
+      customDropDownController.text = arguments['coverType'] ?? "فیزیکی";
+      bookSellCountController.text = arguments['salesCount'] ?? "";
+      GlobalClass.currentCategoryId = arguments['categoryId'].toString();
+      pictureUrl = arguments['picture'];
+      opration = arguments['opration'];
+      //convert URL to FILE
+      ImageConverter.fileFromImageUrl(
+              ImageAddressProvider.getAddress(arguments['picture']))
+          .then((value) {
+        GlobalClass.file = value;
+        setState(() {});
+      });
+    }
+  }
+
+  void initListeners() {
+    priceController.addListener(() {
+      _formatter.format(priceController.text);
+    });
+    bookNameController.addListener(() {
+      bookEditValidationCubit!.bookNameValidation(bookNameController.text);
+    });
+    bookWriterController.addListener(() {
+      bookEditValidationCubit!.bookWriterValidation(bookWriterController.text);
+    });
+
+    bookLanguageController.addListener(() {
+      bookEditValidationCubit!
+          .bookLanguageValidation(bookLanguageController.text);
+    });
+
+    bookPageCountController.addListener(() {
+      bookEditValidationCubit!
+          .bookPagesCountValidation(bookPageCountController.text);
+    });
+    bookVoteController.addListener(() {
+      bookEditValidationCubit!.bookVotesValidation(bookVoteController.text);
+    });
+    bookSellCountController.addListener(() {
+      bookEditValidationCubit!
+          .bookSalesValidation(bookSellCountController.text);
+    });
+    priceController.addListener(() {
+      bookEditValidationCubit!.bookPriceValidation(priceController.text);
+    });
+    bookDescController.addListener(() {
+      bookEditValidationCubit!.bookDescValidation(bookDescController.text);
+    });
   }
 }

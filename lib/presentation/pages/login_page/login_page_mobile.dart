@@ -12,7 +12,7 @@ import '../../widgets/background_shapes/background_shapes_desktop.dart';
 import '../../widgets/my_button.dart';
 import '../../widgets/progress_button.dart';
 import '../../widgets/toast_widget.dart';
-import '../../widgets/warning_bar.dart';
+import '../../widgets/warning_bar/warning_bar_mobile.dart';
 
 class LoginPageMobile extends StatelessWidget {
   LoginPageMobile({Key? key}) : super(key: key);
@@ -100,9 +100,10 @@ class LoginPageMobile extends StatelessWidget {
                             BlocBuilder<FormValidationCubit,
                                 FormValidationState>(
                               builder: (context, state) {
-                                return state.isUsernameValid
+                                return state.isUsernameValid!
                                     ? Container()
-                                    : WarningBar(text: "نام کاربری اشتباه است");
+                                    : WarningBarMobile(
+                                        text: "نام کاربری اشتباه است");
                               },
                             ),
                             const SizedBox(height: 16),
@@ -115,9 +116,10 @@ class LoginPageMobile extends StatelessWidget {
                             BlocBuilder<FormValidationCubit,
                                 FormValidationState>(
                               builder: (context, state) {
-                                return state.isPasswordValid
+                                return state.isPasswordValid!
                                     ? Container()
-                                    : WarningBar(text: "رمز عبور اشتباه است");
+                                    : WarningBarMobile(
+                                        text: "رمز عبور اشتباه است");
                               },
                             ),
                             const SizedBox(

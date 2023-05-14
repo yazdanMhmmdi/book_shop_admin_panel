@@ -1,6 +1,7 @@
 import 'package:book_shop_admin_panel/presentation/cubit/detail_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/cubit/form_validation_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/cubit/internet_cubit.dart';
+import 'package:book_shop_admin_panel/presentation/cubit/user_validation_cubit.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 import 'core/network/auth_remote_api_service.dart';
@@ -67,6 +68,8 @@ Future<void> init() async {
       ));
 
   sl.registerFactory(() => FormValidationCubit());
+  sl.registerFactory(() => UserValidationCubit());
+
 //  usecases
   sl.registerLazySingleton(() => GetBooksUsecase(sl()));
   sl.registerLazySingleton(() => EditBookUsecase(sl()));

@@ -13,8 +13,9 @@ const String kCacheFailureMessage = 'cache failure';
 
 const String customCurrencyPattern = "###,### تومان";
 
-const int kAnimationDuration = 350;
+RegExp kValidCharacters = RegExp(r'^[a-zA-Z0-9_\-=@,\.;]+$');
 
+const int kAnimationDuration = 350;
 
 const List<Map<String, String>> ruleTypes = [
   {

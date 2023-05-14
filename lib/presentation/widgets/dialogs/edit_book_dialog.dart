@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:book_shop_admin_panel/presentation/cubit/book_edit_validation_cubit.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +16,7 @@ import '../custom_dropdown_widget.dart';
 import '../global_class.dart';
 import '../image_picker_widget.dart';
 import '../price_text_field_desktop.dart';
+import '../warning_bar/warning_bar_desktop.dart';
 
 class EditBookDialog extends StatefulWidget {
   BookModel? bookModel;
@@ -58,15 +60,12 @@ class _EditBookDialogState extends State<EditBookDialog> {
   TextEditingController _priceCountController = TextEditingController();
   TextEditingController _salesCountCountController = TextEditingController();
 
+  BookEditValidationCubit? _bookEditValidationCubit;
   @override
   void initState() {
     super.initState();
     initDialog();
-    //notify price formatter
-    _priceCountController.addListener(() {
-      _formatter.format(_priceCountController.text);
-    });
-    // _booksBloc!.add(ReturnSelectedBookEvent());
+    initListeners();
   }
 
   @override
@@ -95,20 +94,77 @@ class _EditBookDialogState extends State<EditBookDialog> {
         children: [
           Wrap(
             children: [
-              textField("نویسنده", 377,
-                  _writerController..text = "${widget.bookModel!.writer!}", 50),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  textField("نویسنده", 377,
+                      _writerController..text = widget.bookModel!.writer!, 50),
+                  SizedBox(
+                    width: 260,
+                    child: BlocBuilder<BookEditValidationCubit,
+                        BookEditValidationState>(
+                      builder: (context, state) {
+                        if (state is ValidationStatus) {
+                          return state.bookWriterError!.isNotEmpty
+                              ? WarningBarDesktop(text: state.bookWriterError!)
+                              : Container();
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(width: 16),
-              textField("موضوع کتاب", 377,
-                  _nameController..text = "${widget.bookModel!.name!}", 50)
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  textField("موضوع کتاب", 377,
+                      _nameController..text = widget.bookModel!.name!, 50),
+                  SizedBox(
+                    width: 260,
+                    child: BlocBuilder<BookEditValidationCubit,
+                        BookEditValidationState>(
+                      builder: (context, state) {
+                        if (state is ValidationStatus) {
+                          return state.bookNameError!.isNotEmpty
+                              ? WarningBarDesktop(text: state.bookNameError!)
+                              : Container();
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           multiTextField(
               "توضیحات",
               _descriptionController
                 ..text = "${widget.bookModel!.description!}",
               560),
           SizedBox(
+            width: 260,
+            child:
+                BlocBuilder<BookEditValidationCubit, BookEditValidationState>(
+              builder: (context, state) {
+                if (state is ValidationStatus) {
+                  return state.bookDescError!.isNotEmpty
+                      ? WarningBarDesktop(text: state.bookDescError!)
+                      : Container();
+                } else {
+                  return Container();
+                }
+              },
+            ),
+          ),
+          const SizedBox(
             height: 16,
           ),
           Wrap(
@@ -129,57 +185,166 @@ class _EditBookDialogState extends State<EditBookDialog> {
               ),
 
               SizedBox(width: 16),
-              textField(
-                  "زبان  ",
-                  377,
-                  _languageController..text = "${widget.bookModel!.language!}",
-                  15),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  textField(
+                      "زبان  ",
+                      377,
+                      _languageController..text = widget.bookModel!.language!,
+                      15),
+                  SizedBox(
+                    width: 220,
+                    child: BlocBuilder<BookEditValidationCubit,
+                        BookEditValidationState>(
+                      builder: (context, state) {
+                        if (state is ValidationStatus) {
+                          return state.bookLanguageError!.isNotEmpty
+                              ? WarningBarDesktop(
+                                  text: state.bookLanguageError!)
+                              : Container();
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Wrap(
             children: [
-              textField(
-                  "رای  ",
-                  186,
-                  _voteCountController
-                    ..text = "${widget.bookModel!.voteCount!}",
-                  3,
-                  textInputType: TextInputType.number,
-                  isOnlyDigit: true, onChanged: (val) {
-                if (val.isNotEmpty) {
-                  if (double.parse(val) >= 5.0) {
-                    _voteCountController.text = "5";
-                  }
-                }
-              }),
-              const SizedBox(width: 8),
-              PriceTextFieldDesktop(
-                title: "قیمت",
-                controller: _priceCountController
-                  ..text = _formatter.format(widget.bookModel!.price!),
-                width: 186,
-                maxLengh: 14,
-                textInputType: TextInputType.number,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  textField(
+                      "رای  ",
+                      186,
+                      _voteCountController
+                        ..text = widget.bookModel!.voteCount.toString(),
+                      3,
+                      textInputType: TextInputType.number,
+                      isOnlyDigit: true, onChanged: (val) {
+                    if (val.isNotEmpty) {
+                      if (double.parse(val) >= 5.0) {
+                        _voteCountController.text = "5";
+                      }
+                    }
+                  }),
+                  SizedBox(
+                    width: 186,
+                    child: BlocBuilder<BookEditValidationCubit,
+                        BookEditValidationState>(
+                      builder: (context, state) {
+                        if (state is ValidationStatus) {
+                          return state.bookVoteCountError!.isNotEmpty
+                              ? WarningBarDesktop(
+                                  text: state.bookVoteCountError!)
+                              : Container();
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(width: 8),
-              textField(
-                  "تعداد فروش  ",
-                  186,
-                  _salesCountCountController
-                    ..text = "${widget.bookModel!.salesCount!}",
-                  3,
-                  textInputType: TextInputType.number,
-                  isOnlyDigit: true),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  PriceTextFieldDesktop(
+                    title: "قیمت",
+                    controller: _priceCountController
+                      ..text = _formatter.format(widget.bookModel!.price!),
+                    width: 186,
+                    maxLengh: 14,
+                    textInputType: TextInputType.number,
+                  ),
+                  SizedBox(
+                    width: 186,
+                    child: BlocBuilder<BookEditValidationCubit,
+                        BookEditValidationState>(
+                      builder: (context, state) {
+                        if (state is ValidationStatus) {
+                          return state.bookPriceError!.isNotEmpty
+                              ? WarningBarDesktop(text: state.bookPriceError!)
+                              : Container();
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(width: 8),
-              textField(
-                "تعداد صفحات",
-                186,
-                _pageCountController..text = "${widget.bookModel!.pagesCount!}",
-                4,
-                textInputType: TextInputType.number,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  textField(
+                      "تعداد فروش  ",
+                      186,
+                      _salesCountCountController
+                        ..text = widget.bookModel!.salesCount!,
+                      3,
+                      textInputType: TextInputType.number,
+                      isOnlyDigit: true),
+                  SizedBox(
+                    width: 186,
+                    child: BlocBuilder<BookEditValidationCubit,
+                        BookEditValidationState>(
+                      builder: (context, state) {
+                        if (state is ValidationStatus) {
+                          return state.bookSalesCountError!.isNotEmpty
+                              ? WarningBarDesktop(
+                                  text: state.bookSalesCountError!)
+                              : Container();
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  textField(
+                    "تعداد صفحات",
+                    186,
+                    _pageCountController..text = widget.bookModel!.pagesCount!,
+                    4,
+                    textInputType: TextInputType.number,
+                  ),
+                  SizedBox(
+                    width: 186,
+                    child: BlocBuilder<BookEditValidationCubit,
+                        BookEditValidationState>(
+                      builder: (context, state) {
+                        if (state is ValidationStatus) {
+                          return state.bookPagesCountError!.isNotEmpty
+                              ? WarningBarDesktop(
+                                  text: state.bookPagesCountError!)
+                              : Container();
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 16,
@@ -240,7 +405,15 @@ class _EditBookDialogState extends State<EditBookDialog> {
                 splashColor: Colors.black26,
                 borderRadius: BorderRadius.circular(8),
                 onTap: () async {
-                  _booksBloc!.add(EditEvent(
+                  if (_bookEditValidationCubit!.bookNameError!.isEmpty &&
+                      _bookEditValidationCubit!.bookWroterError!.isEmpty &&
+                      _bookEditValidationCubit!.bookPriceError!.isEmpty &&
+                      _bookEditValidationCubit!.bookSalesCountError!.isEmpty &&
+                      _bookEditValidationCubit!.bookVoteCountError!.isEmpty &&
+                      _bookEditValidationCubit!.bookDescError!.isEmpty &&
+                      _bookEditValidationCubit!.bookLanguageError!.isEmpty &&
+                      _bookEditValidationCubit!.bookPagesCountError!.isEmpty) {
+                    _booksBloc!.add(EditEvent(
                       pictureFile: GlobalClass.file,
                       bookId: widget.bookModel!.id,
                       coverType: _coverType,
@@ -252,22 +425,25 @@ class _EditBookDialogState extends State<EditBookDialog> {
                       voteCount: _voteCountController.text,
                       price: _formatter.getUnformattedValue().toString(),
                       salesCount: _salesCountCountController.text,
-                      writer: _writerController.text));
-                  // EditBookUsecase usecase = EditBookUsecase(sl());
-                  // var s = await usecase(EditBookRequestParams(
-                  //     pictureFile: GlobalClass.file,
-                  //     bookId: widget.bookModel!.id,
-                  //     coverType: widget.bookModel!.coverType,
-                  //     description: widget.bookModel!.description,
-                  //     language: widget.bookModel!.language,
-                  //     name: widget.bookModel!.name,
-                  //     pagesCount: widget.bookModel!.pagesCount,
-                  //     voteCount: widget.bookModel!.voteCount.toString(),
-                  //     writer: widget.bookModel!.writer));
-                  setState(() {
-                    GlobalClass.file = File('');
-                  });
-                  Navigator.pop(context);
+                      writer: _writerController.text,
+                      isMobile: false,
+                    ));
+                    // EditBookUsecase usecase = EditBookUsecase(sl());
+                    // var s = await usecase(EditBookRequestParams(
+                    //     pictureFile: GlobalClass.file,
+                    //     bookId: widget.bookModel!.id,
+                    //     coverType: widget.bookModel!.coverType,
+                    //     description: widget.bookModel!.description,
+                    //     language: widget.bookModel!.language,
+                    //     name: widget.bookModel!.name,
+                    //     pagesCount: widget.bookModel!.pagesCount,
+                    //     voteCount: widget.bookModel!.voteCount.toString(),
+                    //     writer: widget.bookModel!.writer));
+                    setState(() {
+                      GlobalClass.file = File('');
+                    });
+                    Navigator.pop(context);
+                  }
                 },
                 child: Center(
                   child: Text(
@@ -398,6 +574,8 @@ class _EditBookDialogState extends State<EditBookDialog> {
 
   initDialog() {
     _booksBloc = BlocProvider.of<BooksBloc>(context);
+    _bookEditValidationCubit =
+        BlocProvider.of<BookEditValidationCubit>(context);
     _coverType = widget.bookModel!.coverType;
     _categoryTypeId = widget.bookModel!.categoryId!;
   }
@@ -421,6 +599,39 @@ class _EditBookDialogState extends State<EditBookDialog> {
       default:
         return Strings.categoryOptionSicence;
     }
+  }
+
+  void initListeners() {
+    _nameController.addListener(() {
+      _bookEditValidationCubit!.bookNameValidation(_nameController.text);
+    });
+    _writerController.addListener(() {
+      _bookEditValidationCubit!.bookWriterValidation(_writerController.text);
+    });
+    _descriptionController.addListener(() {
+      _bookEditValidationCubit!.bookDescValidation(_descriptionController.text);
+    });
+    _languageController.addListener(() {
+      _bookEditValidationCubit!
+          .bookLanguageValidation(_languageController.text);
+    });
+    _pageCountController.addListener(() {
+      _bookEditValidationCubit!
+          .bookPagesCountValidation(_pageCountController.text);
+    });
+    _salesCountCountController.addListener(() {
+      _bookEditValidationCubit!
+          .bookSalesValidation(_salesCountCountController.text);
+    });
+    _voteCountController.addListener(() {
+      _bookEditValidationCubit!.bookVotesValidation(_voteCountController.text);
+    });
+
+    _priceCountController.addListener(() {
+      //notify price formatter
+      _formatter.format(_priceCountController.text);
+      _bookEditValidationCubit!.bookPriceValidation(_priceCountController.text);
+    });
   }
 
   @override

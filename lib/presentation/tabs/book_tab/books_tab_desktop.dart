@@ -1,3 +1,4 @@
+import 'package:book_shop_admin_panel/presentation/cubit/book_edit_validation_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -74,8 +75,15 @@ class _BooksTabDesktopState extends State<BooksTabDesktop>
               onTap: () {
                 ShowDialog.showDialog(
                     context,
-                    BlocProvider.value(
-                      value: BlocProvider.of<BooksBloc>(context),
+                    MultiBlocProvider(
+                      providers: [
+                        BlocProvider.value(
+                          value: BlocProvider.of<BooksBloc>(context),
+                        ),
+                        BlocProvider(
+                          create: (context) => BookEditValidationCubit(),
+                        ),
+                      ],
                       child: AddBookDialog(),
                     ));
               },
@@ -88,13 +96,21 @@ class _BooksTabDesktopState extends State<BooksTabDesktop>
                   for (var book in booksModels!) {
                     if (GlobalClass.pickedBookId.toString() == book.id) {
                       ShowDialog.showDialog(
-                          context,
-                          BlocProvider.value(
-                            value: BlocProvider.of<BooksBloc>(context),
-                            child: EditBookDialog(
-                              bookModel: book,
+                        context,
+                        MultiBlocProvider(
+                          providers: [
+                            BlocProvider.value(
+                              value: BlocProvider.of<BooksBloc>(context),
                             ),
-                          ));
+                            BlocProvider(
+                              create: (context) => BookEditValidationCubit(),
+                            )
+                          ],
+                          child: EditBookDialog(
+                            bookModel: book,
+                          ),
+                        ),
+                      );
                     }
                   }
                 } else {

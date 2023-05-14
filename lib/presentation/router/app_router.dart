@@ -3,6 +3,7 @@ import 'package:book_shop_admin_panel/presentation/cubit/form_validation_cubit.d
 import 'package:book_shop_admin_panel/presentation/cubit/internet_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/pages/edit_page/edit_page_mobile.dart';
 
+import '../cubit/book_edit_validation_cubit.dart';
 import '../pages/category_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +33,7 @@ class AppRouter {
       case '/loginpage':
         return loginPage();
       case '/editPage':
-        return editPage();
+        return editPage(settings);
       default:
         return panelPage();
     }
@@ -72,12 +73,19 @@ class AppRouter {
             )));
   }
 
-  MaterialPageRoute editPage() {
+  MaterialPageRoute editPage(RouteSettings settings) {
+    final Map<String, String?> args =
+        settings.arguments as Map<String, String?>;
+
     return MaterialPageRoute(
         builder: ((context) => MultiBlocProvider(
               providers: [
                 BlocProvider(
                   create: (context) => DetailCubit(),
+                ),
+                BlocProvider.value(value: formValidationCubit),
+                BlocProvider(
+                  create: (context) => BookEditValidationCubit(),
                 ),
                 BlocProvider.value(
                   value: internetCubit,
@@ -92,7 +100,9 @@ class AppRouter {
                   ),
                 ),
               ],
-              child: EditPageMobile(),
+              child: EditPageMobile(
+                args: args,
+              ),
             )));
   }
 }

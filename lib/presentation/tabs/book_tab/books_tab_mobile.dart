@@ -181,7 +181,11 @@ class _BooksTabMobileState extends State<BooksTabMobile> {
             Container(
               child: FloatingActionButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/editPage');
+                  Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/editPage',
+                      arguments: <String, String?>{},
+                      (route) => false);
                 },
                 heroTag: 'addBooks',
                 tooltip: 'افزودن کتاب',
@@ -202,10 +206,27 @@ class _BooksTabMobileState extends State<BooksTabMobile> {
   Widget returnCard(BookModel book) {
     return BookItemMobile(
       bookModel: book,
-      onTap: (context) {
+      onDelete: (context) {
         booksBloc!.add(DeleteEvent(bookId: book.id));
         booksBloc!.add(ResetEvent());
         booksBloc!.add(FetchEvent(category: GlobalClass.currentCategoryId));
+      },
+      onEdit: (context) {
+        Navigator.pushNamed(context, '/editPage', arguments: <String, String?>{
+          'bookId': book.id,
+          'name': book.name,
+          'writer': book.writer,
+          'desc': book.description,
+          'language': book.language,
+          'pagesCount': book.pagesCount,
+          'picture': book.picture,
+          'salesCount': book.salesCount,
+          'voteCount': book.voteCount.toString(),
+          'coverType': book.coverType,
+          'price': book.price,
+          'categoryId': book.categoryId,
+          'opration': 'edit'
+        });
       },
     );
   }
