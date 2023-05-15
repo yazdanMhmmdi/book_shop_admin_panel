@@ -1,3 +1,4 @@
+import 'package:book_shop_admin_panel/core/utils/image_address_provider.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -22,9 +23,9 @@ class Book extends Equatable {
   late final String? language;
   @JsonKey(defaultValue: '')
   late final String? coverType;
-  @JsonKey(defaultValue: '')
+  @JsonKey(defaultValue: '', fromJson: convertToURL)
   late final String? pictureThumb;
-  @JsonKey(defaultValue: '')
+  @JsonKey(defaultValue: '', fromJson: convertToURL)
   late final String? picture;
   @JsonKey(defaultValue: '')
   late final String? salesCount;
@@ -77,5 +78,9 @@ class Book extends Equatable {
 
   static double? dataFromJson(dynamic json) {
     return double.parse(json.toString());
+  }
+
+  static String? convertToURL(String imgAddress) {
+    return ImageAddressProvider.getAddress(imgAddress);
   }
 }

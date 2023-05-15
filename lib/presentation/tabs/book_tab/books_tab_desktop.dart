@@ -335,7 +335,7 @@ class _BooksTabDesktopState extends State<BooksTabDesktop>
       selected: (GlobalClass.pickedBookId == int.parse(book.id.toString())
           ? true
           : false),
-      image: ImageAddressProvider.getAddress(book.pictureThumb!),
+      image: book.pictureThumb!,
       title: book.name!,
       writer: book.writer!,
       rate: book.voteCount!,

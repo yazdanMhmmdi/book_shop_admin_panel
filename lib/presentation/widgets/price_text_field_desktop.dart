@@ -42,7 +42,7 @@ class _PriceTextFieldDesktopState extends State<PriceTextFieldDesktop> {
               color: IColors.black85,
               decoration: TextDecoration.none),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Material(

@@ -34,8 +34,7 @@ class _ImagePickerSpotState extends State<ImagePickerWidget> {
   void initState() {
     try {
       if (widget.imgUrl!.isNotEmpty) {
-        _fileFromImageUrl(ImageAddressProvider.getAddress(widget.imgUrl!))
-            .then((fFile) {
+        _fileFromImageUrl(widget.imgUrl!).then((fFile) {
           setState(() {
             //set default file value
             widget.image = fFile;

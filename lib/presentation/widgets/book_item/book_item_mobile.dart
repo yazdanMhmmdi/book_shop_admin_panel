@@ -103,8 +103,7 @@ class BookItemMobile extends StatelessWidget {
                               color: Colors.transparent,
                               image: DecorationImage(
                                 image: CachedNetworkImageProvider(
-                                  ImageAddressProvider.getAddress(
-                                      bookModel!.pictureThumb!),
+                                  bookModel!.pictureThumb!,
                                 ),
                               ),
                             ),

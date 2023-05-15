@@ -58,6 +58,15 @@ class _EditBookDialogState extends State<AddBookDialog> {
     customPattern: customCurrencyPattern,
     decimalDigits: 0,
   );
+
+  CurrencyTextInputFormatter _pagesFormatter = CurrencyTextInputFormatter(
+    customPattern: customThreeDigitsPattern,
+    decimalDigits: 0,
+  );
+  CurrencyTextInputFormatter _salesFormatter = CurrencyTextInputFormatter(
+    customPattern: customThreeDigitsPattern,
+    decimalDigits: 0,
+  );
   TextEditingController _languageController = TextEditingController();
 
   TextEditingController _descriptionController = TextEditingController();
@@ -281,8 +290,13 @@ class _EditBookDialogState extends State<AddBookDialog> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   textField(
-                      "تعداد فروش  ", 186, _salesCountCountController..text, 3,
-                      textInputType: TextInputType.number, isOnlyDigit: true),
+                    "تعداد فروش  ",
+                    186,
+                    _salesCountCountController..text,
+                    11,
+                    textInputType: TextInputType.number,
+                    threeDigitSeperator: true,
+                  ),
                   SizedBox(
                     width: 186,
                     child: BlocBuilder<BookEditValidationCubit,
@@ -306,13 +320,9 @@ class _EditBookDialogState extends State<AddBookDialog> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  textField(
-                    "تعداد صفحات",
-                    186,
-                    _pageCountController..text,
-                    4,
-                    textInputType: TextInputType.number,
-                  ),
+                  textField("تعداد صفحات", 186, _pageCountController..text, 6,
+                      textInputType: TextInputType.number,
+                      threeDigitSeperator: true),
                   SizedBox(
                     width: 186,
                     child: BlocBuilder<BookEditValidationCubit,
@@ -403,10 +413,12 @@ class _EditBookDialogState extends State<AddBookDialog> {
                         description: _descriptionController.text,
                         language: _languageController.text,
                         name: _nameController.text,
-                        pagesCount: _pageCountController.text,
+                        pagesCount:
+                            _pagesFormatter.getUnformattedValue().toString(),
                         voteCount: _voteCountController.text,
                         price: _formatter.getUnformattedValue().toString(),
-                        salesCount: _salesCountCountController.text,
+                        salesCount:
+                            _salesFormatter.getUnformattedValue().toString(),
                         writer: _writerController.text));
                     setState(() {
                       GlobalClass.file = File(Assets.bookPlaceHolder);
@@ -434,10 +446,15 @@ class _EditBookDialogState extends State<AddBookDialog> {
   }
 
   Widget textField(
-      String title, double width, TextEditingController controller, maxLengh,
-      {Function(String)? onChanged,
-      TextInputType? textInputType,
-      bool? isOnlyDigit}) {
+    String title,
+    double width,
+    TextEditingController controller,
+    maxLengh, {
+    Function(String)? onChanged,
+    TextInputType? textInputType,
+    bool? isOnlyDigit,
+    bool threeDigitSeperator = false,
+  }) {
     onChanged ??= onChanged = (v) {
       return '';
     };
@@ -475,6 +492,12 @@ class _EditBookDialogState extends State<AddBookDialog> {
                 maxLines: 1,
                 keyboardType: textInputType,
                 inputFormatters: <TextInputFormatter>[
+                  threeDigitSeperator
+                      ? CurrencyTextInputFormatter(
+                          customPattern: customThreeDigitsPattern,
+                          decimalDigits: 0,
+                        )
+                      : FilteringTextInputFormatter.singleLineFormatter,
                   LengthLimitingTextInputFormatter(maxLengh),
                   isOnlyDigit
                       ? FilteringTextInputFormatter.allow(
@@ -556,12 +579,14 @@ class _EditBookDialogState extends State<AddBookDialog> {
           .bookLanguageValidation(_languageController.text);
     });
     _pageCountController.addListener(() {
-      _bookEditValidationCubit!
-          .bookPagesCountValidation(_pageCountController.text);
+      _pagesFormatter.format(_pageCountController.text);
+      _bookEditValidationCubit!.bookPagesCountValidation(
+          _pagesFormatter.getUnformattedValue().toString());
     });
     _salesCountCountController.addListener(() {
-      _bookEditValidationCubit!
-          .bookSalesValidation(_salesCountCountController.text);
+      _salesFormatter.format(_salesCountCountController.text);
+      _bookEditValidationCubit!.bookSalesValidation(
+          _salesFormatter.getUnformattedValue().toString());
     });
     _voteCountController.addListener(() {
       _bookEditValidationCubit!.bookVotesValidation(_voteCountController.text);

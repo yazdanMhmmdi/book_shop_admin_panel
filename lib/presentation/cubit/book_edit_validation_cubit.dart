@@ -73,10 +73,10 @@ class BookEditValidationCubit extends Cubit<BookEditValidationState> {
   }
 
   void bookPagesCountValidation(String text) {
-    if (text.isEmpty) {
+    if (text.isEmpty || text == "0") {
       bookPagesCountError = "تعداد صفحات کتاب نمی تواند خالی باشد";
-    } else if (int.parse(text) > 10000) {
-      bookPagesCountError = "تعداد صفحات کتاب نمی تواند بیشتر 10,000 صفحه باشد";
+    } else if (int.parse(text) > 99999) {
+      bookPagesCountError = "تعداد صفحات کتاب نمی تواند بیشتر 99,999 صفحه باشد";
     } else {
       bookPagesCountError = "";
     }
@@ -111,7 +111,7 @@ class BookEditValidationCubit extends Cubit<BookEditValidationState> {
   }
 
   void bookSalesValidation(String text) {
-    if (text.isEmpty) {
+    if (text.isEmpty || text == "0") {
       bookSalesCountError = "تعداد فروش کتاب نمی تواند خالی باشد";
     } else if (int.parse(text) > 1000000000) {
       bookSalesCountError =

@@ -13,6 +13,8 @@ const String kCacheFailureMessage = 'cache failure';
 
 const String customCurrencyPattern = "###,### تومان";
 
+const String customThreeDigitsPattern = "###,###";
+
 RegExp kValidCharacters = RegExp(r'^[a-zA-Z0-9_\-=@,\.;]+$');
 
 const int kAnimationDuration = 350;

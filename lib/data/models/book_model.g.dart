@@ -17,8 +17,12 @@ BookModel _$BookModelFromJson(Map<String, dynamic> json) => BookModel(
       language: json['language'] as String? ?? '',
       name: json['name'] as String? ?? '',
       pagesCount: json['pages_count'] as String? ?? '',
-      picture: json['picture'] as String? ?? '',
-      pictureThumb: json['picture_thumb'] as String? ?? '',
+      picture: json['picture'] == null
+          ? ''
+          : Book.convertToURL(json['picture'] as String),
+      pictureThumb: json['picture_thumb'] == null
+          ? ''
+          : Book.convertToURL(json['picture_thumb'] as String),
       posterText: json['poster_text'] as String? ?? '',
       price: json['price'] as String? ?? '0',
       salesCount: json['sales_count'] as String? ?? '',

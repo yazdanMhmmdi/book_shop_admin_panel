@@ -766,9 +766,7 @@ class _EditPageMobileState extends State<EditPageMobile> {
       pictureUrl = arguments['picture'];
       opration = arguments['opration'];
       //convert URL to FILE
-      ImageConverter.fileFromImageUrl(
-              ImageAddressProvider.getAddress(arguments['picture']))
-          .then((value) {
+      ImageConverter.fileFromImageUrl(arguments['picture']!).then((value) {
         GlobalClass.file = value;
         setState(() {});
       });
