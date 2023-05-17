@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 class Book extends Equatable {
+  @JsonKey(defaultValue: 1, fromJson: toInt)
+  late final int? rowid;
   @JsonKey(defaultValue: '')
   late final String? id;
   @JsonKey(defaultValue: '')
@@ -37,26 +39,29 @@ class Book extends Equatable {
   late final String? posterText;
   @JsonKey(defaultValue: '')
   late final String? blurhash;
-  Book(
-      {required this.blurhash,
-      required this.categoryId,
-      required this.cover,
-      required this.coverType,
-      required this.description,
-      required this.id,
-      required this.isBanner,
-      required this.language,
-      required this.name,
-      required this.pagesCount,
-      required this.picture,
-      required this.pictureThumb,
-      required this.posterText,
-      required this.price,
-      required this.salesCount,
-      required this.voteCount,
-      required this.writer});
+  Book({
+    required this.blurhash,
+    required this.categoryId,
+    required this.cover,
+    required this.coverType,
+    required this.description,
+    required this.id,
+    required this.isBanner,
+    required this.language,
+    required this.name,
+    required this.pagesCount,
+    required this.picture,
+    required this.pictureThumb,
+    required this.posterText,
+    required this.price,
+    required this.salesCount,
+    required this.voteCount,
+    required this.writer,
+    required this.rowid,
+  });
   @override
   List<Object?> get props => [
+        rowid,
         blurhash,
         categoryId,
         cover,
@@ -83,4 +88,6 @@ class Book extends Equatable {
   static String? convertToURL(String imgAddress) {
     return ImageAddressProvider.getAddress(imgAddress);
   }
+
+  static int? toInt(String str) => int.parse(str);
 }

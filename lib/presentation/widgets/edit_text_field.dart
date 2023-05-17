@@ -1,5 +1,8 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../../core/constants/constants.dart';
 
 class EditTextField extends StatefulWidget {
   var icon;
@@ -11,16 +14,20 @@ class EditTextField extends StatefulWidget {
   TextEditingController controller;
   bool? isOnlyDigit;
   int? maxLengh;
-  EditTextField(
-      {required this.controller,
-      required this.obscureText,
-      required this.icon,
-      required this.text,
-      required this.textFieldColor,
-      required this.width,
-      this.onChanged,
-      this.isOnlyDigit = false,
-      this.maxLengh = 30});
+  bool threeDigitSeperator;
+
+  EditTextField({
+    required this.controller,
+    required this.obscureText,
+    required this.icon,
+    required this.text,
+    required this.textFieldColor,
+    required this.width,
+    this.onChanged,
+    this.isOnlyDigit = false,
+    this.maxLengh = 30,
+    this.threeDigitSeperator = false,
+  });
 
   @override
   _EditTextFieldState createState() => _EditTextFieldState();
@@ -75,7 +82,12 @@ class _EditTextFieldState extends State<EditTextField> {
                   ),
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(widget.maxLengh),
-
+                    widget.threeDigitSeperator
+                        ? CurrencyTextInputFormatter(
+                            customPattern: customThreeDigitsPattern,
+                            decimalDigits: 0,
+                          )
+                        : FilteringTextInputFormatter.singleLineFormatter,
                     // FilteringTextInputFormatter.allow(
                     //     RegExp(r'^[a-zA-Z0-9]+$')),
                     widget.isOnlyDigit!

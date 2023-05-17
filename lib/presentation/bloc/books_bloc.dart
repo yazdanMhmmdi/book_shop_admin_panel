@@ -271,6 +271,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
   Future<void> _resetBook(ResetEvent event, Emitter<BooksState> emit) async {
     page = 1;
     _booksList = [];
+    noMoreData = true;
   }
 
   Future<void> delay({int seconds = 2}) async {

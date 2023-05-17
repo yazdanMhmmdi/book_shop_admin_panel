@@ -23,9 +23,7 @@ class _PanelPageMobileState extends State<PanelPageMobile>
         Icons.search,
         color: Colors.white,
       ),
-      onPressed: () {
-
-      },
+      onPressed: () {},
     ),
     FloatingActionButton(
       onPressed: () {
@@ -59,8 +57,8 @@ class _PanelPageMobileState extends State<PanelPageMobile>
             Expanded(
               child: TabBarView(
                 controller: tabController,
-                children: const [
-                  BooksTabMobile(),
+                children: [
+                  const BooksTabMobile(),
                   UsersTabMobile(),
                 ],
               ),

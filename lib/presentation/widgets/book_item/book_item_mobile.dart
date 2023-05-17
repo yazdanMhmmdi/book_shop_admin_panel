@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:octo_image/octo_image.dart';
 
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
@@ -16,7 +17,6 @@ class BookItemMobile extends StatelessWidget {
   BookModel? bookModel;
   late Function(BuildContext context) onDelete;
   late Function(BuildContext context) onEdit;
-  int index = 1;
   BookItemMobile({
     required this.bookModel,
     required this.onDelete,
@@ -25,7 +25,7 @@ class BookItemMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FadeInAnimation(
-      0.25 + ((index + 1) * 0.3),
+      0.25 + ((bookModel!.rowid! + 1) * 0.3),
       Slidable(
         startActionPane: ActionPane(
           motion: const DrawerMotion(),
@@ -97,15 +97,16 @@ class BookItemMobile extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(5),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.transparent,
-                              image: DecorationImage(
-                                image: CachedNetworkImageProvider(
-                                  bookModel!.pictureThumb!,
-                                ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: OctoImage(
+                              image: CachedNetworkImageProvider(
+                                  bookModel!.pictureThumb!),
+                              placeholderBuilder: OctoPlaceholder.blurHash(
+                                bookModel!.blurhash!,
                               ),
+                              errorBuilder: OctoError.icon(color: Colors.red),
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),

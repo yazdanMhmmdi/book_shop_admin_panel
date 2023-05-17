@@ -9,6 +9,7 @@ part 'user_model.g.dart';
 )
 class UserModel extends User {
   UserModel({
+    int? rowid,
     String? id,
     String? username,
     String? password,
@@ -17,6 +18,7 @@ class UserModel extends User {
     String? thumbPicture,
     String? createdAt,
   }) : super(
+          rowid: rowid,
           createdAt: createdAt,
           id: id,
           password: password,

@@ -23,6 +23,7 @@ import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
 import '../../../core/utils/image_address_provider.dart';
 import '../../../core/utils/map_categories.dart';
+import '../../../core/utils/typogaphy.dart';
 import '../../bloc/books_bloc.dart';
 import '../../cubit/detail_cubit.dart';
 import '../../cubit/internet_cubit.dart';
@@ -72,7 +73,14 @@ class _EditPageMobileState extends State<EditPageMobile> {
 
   late Map<String, String?> arguments;
   String? pictureUrl, opration, bookId;
-
+  CurrencyTextInputFormatter _pagesFormatter = CurrencyTextInputFormatter(
+    customPattern: customThreeDigitsPattern,
+    decimalDigits: 0,
+  );
+  CurrencyTextInputFormatter _salesFormatter = CurrencyTextInputFormatter(
+    customPattern: customThreeDigitsPattern,
+    decimalDigits: 0,
+  );
   @override
   void initState() {
     booksBloc = BlocProvider.of<BooksBloc>(context);
@@ -89,7 +97,6 @@ class _EditPageMobileState extends State<EditPageMobile> {
 
   @override
   Widget build(BuildContext context) {
-    // _detailsBloc.add(GetDetails(post_id: arguments["post_id"]));
     _animationCubit.initializeAnimations(context);
 
     return WillPopScope(
@@ -161,6 +168,8 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                         textDirection: TextDirection.rtl,
                                         child: ListView(
                                           controller: scroll,
+                                          physics:
+                                              const ClampingScrollPhysics(),
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 24),
                                           children: [
@@ -212,6 +221,17 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                               ],
                                             ),
                                             const SizedBox(
+                                              height: 8,
+                                            ),
+                                            Text(Strings.editPageImageAttention,
+                                                style:
+                                                    Typogaphy.Regular.copyWith(
+                                                  color: IColors.black35,
+                                                  fontSize: 14,
+                                                  decoration:
+                                                      TextDecoration.none,
+                                                )),
+                                            const SizedBox(
                                               height: 16,
                                             ),
                                             EditTextField(
@@ -220,8 +240,8 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                                 obscureText: false,
                                                 icon: Icons.title,
                                                 isOnlyDigit: false,
-                                                text:
-                                                    "نام کتاب را وارد کنید...",
+                                                text: Strings
+                                                    .editPageTextFeildBookName,
                                                 textFieldColor:
                                                     IColors.lowBoldGreen),
                                             BlocBuilder<BookEditValidationCubit,
@@ -249,8 +269,8 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                                 obscureText: false,
                                                 icon: Icons.person,
                                                 isOnlyDigit: false,
-                                                text:
-                                                    "نام نویسنده را وارد کنید...",
+                                                text: Strings
+                                                    .editPageTextFieldBookWriter,
                                                 textFieldColor:
                                                     IColors.lowBoldGreen),
                                             BlocBuilder<BookEditValidationCubit,
@@ -293,8 +313,8 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                                           obscureText: false,
                                                           icon: Icons.language,
                                                           isOnlyDigit: false,
-                                                          text:
-                                                              "زبان را وارد کنید...",
+                                                          text: Strings
+                                                              .editPageTextFieldBookLanguage,
                                                           textFieldColor: IColors
                                                               .lowBoldGreen),
                                                       BlocBuilder<
@@ -364,10 +384,11 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                                               bookPageCountController,
                                                           obscureText: false,
                                                           icon: Icons.book,
-                                                          isOnlyDigit: true,
-                                                          maxLengh: 5,
-                                                          text:
-                                                              "تعداد صفحات را وارد کنید...",
+                                                          maxLengh: 6,
+                                                          threeDigitSeperator:
+                                                              true,
+                                                          text: Strings
+                                                              .editPageTextFieldBookPagesCount,
                                                           textFieldColor: IColors
                                                               .lowBoldGreen),
                                                       BlocBuilder<
@@ -419,8 +440,8 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                                               }
                                                             }
                                                           },
-                                                          text:
-                                                              "تعداد رای  را وارد کنید...",
+                                                          text: Strings
+                                                              .editPageTextFieldBookVoteCount,
                                                           textFieldColor: IColors
                                                               .lowBoldGreen),
                                                       BlocBuilder<
@@ -462,13 +483,14 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                                               double.infinity,
                                                           controller:
                                                               bookSellCountController,
-                                                          maxLengh: 9,
+                                                          maxLengh: 11,
                                                           obscureText: false,
-                                                          isOnlyDigit: true,
+                                                          threeDigitSeperator:
+                                                              true,
                                                           icon: Icons
                                                               .shopping_basket,
-                                                          text:
-                                                              "تعداد فروش را وارد کنید...",
+                                                          text: Strings
+                                                              .editPageTextFieldBookSalesCount,
                                                           textFieldColor: IColors
                                                               .lowBoldGreen),
                                                       BlocBuilder<
@@ -510,8 +532,8 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                                           maxLengh: 16,
                                                           icon: Icons
                                                               .price_change,
-                                                          text:
-                                                              "قیمت را وارد کنید...",
+                                                          text: Strings
+                                                              .editPageTextFieldBookPrice,
                                                           textFieldColor: IColors
                                                               .lowBoldGreen),
                                                       BlocBuilder<
@@ -548,8 +570,8 @@ class _EditPageMobileState extends State<EditPageMobile> {
                                                         bookDescController,
                                                     obscureText: false,
                                                     icon: Icons.description,
-                                                    text:
-                                                        "توضیحات کتاب را وارد کنید...",
+                                                    text: Strings
+                                                        .editPageTextFieldBookDesc,
                                                     textFieldColor:
                                                         IColors.lowBoldGreen,
                                                     width: double.infinity),
@@ -695,7 +717,9 @@ class _EditPageMobileState extends State<EditPageMobile> {
   Widget myButton({ButtonState buttonState = ButtonState.idle}) {
     return MyButton(
         buttonState: buttonState,
-        text: opration == "edit" ? "ویرایش کتاب" : "افزودن کتاب",
+        text: opration == "edit"
+            ? Strings.editPageButtonEdit
+            : Strings.editPageButtonAdd,
         onTap: opration == "edit"
             ? () {
                 if (bookEditValidationCubit!.bookNameError!.isEmpty &&
@@ -715,9 +739,11 @@ class _EditPageMobileState extends State<EditPageMobile> {
                     description: bookDescController.text,
                     language: bookLanguageController.text,
                     name: bookNameController.text,
-                    pagesCount: bookPageCountController.text,
+                    pagesCount:
+                        _pagesFormatter.getUnformattedValue().toString(),
                     price: _formatter.getUnformattedValue().toString(),
-                    salesCount: bookSellCountController.text,
+                    salesCount:
+                        _salesFormatter.getUnformattedValue().toString(),
                     voteCount: bookVoteController.text,
                     writer: bookWriterController.text,
                     isMobile: true,
@@ -739,9 +765,11 @@ class _EditPageMobileState extends State<EditPageMobile> {
                       description: bookDescController.text,
                       language: bookLanguageController.text,
                       name: bookNameController.text,
-                      pagesCount: bookPageCountController.text,
+                      pagesCount:
+                          _pagesFormatter.getUnformattedValue().toString(),
                       price: _formatter.getUnformattedValue().toString(),
-                      salesCount: bookSellCountController.text,
+                      salesCount:
+                          _salesFormatter.getUnformattedValue().toString(),
                       voteCount: bookVoteController.text,
                       writer: bookWriterController.text,
                       pictureFile: GlobalClass.file));
@@ -756,12 +784,14 @@ class _EditPageMobileState extends State<EditPageMobile> {
       bookNameController.text = arguments['name'] ?? "";
       bookWriterController.text = arguments['writer'] ?? "";
       bookDescController.text = arguments['desc'] ?? "";
-      bookPageCountController.text = arguments['pagesCount'] ?? "";
+      bookPageCountController.text =
+          _pagesFormatter.format(arguments['pagesCount']!);
       bookVoteController.text = arguments['voteCount'] ?? "";
       priceController.text = _formatter.format(arguments['price'].toString());
       bookLanguageController.text = arguments['language'] ?? "";
       customDropDownController.text = arguments['coverType'] ?? "فیزیکی";
-      bookSellCountController.text = arguments['salesCount'] ?? "";
+      bookSellCountController.text =
+          _salesFormatter.format(arguments['salesCount']!);
       GlobalClass.currentCategoryId = arguments['categoryId'].toString();
       pictureUrl = arguments['picture'];
       opration = arguments['opration'];
@@ -789,16 +819,18 @@ class _EditPageMobileState extends State<EditPageMobile> {
           .bookLanguageValidation(bookLanguageController.text);
     });
 
-    bookPageCountController.addListener(() {
-      bookEditValidationCubit!
-          .bookPagesCountValidation(bookPageCountController.text);
-    });
     bookVoteController.addListener(() {
       bookEditValidationCubit!.bookVotesValidation(bookVoteController.text);
     });
+    bookPageCountController.addListener(() {
+      _pagesFormatter.format(bookPageCountController.text);
+      bookEditValidationCubit!.bookPagesCountValidation(
+          _pagesFormatter.getUnformattedValue().toString());
+    });
     bookSellCountController.addListener(() {
-      bookEditValidationCubit!
-          .bookSalesValidation(bookSellCountController.text);
+      _salesFormatter.format(bookPageCountController.text);
+      bookEditValidationCubit!.bookSalesValidation(
+          _salesFormatter.getUnformattedValue().toString());
     });
     priceController.addListener(() {
       bookEditValidationCubit!.bookPriceValidation(priceController.text);

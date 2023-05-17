@@ -7,6 +7,7 @@ part of 'book_model.dart';
 // **************************************************************************
 
 BookModel _$BookModelFromJson(Map<String, dynamic> json) => BookModel(
+      rowid: json['rowid'] == null ? 1 : Book.toInt(json['rowid'] as String),
       blurhash: json['blurhash'] as String? ?? '',
       categoryId: json['category_id'] as String? ?? '',
       cover: json['cover'] as String? ?? '',
@@ -33,6 +34,7 @@ BookModel _$BookModelFromJson(Map<String, dynamic> json) => BookModel(
     );
 
 Map<String, dynamic> _$BookModelToJson(BookModel instance) => <String, dynamic>{
+      'rowid': instance.rowid,
       'id': instance.id,
       'cover': instance.cover,
       'pages_count': instance.pagesCount,

@@ -25,8 +25,9 @@ import '../../widgets/toast_widget.dart';
 import '../../widgets/user_item/user_item_desktop.dart';
 
 class UsersTabMobile extends StatefulWidget {
-  const UsersTabMobile({Key? key}) : super(key: key);
+  int itemIndex = 1;
 
+  UsersTabMobile({Key? key}) : super(key: key);
   @override
   State<UsersTabMobile> createState() => _UsersTabMobileState();
 }
@@ -305,6 +306,13 @@ class _UsersTabMobileState extends State<UsersTabMobile> {
   }
 
   initTab() {
+    widget.itemIndex = 0;
     usersBloc = BlocProvider.of<UsersBloc>(context);
+  }
+
+  @override
+  void dispose() {
+    widget.itemIndex = 0;
+    super.dispose();
   }
 }

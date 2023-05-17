@@ -376,7 +376,7 @@ class _EditBookDialogState extends State<AddBookDialog> {
             height: 8,
           ),
           Text(
-              ".اگر عکسی انتخاب نکنید پیش نمایشی به عنوان عکس پیش فرض قرار خواهد گرفت",
+             Strings.editPageImageAttention,
               style: Typogaphy.Regular.copyWith(
                 color: IColors.black35,
                 fontSize: 14,

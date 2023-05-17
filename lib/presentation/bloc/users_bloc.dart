@@ -67,7 +67,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       failureOrPosts.fold(
         (failure) {
           print("UserFailure");
-        emit(UsersFailure(message: failure.toString()));
+          emit(UsersFailure(message: failure.toString()));
         },
         (UsersListModel usersListModel) {
           if (usersListModel.users!.isEmpty) {
@@ -167,7 +167,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       failureOrPosts.fold(
         (failure) {
           print("BookFailure");
-        emit(UsersFailure(message: failure.toString()));
+          emit(UsersFailure(message: failure.toString()));
         },
         (UsersListModel usersListModel) {
           print('UsersSuccess');
@@ -195,5 +195,6 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       ResetUsersEvent event, Emitter<UsersState> emit) async {
     page = 1;
     _usersList = [];
+    noMoreData = true;
   }
 }

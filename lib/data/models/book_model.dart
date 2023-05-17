@@ -8,7 +8,8 @@ part 'book_model.g.dart';
 )
 class BookModel extends Book {
   BookModel(
-      {String? blurhash,
+      {int? rowid,
+      String? blurhash,
       String? categoryId,
       String? cover,
       String? coverType,
@@ -26,6 +27,7 @@ class BookModel extends Book {
       double? voteCount,
       String? writer})
       : super(
+            rowid: rowid!,
             blurhash: blurhash!,
             categoryId: categoryId!,
             cover: cover!,

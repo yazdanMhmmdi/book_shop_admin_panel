@@ -11,7 +11,7 @@ class Strings {
   static const String bookTabWarningDeleteBook = "حذف کتاب";
   static const String bookTabWarningDeleteBookDesc =
       "حذف کتاب با موفقیت انجام شد";
-  static const String bookTabWarningError = "خطایی رخ داده است!";
+  static const String bookTabWarningError = "!خطایی رخ داده است";
   static const String bookTabSearchHint = "نام کتاب را جستجو کنید...";
 
   //*************** BOOK TAB SIDE BAR ITEMS ***********************************************
@@ -32,7 +32,7 @@ class Strings {
   static const String userTabWarningDeleteBook = "حذف کاربر";
   static const String userTabWarningDeleteBookDesc =
       "حذف کاربر با موفقیت انجام شد";
-  static const String userTabWarningError = "خطایی رخ داده است!";
+  static const String userTabWarningError = "!خطایی رخ داده است";
   static const String userTabSearchHint = "نام کاربر را جستجو کنید...";
 
   static const String bookTabSideBarEditWarning =
@@ -92,4 +92,23 @@ class Strings {
   static const String detailsAddToBasketServerErrorSubTitle =
       "خطایی هنگام اضافه کردن محصول به سبد خرید رخ داده لطفا دوباره تلاش کنید";
   static const String detailsAddToBasketServerErrorButtonText = "باشه";
+
+  //********************* EDIT PAGE  **************************************
+  static const String editPageImageAttention =
+      "اگر عکسی انتخاب نکنید پیش نمایشی به عنوان عکس پیش فرض قرار خواهد گرفت";
+  static const String editPageTextFeildBookName = "نام کتاب را وارد کنید...";
+  static const String editPageTextFieldBookWriter =
+      "نام نویسنده را وارد کنید...";
+  static const String editPageTextFieldBookLanguage = "زبان را وارد کنید...";
+  static const String editPageTextFieldBookPagesCount =
+      "تعداد صفحات را وارد کنید...";
+  static const String editPageTextFieldBookVoteCount =
+      "تعداد رای  را وارد کنید...";
+  static const String editPageTextFieldBookSalesCount =
+      "تعداد فروش را وارد کنید...";
+  static const String editPageTextFieldBookPrice = "قیمت را وارد کنید...";
+  static const String editPageTextFieldBookDesc =
+      "توضیحات کتاب را وارد کنید...";
+  static const String editPageButtonEdit = "ویرایش کتاب";
+  static const String editPageButtonAdd = "افزودن کتاب";
 }

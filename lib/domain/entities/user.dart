@@ -4,6 +4,8 @@ import 'package:json_annotation/json_annotation.dart';
 import '../../core/utils/map_rule_types.dart';
 
 class User extends Equatable {
+  @JsonKey(defaultValue: 1, fromJson: toInt)
+  late final int? rowid;
   @JsonKey(defaultValue: '')
   late final String? id;
   @JsonKey(defaultValue: '')
@@ -23,6 +25,7 @@ class User extends Equatable {
   late final String? createdAt;
 
   User({
+    required this.rowid,
     required this.id,
     required this.username,
     required this.password,
@@ -33,6 +36,7 @@ class User extends Equatable {
   });
   @override
   List<Object?> get props => [
+        rowid,
         id,
         username,
         password,
@@ -41,4 +45,6 @@ class User extends Equatable {
         thumbPicture,
         createdAt,
       ];
+
+  static int? toInt(String str) => int.parse(str);
 }

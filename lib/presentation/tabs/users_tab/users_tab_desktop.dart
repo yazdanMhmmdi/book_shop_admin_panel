@@ -228,7 +228,7 @@ class _UsersTabDesktopState extends State<UsersTabDesktop> {
         break;
       case UsersFailure:
         ToastWidget.showError(context,
-            title: Strings.userTabWarningError, desc: "خطایی رخ داده است!");
+            title: Strings.userTabWarningError, desc: "!خطایی رخ داده است");
         break;
       default:
     }
