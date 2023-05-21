@@ -88,7 +88,7 @@ flutter:
     - assets/flare/cosmos.flr
     - assets/images/customer_agent.png
     - assets/images/book_place_holder.png
-
+    - assets/images/attention_small.png
   fonts:
     - family: IranSans
       fonts:

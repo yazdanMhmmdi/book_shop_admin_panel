@@ -13,7 +13,7 @@ class _BookShopClient implements BookShopClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.4/book_shop/v1.1/api/admin';
+    baseUrl ??= 'http://192.168.1.5/book_shop/v1.1/api/admin';
   }
 
   final Dio _dio;
@@ -425,6 +425,50 @@ class _BookShopClient implements BookShopClient {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = AuthModel.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<FunctionResponseModel>> pushUpdate({
+    required version,
+    required apk,
+    required platform,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'version',
+      version,
+    ));
+    _data.files.add(MapEntry(
+      'apk',
+      MultipartFile.fromFileSync(
+        apk.path,
+        filename: apk.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    _data.fields.add(MapEntry(
+      'platform',
+      platform,
+    ));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<FunctionResponseModel>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+            .compose(
+              _dio.options,
+              '/admin_add_apk.php',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = FunctionResponseModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

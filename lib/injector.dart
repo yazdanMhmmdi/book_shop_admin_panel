@@ -1,6 +1,12 @@
+import 'package:book_shop_admin_panel/core/network/update_remote_api_service.dart';
+import 'package:book_shop_admin_panel/data/datasources/remote/update_remote_api_service_impl.dart';
+import 'package:book_shop_admin_panel/data/repositories/update_repository_impl.dart';
+import 'package:book_shop_admin_panel/domain/usecases/push_update_usecase.dart';
+import 'package:book_shop_admin_panel/presentation/bloc/update_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/cubit/detail_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/cubit/form_validation_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/cubit/internet_cubit.dart';
+import 'package:book_shop_admin_panel/presentation/cubit/settings_validation_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/cubit/user_validation_cubit.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -8,6 +14,7 @@ import 'core/network/auth_remote_api_service.dart';
 import 'data/datasources/remote/auth_remote_api_service_impl.dart';
 import 'data/repositories/auth_repository_impl.dart';
 import 'domain/repositories/auth_repository.dart';
+import 'domain/repositories/update_repository.dart';
 import 'domain/usecases/login_usecase.dart';
 import 'presentation/bloc/auth_bloc.dart';
 
@@ -44,6 +51,9 @@ final sl = GetIt.instance;
 Future<void> init() async {
   //!  Features
   //  Blocs
+  sl.registerFactory(() => UpdateBloc(
+        pushUpdateUsecase: sl(),
+      ));
   sl.registerFactory(() => BooksBloc(
         booksUsecase: sl(),
         editBookUsecase: sl(),
@@ -69,6 +79,7 @@ Future<void> init() async {
 
   sl.registerFactory(() => FormValidationCubit());
   sl.registerFactory(() => UserValidationCubit());
+  sl.registerFactory(() => SettingsValidationCubit());
 
 //  usecases
   sl.registerLazySingleton(() => GetBooksUsecase(sl()));
@@ -81,12 +92,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DeleteUsersUsecase(sl()));
   sl.registerLazySingleton(() => SearchUsersUsecase(sl()));
   sl.registerLazySingleton(() => LoginUsecase(sl()));
+  sl.registerLazySingleton(() => PushUpdateUsecase(sl()));
 
   //!  Data
   //  repositories
   sl.registerLazySingleton<BooksRepository>(() => BooksRepositoryImpl(sl()));
   sl.registerLazySingleton<UsersRepository>(() => UsersRepositoryImpl(sl()));
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()));
+  sl.registerLazySingleton<UpdateRepository>(() => UpdateRepositoryImpl(sl()));
 
   //  remote datasources
   sl.registerLazySingleton<BookRemoteApiService>(
@@ -95,6 +108,8 @@ Future<void> init() async {
       () => UserRemoteApiServiceImpl(sl()));
   sl.registerLazySingleton<AuthRemoteApiService>(
       () => AuthRemoteApiServiceImpl(sl()));
+  sl.registerLazySingleton<UpdateRemoteApiService>(
+      () => UpdateRemoteApiServiceImpl(sl()));
   //!  Core
   // sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   // sl.registerLazySingleton(() => InputConverter());

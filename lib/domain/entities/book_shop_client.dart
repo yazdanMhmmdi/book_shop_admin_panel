@@ -100,4 +100,17 @@ abstract class BookShopClient {
     @Part(name: 'username') required String username,
     @Part(name: 'password') required String password,
   });
+
+
+//********************** APP UPDATES ***************************************
+
+  @POST('/admin_add_apk.php')
+  @MultiPart()
+  Future<HttpResponse<FunctionResponseModel>> pushUpdate({
+    @Part(name: "version") required String version,
+    @Part(name: "apk") required File apk,
+    @Part(name: "platform") required String platform,
+
+  });
+
 }

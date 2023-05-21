@@ -1,6 +1,8 @@
+import 'package:book_shop_admin_panel/presentation/bloc/update_bloc.dart';
 import 'package:book_shop_admin_panel/presentation/cubit/detail_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/cubit/form_validation_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/cubit/internet_cubit.dart';
+import 'package:book_shop_admin_panel/presentation/cubit/settings_validation_cubit.dart';
 import 'package:book_shop_admin_panel/presentation/pages/edit_page/edit_page_mobile.dart';
 
 import '../cubit/book_edit_validation_cubit.dart';
@@ -35,7 +37,7 @@ class AppRouter {
       case '/editPage':
         return editPage(settings);
       default:
-        return panelPage();
+        return categoryPage();
     }
   }
 
@@ -68,6 +70,14 @@ class AppRouter {
                 BlocProvider.value(
                   value: usersBloc,
                 ),
+                BlocProvider(
+                  create: (context) => SettingsValidationCubit(),
+                ),
+                BlocProvider(
+                  create: (context) => UpdateBloc(
+                    pushUpdateUsecase: sl(),
+                  ),
+                ),
               ],
               child: const PanelPage(),
             )));
@@ -83,7 +93,9 @@ class AppRouter {
                 BlocProvider(
                   create: (context) => DetailCubit(),
                 ),
-                BlocProvider.value(value: formValidationCubit),
+                BlocProvider(
+                  create: (context) => FormValidationCubit(),
+                ),
                 BlocProvider(
                   create: (context) => BookEditValidationCubit(),
                 ),

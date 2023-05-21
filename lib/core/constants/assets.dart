@@ -26,8 +26,8 @@ class Assets {
   static const String bookDropping = "assets/flare/book_dropping.flr";
   static const String noNetworkAvailable = "assets/flare/no_network.flr";
   static const String cosmos = "assets/flare/cosmos.flr";
-
   static const String customerAgent = "assets/images/customer_agent.png";
-
   static const String bookPlaceHolder = "assets/images/book_place_holder.png";
+    static const String attentionSmall = "assets/images/attention_small.png";
+
 }

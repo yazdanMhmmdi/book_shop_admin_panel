@@ -1,5 +1,6 @@
 import 'package:book_shop_admin_panel/core/constants/i_colors.dart';
 import 'package:book_shop_admin_panel/presentation/tabs/book_tab/books_tab_mobile.dart';
+import 'package:book_shop_admin_panel/presentation/tabs/settings_tab/settings_tab_mobile.dart';
 import 'package:book_shop_admin_panel/presentation/tabs/users_tab/users_tab_mobile.dart';
 import 'package:flutter/material.dart';
 
@@ -60,6 +61,7 @@ class _PanelPageMobileState extends State<PanelPageMobile>
                 children: [
                   const BooksTabMobile(),
                   UsersTabMobile(),
+                   SettingsTabMobile(),
                 ],
               ),
             )
@@ -97,12 +99,15 @@ class _PanelPageMobileState extends State<PanelPageMobile>
         Tab(
           text: Strings.tabUsers,
         ),
+        Tab(
+          text: Strings.tabSettings,
+        ),
       ],
     );
   }
 
   initListeners() {
-    tabController = TabController(length: 2, vsync: this, initialIndex: 0)
+    tabController = TabController(length: 3, vsync: this, initialIndex: 0)
       ..addListener(() {
         setState(() {
           fabIndex = tabController!.index;

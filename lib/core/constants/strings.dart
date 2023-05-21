@@ -59,6 +59,7 @@ class Strings {
 
   static const String tabBooks = "کتابها";
   static const String tabUsers = "کاربران";
+  static const String tabSettings = "تنظیمات";
   static const String categoryOptionPhyisical = "فیزیکی";
   static const String categoryOptionDigital = "دیجیتال";
 
@@ -111,4 +112,25 @@ class Strings {
       "توضیحات کتاب را وارد کنید...";
   static const String editPageButtonEdit = "ویرایش کتاب";
   static const String editPageButtonAdd = "افزودن کتاب";
+
+//********************* SETTINGS TAB  **************************************
+  static const String settingsTabUpdateTitle = "بروزرسانی اپ";
+  static const String settingsTabUpdateVersion = "نسخه";
+  static const String settingsTabUpdateEditFieldHint = "مثلا 2.1.1";
+  static const String settingsTabUpdatePickFile = "انتخاب فایل apk.";
+  static const String settingsTabWarning = "هشدار! ";
+  static const String settingsTabWarningInfo =
+      "با آپلود ورژن جدید اپ کاربر مجبور به بروزرسانی نرم افزار می شود و فقط با بروزرسانی اپ کاربر مجاز است از برنامه استفاده کند.";
+  static const String settingsTabSuccess =  "موفقیت!";
+  static const String settingsTabSuccessDesc = "اپلیکیشن با موفقیت بروزرسانی شد";
+ static const String settingsTabFailure = "خطا !";
+  static const String settingsTabFailureDesc = "خطای هنگام بروزرسانی اپلیکیشن رخ داده است";
+
+
+//********* WIDGETS*********************************************************
+//********************* APK PICKER  **************************************
+  static const String apkPickerPickFile = "انتخاب فایل";
+//********************* UPDATE WARNING DIALOG  **************************************
+static const String updateDialogText =  "با انتشار نسخه جدید کاربر مجبور به بروزرسانی اپلیکیشن خواهد شد آیا شما مطمئن هستید؟";
+               
 }

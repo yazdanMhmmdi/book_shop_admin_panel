@@ -125,3 +125,9 @@ class AuthLoginRequestParams {
   String? username, password;
   AuthLoginRequestParams({this.password = "", this.username = ""});
 }
+
+class PushUpdateRequestParams {
+  String? version, platform;
+  File? apk;
+  PushUpdateRequestParams({this.version = "", this.platform = "", this.apk});
+}

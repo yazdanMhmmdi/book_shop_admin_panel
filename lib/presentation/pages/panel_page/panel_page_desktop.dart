@@ -1,3 +1,5 @@
+import 'package:book_shop_admin_panel/presentation/tabs/settings_tab/settings_tab_desktop.dart';
+
 import '../../../data/models/book_model.dart';
 import '../../bloc/books_bloc.dart';
 import '../../bloc/users_bloc.dart';
@@ -60,9 +62,10 @@ class _PanelPageDesktopState extends State<PanelPageDesktop>
             Expanded(
               child: TabBarView(
                 controller: tabController,
-                children: const [
+                children:  [
                   BooksTabDesktop(),
                   UsersTabDesktop(),
+                  SettingsTabDesktop(),
                 ],
               ),
             )
@@ -78,7 +81,7 @@ class _PanelPageDesktopState extends State<PanelPageDesktop>
   }
 
   initListeners() {
-    tabController = TabController(length: 2, vsync: this, initialIndex: 0)
+    tabController = TabController(length: 3, vsync: this, initialIndex: 0)
       ..addListener(() {});
   }
 
@@ -108,6 +111,9 @@ class _PanelPageDesktopState extends State<PanelPageDesktop>
         ),
         Tab(
           text: Strings.tabUsers,
+        ),
+        Tab(
+          text: Strings.tabSettings,
         ),
       ],
     );
