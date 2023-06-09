@@ -1,11 +1,14 @@
+// ignore_for_file: unnecessary_string_interpolations, unnecessary_brace_in_string_interps, must_be_immutable
+
 import 'dart:io';
 
-import 'package:book_shop_admin_panel/presentation/cubit/book_edit_validation_cubit.dart';
+import '../../cubit/book_edit_validation_cubit.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/constants/assets.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
@@ -28,7 +31,6 @@ class EditBookDialog extends StatefulWidget {
 class _EditBookDialogState extends State<EditBookDialog> {
   BooksBloc? _booksBloc;
 
-  static File? file = File('');
 
   String? name;
 
@@ -51,7 +53,6 @@ class _EditBookDialogState extends State<EditBookDialog> {
   TextEditingController _writerController = TextEditingController();
   String? _coverType;
   String? _categoryTypeId;
-  String? _price;
   TextEditingController _languageController = TextEditingController();
 
   TextEditingController _descriptionController = TextEditingController();
@@ -454,7 +455,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
                     //     voteCount: widget.bookModel!.voteCount.toString(),
                     //     writer: widget.bookModel!.writer));
                     setState(() {
-                      GlobalClass.file = File('');
+                      GlobalClass.file = File(Assets.bookPlaceHolder);
                     });
                     Navigator.pop(context);
                   }
@@ -498,7 +499,7 @@ class _EditBookDialogState extends State<EditBookDialog> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          " ${title}",
+          " $title",
           style: TextStyle(
               fontSize: 16,
               fontFamily: Strings.fontIranSans,

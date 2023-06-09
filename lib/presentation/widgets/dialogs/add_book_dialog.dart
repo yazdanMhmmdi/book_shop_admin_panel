@@ -1,33 +1,27 @@
 import 'dart:io';
 
-import 'package:book_shop_admin_panel/presentation/cubit/book_edit_validation_cubit.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/warning_bar/warning_bar_desktop.dart';
-
-import '../../../core/constants/assets.dart';
-import '../../../core/params/request_params.dart';
-import '../../../core/utils/typogaphy.dart';
-import '../../../data/models/book_model.dart';
-import '../../../domain/usecases/edit_books_usecase.dart';
-import '../../bloc/books_bloc.dart';
-import '../category_drowp_down_widget/category_dropdown_widget_desktop.dart';
-import '../global_class.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/constants/assets.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
-import '../../../injector.dart';
+import '../../../core/utils/typogaphy.dart';
+import '../../bloc/books_bloc.dart';
+import '../../cubit/book_edit_validation_cubit.dart';
+import '../category_drowp_down_widget/category_dropdown_widget_desktop.dart';
 import '../custom_dropdown_widget.dart';
+import '../global_class.dart';
 import '../image_picker_widget.dart';
 import '../price_text_field_desktop.dart';
-import '../warning_bar/warning_bar_mobile.dart';
+import '../warning_bar/warning_bar_desktop.dart';
 
 //base dialog is EditDialog
 class AddBookDialog extends StatefulWidget {
-  AddBookDialog();
+  const AddBookDialog({super.key});
   @override
   _EditBookDialogState createState() => _EditBookDialogState();
 }
@@ -35,7 +29,6 @@ class AddBookDialog extends StatefulWidget {
 class _EditBookDialogState extends State<AddBookDialog> {
   BooksBloc? _booksBloc;
 
-  static File? file = File(Assets.bookPlaceHolder);
 
   String? name;
 
@@ -72,7 +65,6 @@ class _EditBookDialogState extends State<AddBookDialog> {
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _voteCountController = TextEditingController();
   TextEditingController _pageCountController = TextEditingController();
-  TextEditingController _categoryController = TextEditingController();
   TextEditingController _priceCountController = TextEditingController();
   TextEditingController _salesCountCountController = TextEditingController();
 
@@ -375,8 +367,7 @@ class _EditBookDialogState extends State<AddBookDialog> {
           const SizedBox(
             height: 8,
           ),
-          Text(
-             Strings.editPageImageAttention,
+          Text(Strings.editPageImageAttention,
               style: Typogaphy.Regular.copyWith(
                 color: IColors.black35,
                 fontSize: 14,
@@ -398,6 +389,23 @@ class _EditBookDialogState extends State<AddBookDialog> {
                 splashColor: Colors.black26,
                 borderRadius: BorderRadius.circular(8),
                 onTap: () async {
+                  _bookEditValidationCubit!
+                      .bookNameValidation(_nameController.text);
+                  _bookEditValidationCubit!
+                      .bookWriterValidation(_writerController.text);
+                  _bookEditValidationCubit!
+                      .bookDescValidation(_descriptionController.text);
+                  _bookEditValidationCubit!.bookPagesCountValidation(
+                      _pagesFormatter.getUnformattedValue().toString());
+                  _bookEditValidationCubit!
+                      .bookLanguageValidation(_languageController.text);
+                  _bookEditValidationCubit!.bookSalesValidation(
+                      _salesFormatter.getUnformattedValue().toString());
+                  _bookEditValidationCubit!
+                      .bookVotesValidation(_voteCountController.text);
+                  _bookEditValidationCubit!
+                      .bookPriceValidation(_priceCountController.text);
+
                   if (_bookEditValidationCubit!.bookNameError!.isEmpty &&
                       _bookEditValidationCubit!.bookWroterError!.isEmpty &&
                       _bookEditValidationCubit!.bookPriceError!.isEmpty &&

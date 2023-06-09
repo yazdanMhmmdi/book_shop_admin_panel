@@ -1,6 +1,7 @@
-import 'package:book_shop_admin_panel/core/utils/image_address_provider.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../../core/utils/image_address_provider.dart';
 
 class Book extends Equatable {
   @JsonKey(defaultValue: 1, fromJson: toInt)

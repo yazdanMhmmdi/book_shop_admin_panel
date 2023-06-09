@@ -1,17 +1,11 @@
-import 'package:book_shop_admin_panel/core/constants/assets.dart';
-import 'package:book_shop_admin_panel/core/utils/image_address_provider.dart';
-import 'package:book_shop_admin_panel/data/models/user_model.dart';
-import 'package:book_shop_admin_panel/presentation/animations/fade_in_animation.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:intl/intl.dart';
 
-import '../../../core/constants/i_colors.dart';
-import '../../../core/constants/strings.dart';
-import '../../../data/models/book_model.dart';
-import '../my_rating_bar.dart';
+import '../../../core/constants/assets.dart';
+import '../../../data/models/user_model.dart';
+import '../../animations/fade_in_animation.dart';
 import '../slidable_action.dart';
 
 class UserItemMobile extends StatelessWidget {

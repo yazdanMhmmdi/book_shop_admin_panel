@@ -1,4 +1,4 @@
-import 'package:book_shop_admin_panel/presentation/tabs/settings_tab/settings_tab_desktop.dart';
+import '../../tabs/settings_tab/settings_tab_desktop.dart';
 
 import '../../../data/models/book_model.dart';
 import '../../bloc/books_bloc.dart';

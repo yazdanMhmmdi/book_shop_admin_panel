@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 part of 'settings_validation_cubit.dart';
 
 abstract class SettingsValidationState extends Equatable {

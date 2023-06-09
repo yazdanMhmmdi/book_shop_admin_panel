@@ -1,6 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import '../../core/utils/map_rule_types.dart';
 import '../../domain/entities/user.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';
 

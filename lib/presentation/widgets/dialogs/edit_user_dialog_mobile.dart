@@ -1,4 +1,5 @@
-import 'package:book_shop_admin_panel/presentation/cubit/user_validation_cubit.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +9,7 @@ import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
 import '../../../data/models/user_model.dart';
 import '../../bloc/users_bloc.dart';
-import '../../cubit/book_edit_validation_cubit.dart';
+import '../../cubit/user_validation_cubit.dart';
 import '../custom_dropdown_widget.dart';
 import '../warning_bar/warning_bar_mobile.dart';
 

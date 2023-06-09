@@ -1,11 +1,11 @@
-import '../../../core/params/request_params.dart';
-import '../../models/function_response_model.dart';
 import 'package:retrofit/dio.dart';
 
 import '../../../core/errors/exceptions.dart';
 import '../../../core/network/book_remote_api_service.dart';
+import '../../../core/params/request_params.dart';
 import '../../../domain/entities/book_shop_client.dart';
 import '../../models/books_list_model.dart';
+import '../../models/function_response_model.dart';
 
 class BookRemoteApiServiceImpl extends BookRemoteApiService {
   BookShopClient? bookShopClient;

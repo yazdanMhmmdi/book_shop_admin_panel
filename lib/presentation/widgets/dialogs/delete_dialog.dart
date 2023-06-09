@@ -1,17 +1,14 @@
-import '../../bloc/users_bloc.dart';
-import '../global_class.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oktoast/oktoast.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
-import '../../bloc/books_bloc.dart';
 
 class DeleteDialog extends StatefulWidget {
   Function onSubmitTap;
-  DeleteDialog({required this.onSubmitTap});
+  DeleteDialog({super.key, required this.onSubmitTap});
   @override
   _DeleteDialogState createState() => _DeleteDialogState();
 }
@@ -33,7 +30,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              offset: Offset(1, -1),
+              offset: const Offset(1, -1),
               blurRadius: 4,
               spreadRadius: 0,
               color: IColors.black15,
@@ -43,12 +40,12 @@ class _DeleteDialogState extends State<DeleteDialog> {
         padding: const EdgeInsets.all(22.0),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               width: 87,
               height: 87,
               child: Image.asset(Assets.attention),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Align(

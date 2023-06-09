@@ -1,7 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import 'book_model.dart';
 import 'data_model.dart';
-import '../../domain/entities/data.dart';
-import 'package:json_annotation/json_annotation.dart';
+
 part 'books_list_model.g.dart';
 
 @JsonSerializable(

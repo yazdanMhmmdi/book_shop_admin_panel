@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 part of 'book_edit_validation_cubit.dart';
 
 abstract class BookEditValidationState extends Equatable {

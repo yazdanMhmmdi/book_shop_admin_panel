@@ -1,13 +1,13 @@
-import '../../core/network/user_remote_api_service.dart';
-import '../../core/params/request_params.dart';
-import '../../core/utils/map_rule_types.dart';
-import '../models/function_response_model.dart';
-import '../models/users_list_model.dart';
-import '../../domain/repositories/users_repository.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../core/errors/exceptions.dart';
 import '../../core/errors/failures.dart';
+import '../../core/network/user_remote_api_service.dart';
+import '../../core/params/request_params.dart';
+import '../../core/utils/map_rule_types.dart';
+import '../../domain/repositories/users_repository.dart';
+import '../models/function_response_model.dart';
+import '../models/users_list_model.dart';
 
 class UsersRepositoryImpl implements UsersRepository {
   UsersRepositoryImpl(this.remoteApiService);

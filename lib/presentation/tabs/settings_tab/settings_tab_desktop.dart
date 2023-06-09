@@ -1,13 +1,5 @@
 import 'dart:io';
 
-import 'package:book_shop_admin_panel/core/constants/i_colors.dart';
-import 'package:book_shop_admin_panel/presentation/bloc/update_bloc.dart';
-import 'package:book_shop_admin_panel/presentation/cubit/settings_validation_cubit.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/custom_scroll_behavior.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/dialogs/update_warning_dialog/update_warning_dialog_desktop.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/edit_text_field.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/main_panel.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/side_bar.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,10 +7,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/constants/constants.dart';
+import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
-import '../../bloc/users_bloc.dart';
+import '../../bloc/update_bloc.dart';
+import '../../cubit/settings_validation_cubit.dart';
 import '../../widgets/apk_picker/apk_picker_desktop.dart';
+import '../../widgets/custom_scroll_behavior.dart';
+import '../../widgets/dialogs/update_warning_dialog/update_warning_dialog_desktop.dart';
+import '../../widgets/main_panel.dart';
 import '../../widgets/show_dialog.dart';
+import '../../widgets/side_bar.dart';
 import '../../widgets/toast_widget.dart';
 import '../../widgets/warning_bar/warning_bar_desktop.dart';
 

@@ -26,7 +26,6 @@ class PriceTextFieldDesktop extends StatefulWidget {
 }
 
 class _PriceTextFieldDesktopState extends State<PriceTextFieldDesktop> {
-  final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

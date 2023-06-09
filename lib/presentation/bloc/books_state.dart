@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 part of 'books_bloc.dart';
 
 enum BooksStatus { initial, loading, success, failure }
@@ -24,8 +26,8 @@ class BooksSuccess extends BooksState {
   BooksSuccess(this.booksModel, this.noMoreData);
   @override
   List<Object> get props => [
-        this.booksModel,
-        this.noMoreData,
+        booksModel,
+        noMoreData,
       ];
 }
 

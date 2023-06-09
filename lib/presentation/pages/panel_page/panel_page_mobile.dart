@@ -1,7 +1,7 @@
-import 'package:book_shop_admin_panel/core/constants/i_colors.dart';
-import 'package:book_shop_admin_panel/presentation/tabs/book_tab/books_tab_mobile.dart';
-import 'package:book_shop_admin_panel/presentation/tabs/settings_tab/settings_tab_mobile.dart';
-import 'package:book_shop_admin_panel/presentation/tabs/users_tab/users_tab_mobile.dart';
+import '../../../core/constants/i_colors.dart';
+import '../../tabs/book_tab/books_tab_mobile.dart';
+import '../../tabs/settings_tab/settings_tab_mobile.dart';
+import '../../tabs/users_tab/users_tab_mobile.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/constants/strings.dart';

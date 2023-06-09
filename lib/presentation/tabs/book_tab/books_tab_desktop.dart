@@ -1,4 +1,3 @@
-import 'package:book_shop_admin_panel/presentation/cubit/book_edit_validation_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,11 +5,11 @@ import '../../../core/constants/assets.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
-import '../../../core/utils/image_address_provider.dart';
 import '../../../core/utils/map_categories.dart';
 import '../../../core/utils/throttler.dart';
 import '../../../data/models/book_model.dart';
 import '../../bloc/books_bloc.dart';
+import '../../cubit/book_edit_validation_cubit.dart';
 import '../../widgets/book_item/book_item_desktop.dart';
 import '../../widgets/category_drowp_down_widget/category_dropdown_widget_desktop.dart';
 import '../../widgets/custom_scroll_behavior.dart';

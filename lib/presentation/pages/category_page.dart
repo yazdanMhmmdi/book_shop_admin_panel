@@ -1,27 +1,15 @@
-import '../../core/utils/image_address_provider.dart';
-import '../../data/models/book_model.dart';
-import '../bloc/books_bloc.dart';
-import '../widgets/dialogs/add_book_dialog.dart';
-import '../widgets/global_class.dart';
-import '../widgets/my_tab_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/constants/assets.dart';
 import '../../core/constants/constants.dart';
 import '../../core/constants/i_colors.dart';
 import '../../core/constants/strings.dart';
 import '../../core/utils/throttler.dart';
-import '../widgets/book_item/book_item_desktop.dart';
+import '../../data/models/book_model.dart';
 import '../widgets/category_item.dart';
 import '../widgets/custom_scroll_behavior.dart';
-import '../widgets/dialogs/delete_dialog.dart';
-import '../widgets/dialogs/edit_book_dialog.dart';
+import '../widgets/global_class.dart';
 import '../widgets/main_panel.dart';
-import '../widgets/pagination_loading_widget.dart';
-import '../widgets/show_dialog.dart';
-import '../widgets/side_bar.dart';
-import '../widgets/side_bar_item.dart';
+import '../widgets/my_tab_bar.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({Key? key}) : super(key: key);
@@ -185,10 +173,8 @@ class _CategoryPageState extends State<CategoryPage>
 
   Widget searchFieldSpot(
       TextEditingController controller, Function(String) function) {
-    bool iconStatus;
-
     return AnimatedOpacity(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       opacity: opacity,
       child: Visibility(
         visible: visiblity,
@@ -202,7 +188,7 @@ class _CategoryPageState extends State<CategoryPage>
             ),
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 IconButton(
@@ -222,9 +208,9 @@ class _CategoryPageState extends State<CategoryPage>
                           maxLines: 3,
                           onChanged: function,
                           controller: controller,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: Strings.fontIranSans, fontSize: 16),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "نام کتاب را جستجو کنید...",
                             hintStyle: TextStyle(

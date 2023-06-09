@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 part of 'user_validation_cubit.dart';
 
 abstract class UserValidationState extends Equatable {
@@ -12,6 +14,5 @@ class UserValidationStatus extends UserValidationState {
   UserValidationStatus({this.password = "", this.username = ""});
 
   @override
-  // TODO: implement props
   List<Object> get props => [username, password];
 }

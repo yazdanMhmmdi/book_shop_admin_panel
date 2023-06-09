@@ -1,5 +1,7 @@
-import 'package:book_shop_admin_panel/presentation/cubit/user_validation_cubit.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/warning_bar/warning_bar_desktop.dart';
+// ignore_for_file: must_be_immutable
+
+import '../../cubit/user_validation_cubit.dart';
+import '../warning_bar/warning_bar_desktop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,16 +15,16 @@ import '../custom_dropdown_widget.dart';
 
 class EditUserDialogDesktop extends StatefulWidget {
   UserModel userModel;
-  EditUserDialogDesktop({required this.userModel});
+  EditUserDialogDesktop({super.key, required this.userModel});
   @override
   _EditUserDialogDesktopState createState() => _EditUserDialogDesktopState();
 }
 
 class _EditUserDialogDesktopState extends State<EditUserDialogDesktop> {
-  TextEditingController _usernameController = new TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
   String? _ruleType = ruleTypes[1]["title"]!;
 
-  TextEditingController _passwordController = new TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   UsersBloc? _usersBloc;
   UserValidationCubit? _userValidationCubit;
   @override

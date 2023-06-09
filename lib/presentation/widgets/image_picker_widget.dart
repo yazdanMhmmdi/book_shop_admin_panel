@@ -1,21 +1,18 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:io';
 
+import 'package:book_shop_admin_panel/core/utils/file_pickers.dart';
 import 'package:book_shop_admin_panel/core/utils/typogaphy.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/edit_page_banner_image_mobile.dart';
-
-import '../../core/constants/assets.dart';
-import '../../core/utils/image_address_provider.dart';
-import 'global_class.dart';
 import 'package:flutter/material.dart';
-import 'package:filepicker_windows/filepicker_windows.dart';
-import 'package:http/http.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
+import '../../core/constants/assets.dart';
 import '../../core/constants/i_colors.dart';
-import '../../core/constants/strings.dart';
-import 'package:flutter/services.dart';
+import 'global_class.dart';
 
 typedef void DynamicCallback(File file);
 
@@ -23,6 +20,7 @@ class ImagePickerWidget extends StatefulWidget {
   final DynamicCallback onFilePicked;
   String? imgUrl;
   File? image = File(Assets.bookPlaceHolder);
+  FilePickers filePickers = FilePickers();
   ImagePickerWidget({required this.onFilePicked, this.imgUrl});
 
   @override
@@ -77,19 +75,24 @@ class _ImagePickerSpotState extends State<ImagePickerWidget> {
           splashColor: Colors.black26,
           borderRadius: BorderRadius.circular(8),
           onTap: () async {
-            final f = OpenFilePicker()
-              ..filterSpecification = {
-                'Image (*.jpg; *.png; *.jpeg)': '*.jpg;*.png;*.jpeg',
-              }
-              ..defaultFilterIndex = 0
-              ..defaultExtension = 'png'
-              ..title = 'Select a picture';
-            widget.image = f.getFile() ?? widget.image;
+            widget.filePickers.pickImage().then((file) {
+              widget.image = file;
+              GlobalClass.file = file;
+              widget.onFilePicked(file);
+              setState(() {});
+            });
+            // final f = OpenFilePicker()
+            //   ..filterSpecification = {
+            //     'Image (*.jpg; *.png; *.jpeg)': '*.jpg;*.png;*.jpeg',
+            //   }
+            //   ..defaultFilterIndex = 0
+            //   ..defaultExtension = 'png'
+            //   ..title = 'Select a picture';
+            // widget.image = f.getFile() ?? widget.image;
 
-            widget.onFilePicked(widget.image!);
+            // widget.onFilePicked(widget.image!);
 
-            GlobalClass.file = widget.image;
-            setState(() {});
+            // GlobalClass.file = widget.image;
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -111,7 +114,7 @@ class _ImagePickerSpotState extends State<ImagePickerWidget> {
                       shape: BoxShape.circle,
                       color: Colors.transparent,
                       image: DecorationImage(
-                        image: FileImage(GlobalClass.file!),
+                        image: FileImage(widget.image!),
                         fit: BoxFit.cover,
                       )),
                 ),

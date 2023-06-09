@@ -1,6 +1,6 @@
-import 'package:book_shop_admin_panel/presentation/widgets/background_shapes/background_shapes_mobile.dart';
+// ignore_for_file: must_be_immutable
 
-import '../../widgets/login_text_field/login_text_field_mobile.dart';
+import 'package:book_shop_admin_panel/presentation/widgets/background_shapes/background_shapes_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,9 +8,9 @@ import '../../../core/constants/i_colors.dart';
 import '../../animations/fade_in_animation.dart';
 import '../../bloc/auth_bloc.dart';
 import '../../cubit/form_validation_cubit.dart';
-import '../../widgets/background_shapes/background_shapes_desktop.dart';
+import '../../widgets/custom_progress_button.dart';
+import '../../widgets/login_text_field/login_text_field_mobile.dart';
 import '../../widgets/my_button.dart';
-import '../../widgets/progress_button.dart';
 import '../../widgets/toast_widget.dart';
 import '../../widgets/warning_bar/warning_bar_mobile.dart';
 
@@ -26,31 +26,17 @@ class LoginPageMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _usernameController = TextEditingController();
-    _passwordController = TextEditingController();
-
-    _authBloc = BlocProvider.of<AuthBloc>(context);
-    _formValidationCubit = BlocProvider.of<FormValidationCubit>(context);
-
-    _usernameController.addListener(() {
-      _formValidationCubit.usernameValidate(_usernameController.text);
-      print(
-          "usernmame : ${_usernameController.text}, ${_passwordController.text}");
-    });
-    _passwordController.addListener(() {
-      _formValidationCubit.passwordValidate(_passwordController.text);
-      print(
-          "password : ${_usernameController.text}, ${_passwordController.text}");
-    });
+    initPage(context);
     return MultiBlocListener(
       listeners: [
         BlocListener<AuthBloc, AuthState>(
           listener: (context, state) async {
             if (state is AuthSuccess) {
               await delay(seconds: 2);
-              Navigator.pushNamed(context, '/categorypage');
+              Navigator.pushNamed(context, '/panelpage');
             } else if (state is AuthFailure) {
-              ToastWidget.showError(context, title: "خطا", desc: state.message);
+              ToastWidget.showError(context,
+                  title: "خطا", desc: "نام کاربری یا رمز عبور اشتباه است");
             }
           },
         ),
@@ -131,13 +117,25 @@ class LoginPageMobile extends StatelessWidget {
                                 child: BlocBuilder<AuthBloc, AuthState>(
                                   builder: (context, state) {
                                     if (state is AuthInitial) {
-                                      return buttonUI(ButtonState.idle);
+                                      return buttonUI();
                                     } else if (state is AuthLoading) {
-                                      return buttonUI(ButtonState.loading);
+                                      return buttonUI(
+                                        buttonState: ButtonState.loading,
+                                        borderRadius: 32,
+                                        minWidth: 20,
+                                      );
                                     } else if (state is AuthSuccess) {
-                                      return buttonUI(ButtonState.success);
+                                      return buttonUI(
+                                        buttonState: ButtonState.success,
+                                        borderRadius: 32,
+                                        minWidth: 20,
+                                      );
                                     } else if (state is AuthFailure) {
-                                      return buttonUI(ButtonState.fail);
+                                      return buttonUI(
+                                        buttonState: ButtonState.fail,
+                                        borderRadius: 32,
+                                        minWidth: 20,
+                                      );
                                     } else {
                                       return Container();
                                     }
@@ -156,7 +154,30 @@ class LoginPageMobile extends StatelessWidget {
     );
   }
 
-  Widget buttonUI(ButtonState buttonState) {
+  void initPage(context) {
+    _usernameController = TextEditingController();
+    _passwordController = TextEditingController();
+
+    _authBloc = BlocProvider.of<AuthBloc>(context);
+    _formValidationCubit = BlocProvider.of<FormValidationCubit>(context);
+
+    _usernameController.addListener(() {
+      _formValidationCubit.usernameValidate(_usernameController.text);
+      print(
+          "usernmame : ${_usernameController.text}, ${_passwordController.text}");
+    });
+    _passwordController.addListener(() {
+      _formValidationCubit.passwordValidate(_passwordController.text);
+      print(
+          "password : ${_usernameController.text}, ${_passwordController.text}");
+    });
+  }
+
+  Widget buttonUI({
+    ButtonState buttonState = ButtonState.idle,
+    double borderRadius = 8,
+    double minWidth = 50,
+  }) {
     return MyButton(
         buttonState: buttonState,
         text: "تایید",
@@ -164,9 +185,15 @@ class LoginPageMobile extends StatelessWidget {
           // setState(() {
           //   _buttonState = ButtonState.loading;
           // });
-          _authBloc.add(LoginEvent(
-              username: _usernameController.text,
-              password: _passwordController.text));
+          _formValidationCubit.usernameValidate(_usernameController.text);
+          _formValidationCubit.passwordValidate(_passwordController.text);
+
+          if (_formValidationCubit.state.isUsernameValid! &&
+              _formValidationCubit.state.isPasswordValid!) {
+            _authBloc.add(LoginEvent(
+                username: _usernameController.text,
+                password: _passwordController.text));
+          }
         });
   }
 

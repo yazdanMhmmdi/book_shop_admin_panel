@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Book Shop Admin Panel',
           theme: ThemeData(
             primarySwatch: Colors.blue,
             fontFamily: Strings.fontIranSans,

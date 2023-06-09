@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 part of 'users_bloc.dart';
 
 enum UsersStatus { initial, loading, success, failure }

@@ -1,12 +1,13 @@
-import '../../../core/utils/typogaphy.dart';
-import '../top_right_widget.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
+import '../../../core/utils/typogaphy.dart';
 import '../image_holder.dart';
 import '../regular_item_bar.dart';
+import '../top_right_widget.dart';
 
 class BooksItemDesktop extends StatelessWidget {
   String image;

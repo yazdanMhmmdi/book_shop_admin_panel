@@ -1,45 +1,43 @@
-import 'dart:async';
+// ignore_for_file: must_be_immutable
+
 import 'dart:io';
-import 'package:book_shop_admin_panel/core/constants/constants.dart';
-import 'package:book_shop_admin_panel/core/utils/url_to_image_file.dart';
-import 'package:book_shop_admin_panel/presentation/cubit/book_edit_validation_cubit.dart';
-import 'package:book_shop_admin_panel/presentation/cubit/form_validation_cubit.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/category_drowp_down_widget/category_drop_down_widget_mobile.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/category_drowp_down_widget/category_dropdown_widget_desktop.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/custom_dropdown_widget.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/custom_scroll_behavior.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/edit_multi_text_field.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/edit_page_banner_image_mobile.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/edit_text_field.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/warning_bar/warning_bar_mobile.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/constants/assets.dart';
+import '../../../core/constants/constants.dart';
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
-import '../../../core/utils/image_address_provider.dart';
 import '../../../core/utils/map_categories.dart';
 import '../../../core/utils/typogaphy.dart';
+import '../../../core/utils/url_to_image_file.dart';
 import '../../bloc/books_bloc.dart';
+import '../../cubit/book_edit_validation_cubit.dart';
 import '../../cubit/detail_cubit.dart';
 import '../../cubit/internet_cubit.dart';
-import '../../widgets/detail_slider_container.dart';
-import '../../widgets/detail_slider_item.dart';
-import '../../widgets/detail_slider_widget.dart';
+import '../../widgets/category_drowp_down_widget/category_drop_down_widget_mobile.dart';
+import '../../widgets/custom_dropdown_widget.dart';
+import '../../widgets/custom_progress_button.dart';
+import '../../widgets/custom_scroll_behavior.dart';
+import '../../widgets/edit_multi_text_field.dart';
+import '../../widgets/edit_page_banner_image_mobile.dart';
+import '../../widgets/edit_text_field.dart';
 import '../../widgets/global_class.dart';
 import '../../widgets/image_picker_widget.dart';
 import '../../widgets/my_button.dart';
 import '../../widgets/price_text_field_mobile.dart';
-import '../../widgets/progress_button.dart';
+import '../../widgets/warning_bar/warning_bar_mobile.dart';
 
 class EditPageMobile extends StatefulWidget {
   late Map<String, String?> args;
 
-  EditPageMobile({required this.args});
+  EditPageMobile({
+    Key? key,
+    required this.args,
+  }) : super(key: key);
 
   @override
   State<EditPageMobile> createState() => _EditPageMobileState();
@@ -714,7 +712,8 @@ class _EditPageMobileState extends State<EditPageMobile> {
     super.dispose();
   }
 
-  Widget myButton({ButtonState buttonState = ButtonState.idle}) {
+  Widget myButton(
+      {ButtonState buttonState = ButtonState.idle, double borderRadius = 8}) {
     return MyButton(
         buttonState: buttonState,
         text: opration == "edit"

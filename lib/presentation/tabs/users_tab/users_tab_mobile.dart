@@ -1,13 +1,5 @@
-import 'dart:async';
+// ignore_for_file: must_be_immutable
 
-import 'package:book_shop_admin_panel/core/constants/constants.dart';
-import 'package:book_shop_admin_panel/presentation/cubit/book_edit_validation_cubit.dart';
-import 'package:book_shop_admin_panel/presentation/cubit/user_validation_cubit.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/custom_scroll_behavior.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/dialogs/edit_book_dialog.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/dialogs/edit_user_dialog_desktop.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/dialogs/edit_user_dialog_mobile.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/user_item/user_item_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,13 +8,15 @@ import '../../../core/constants/strings.dart';
 import '../../../core/utils/throttler.dart';
 import '../../../data/models/user_model.dart';
 import '../../bloc/users_bloc.dart';
-import '../../widgets/global_class.dart';
+import '../../cubit/user_validation_cubit.dart';
+import '../../widgets/custom_scroll_behavior.dart';
+import '../../widgets/dialogs/edit_user_dialog_mobile.dart';
 import '../../widgets/loading_widget.dart';
 import '../../widgets/nothing_found_widget.dart';
 import '../../widgets/pagination_loading_widget.dart';
 import '../../widgets/show_dialog.dart';
 import '../../widgets/toast_widget.dart';
-import '../../widgets/user_item/user_item_desktop.dart';
+import '../../widgets/user_item/user_item_mobile.dart';
 
 class UsersTabMobile extends StatefulWidget {
   int itemIndex = 1;

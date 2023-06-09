@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:book_shop_admin_panel/core/params/request_params.dart';
+import '../../core/params/request_params.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../data/models/function_response_model.dart';

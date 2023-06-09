@@ -1,10 +1,5 @@
 import 'dart:io';
 
-import 'package:book_shop_admin_panel/core/constants/i_colors.dart';
-import 'package:book_shop_admin_panel/core/constants/strings.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/apk_picker/apk_picker_mobile.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/dialogs/update_warning_dialog/update_warning_dialog_mobile.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/warning_bar/warning_bar_mobile.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,12 +7,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/constants/constants.dart';
+import '../../../core/constants/i_colors.dart';
+import '../../../core/constants/strings.dart';
 import '../../bloc/update_bloc.dart';
 import '../../cubit/settings_validation_cubit.dart';
-import '../../widgets/dialogs/update_warning_dialog/update_warning_dialog_desktop.dart';
+import '../../widgets/apk_picker/apk_picker_mobile.dart';
+import '../../widgets/custom_progress_button.dart';
+import '../../widgets/dialogs/update_warning_dialog/update_warning_dialog_mobile.dart';
 import '../../widgets/my_button.dart';
-import '../../widgets/progress_button.dart';
 import '../../widgets/show_dialog.dart';
+import '../../widgets/warning_bar/warning_bar_mobile.dart';
 
 class SettingsTabMobile extends StatefulWidget {
   SettingsTabMobile({Key? key}) : super(key: key);
@@ -153,13 +152,13 @@ class _SettingsTabMobileState extends State<SettingsTabMobile> {
               child: BlocBuilder<UpdateBloc, UpdateState>(
                 builder: (context, state) {
                   if (state is UpdateSuccess) {
-                    return buttonUI(ButtonState.success);
+                    return buttonUI(ButtonState.success, 32);
                   } else if (state is UpdateLoading) {
-                    return buttonUI(ButtonState.loading);
+                    return buttonUI(ButtonState.loading, 32);
                   } else if (state is UpdateFailure) {
-                    return buttonUI(ButtonState.fail);
+                    return buttonUI(ButtonState.fail, 32);
                   } else {
-                    return buttonUI(ButtonState.idle);
+                    return buttonUI(ButtonState.idle, 8);
                   }
                 },
               ))
@@ -168,7 +167,7 @@ class _SettingsTabMobileState extends State<SettingsTabMobile> {
     );
   }
 
-  Widget buttonUI(ButtonState buttonState) {
+  Widget buttonUI(ButtonState buttonState, double borderRadius) {
     return MyButton(
         buttonState: buttonState,
         text: "تایید",

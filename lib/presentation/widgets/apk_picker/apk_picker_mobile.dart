@@ -1,15 +1,18 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:io';
 
-import 'package:book_shop_admin_panel/presentation/widgets/custom_scroll_behavior.dart';
-import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
+import '../../../core/utils/file_pickers.dart';
+import '../custom_scroll_behavior.dart';
 
 class ApkPickerMobile extends StatefulWidget {
   Function(File apk)? onApkPicked;
+  FilePickers filePickers = FilePickers();
+
   ApkPickerMobile({Key? key, required this.onApkPicked}) : super(key: key);
 
   @override
@@ -50,19 +53,23 @@ class _ApkPickerMobileState extends State<ApkPickerMobile> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(8),
                             onTap: () {
-                              print('انتخاب فایل');
-                              final f = OpenFilePicker()
-                                ..filterSpecification = {
-                                  'Apk File (*.apk;)': '*.apk;',
-                                }
-                                ..defaultFilterIndex = 0
-                                ..defaultExtension = 'apk'
-                                ..title = 'فایل apk را انتخاب کنید';
-                              apkFile = f.getFile() ?? apkFile;
-                              if (apkFile != null) {
+                              // print('انتخاب فایل');
+                              // final f = OpenFilePicker()
+                              //   ..filterSpecification = {
+                              //     'Apk File (*.apk;)': '*.apk;',
+                              //   }
+                              //   ..defaultFilterIndex = 0
+                              //   ..defaultExtension = 'apk'
+                              //   ..title = 'فایل apk را انتخاب کنید';
+                              // apkFile = f.getFile() ?? apkFile;
+                              // if (apkFile != null) {
+                              //   widget.onApkPicked!(apkFile!);
+                              //   setState(() {});
+                              // }
+
+                              widget.filePickers.pickAPK().then((file) {
                                 widget.onApkPicked!(apkFile!);
-                                setState(() {});
-                              }
+                              });
                             },
                             child: Row(
                               children: [

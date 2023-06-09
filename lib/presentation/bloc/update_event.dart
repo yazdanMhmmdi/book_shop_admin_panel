@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 part of 'update_bloc.dart';
 
 abstract class UpdateEvent extends Equatable {
@@ -13,7 +15,6 @@ class PushUpdateEvent extends UpdateEvent {
   PushUpdateEvent({this.apk, this.platform, this.version});
 
   @override
-  // TODO: implement props
   List<Object> get props => [
         apk!,
         platform!,

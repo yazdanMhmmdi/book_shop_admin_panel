@@ -1,15 +1,16 @@
-import 'package:book_shop_admin_panel/core/constants/constants.dart';
-import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+// ignore_for_file: must_be_immutable
 
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+
+import '../../core/constants/constants.dart';
 import '../../core/constants/i_colors.dart';
-import '../../core/constants/strings.dart';
 import 'detail_slider_container.dart';
 
 class DetailSliderWidget extends StatefulWidget {
   Duration duration;
   List<DetailSliderContainer> sliderContainers;
-  DetailSliderWidget({
+  DetailSliderWidget({super.key, 
     required this.sliderContainers,
     this.duration = const Duration(milliseconds: kAnimationDuration),
   });
@@ -43,7 +44,7 @@ class _SliderObjectState extends State<DetailSliderWidget> {
                   },
                   child: AnimatedDefaultTextStyle(
                     duration: widget.duration,
-                    child: Text(
+                    child: const Text(
                       "جزئیات کتاب",
                     ),
                     style: TextStyle(

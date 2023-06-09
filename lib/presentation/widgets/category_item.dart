@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 import '../../core/constants/i_colors.dart';
@@ -8,7 +10,7 @@ class CategoryItem extends StatelessWidget {
   Widget child;
   String title;
   Function? onTap;
-  CategoryItem({required this.child, required this.title, this.onTap});
+  CategoryItem({super.key, required this.child, required this.title, this.onTap});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,7 +28,7 @@ class CategoryItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               child,
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               Text(
                 title,
                 style: TextStyle(

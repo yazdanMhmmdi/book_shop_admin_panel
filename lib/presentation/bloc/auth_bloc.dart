@@ -1,10 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+
 import '../../core/errors/failures.dart';
 import '../../core/params/request_params.dart';
 import '../../data/models/auth_model.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../widgets/global_class.dart';
-import 'package:equatable/equatable.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -27,7 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     failureOrPosts.fold(
       (failure) async {
         if (failure is WrongAuthFailure) {
-          emit(AuthFailure(message: failure.message!));
+          emit(AuthFailure(message: failure.message ?? ""));
         }
       },
       (AuthModel authModel) {

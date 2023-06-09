@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +43,7 @@ class _CustomDropdownWidgetState extends State<CustomDropdownWidget> {
                     decoration: TextDecoration.none),
               )
             : Container(),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Container(
@@ -99,7 +101,7 @@ class _CustomDropdownWidgetState extends State<CustomDropdownWidget> {
               },
               buttonStyleData: ButtonStyleData(
                   height: 60,
-                  padding: EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   decoration: BoxDecoration(
                     color: IColors.lowBoldGreen,
                     borderRadius: BorderRadius.circular(8),

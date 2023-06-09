@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:book_shop_admin_panel/core/constants/constants.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../core/constants/constants.dart';
 
 part 'user_validation_state.dart';
 

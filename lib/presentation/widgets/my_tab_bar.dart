@@ -1,8 +1,8 @@
-import 'circular_indicator.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 import '../../core/constants/i_colors.dart';
-import '../../core/constants/strings.dart';
 
 class MyTabBar extends StatefulWidget {
   TabController tabController;

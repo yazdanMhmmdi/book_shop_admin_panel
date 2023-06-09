@@ -66,7 +66,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
       failureOrPosts.fold(
         (failure) {
-          print("UserFailure");
+          print("UserFailure ${failure.toString()}");
           emit(UsersFailure(message: failure.toString()));
         },
         (UsersListModel usersListModel) {

@@ -1,19 +1,18 @@
-import 'package:book_shop_admin_panel/presentation/bloc/update_bloc.dart';
-import 'package:book_shop_admin_panel/presentation/cubit/detail_cubit.dart';
-import 'package:book_shop_admin_panel/presentation/cubit/form_validation_cubit.dart';
-import 'package:book_shop_admin_panel/presentation/cubit/internet_cubit.dart';
-import 'package:book_shop_admin_panel/presentation/cubit/settings_validation_cubit.dart';
-import 'package:book_shop_admin_panel/presentation/pages/edit_page/edit_page_mobile.dart';
-
-import '../cubit/book_edit_validation_cubit.dart';
-import '../pages/category_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../injector.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/books_bloc.dart';
+import '../bloc/update_bloc.dart';
 import '../bloc/users_bloc.dart';
+import '../cubit/book_edit_validation_cubit.dart';
+import '../cubit/detail_cubit.dart';
+import '../cubit/form_validation_cubit.dart';
+import '../cubit/internet_cubit.dart';
+import '../cubit/settings_validation_cubit.dart';
+import '../pages/category_page.dart';
+import '../pages/edit_page/edit_page_mobile.dart';
 import '../pages/login_page/login_page.dart';
 import '../pages/panel_page/panel_page.dart';
 
@@ -27,7 +26,7 @@ class AppRouter {
   Route onGeneratedRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return panelPage();
+        return loginPage();
       case '/categorypage':
         return categoryPage();
       case '/panelpage':

@@ -1,24 +1,17 @@
-import 'package:book_shop_admin_panel/presentation/cubit/user_validation_cubit.dart';
-
-import '../../../data/models/users_list_model.dart';
-import '../../bloc/users_bloc.dart';
-import '../../widgets/dialogs/edit_user_dialog_desktop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
-import '../../../core/utils/image_address_provider.dart';
 import '../../../core/utils/throttler.dart';
-import '../../../data/models/book_model.dart';
 import '../../../data/models/user_model.dart';
 import '../../bloc/books_bloc.dart';
-import '../../widgets/book_item/book_item_desktop.dart';
+import '../../bloc/users_bloc.dart';
+import '../../cubit/user_validation_cubit.dart';
 import '../../widgets/custom_scroll_behavior.dart';
-import '../../widgets/dialogs/add_book_dialog.dart';
 import '../../widgets/dialogs/delete_dialog.dart';
-import '../../widgets/dialogs/edit_book_dialog.dart';
+import '../../widgets/dialogs/edit_user_dialog_desktop.dart';
 import '../../widgets/global_class.dart';
 import '../../widgets/loading_widget.dart';
 import '../../widgets/main_panel.dart';

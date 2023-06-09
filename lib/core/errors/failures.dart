@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:equatable/equatable.dart';
 
 class Failure extends Equatable {
@@ -15,7 +17,7 @@ class ServerFailure extends Failure {
 
 class WrongAuthFailure extends Failure {
   String? message;
-  WrongAuthFailure({this.message = "نام کاربری یا رمز عبور اشتباه است."});
+  WrongAuthFailure({this.message});
   @override
   List<Object?> get props => [message];
 }

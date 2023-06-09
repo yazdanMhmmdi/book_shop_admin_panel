@@ -1,9 +1,9 @@
+import 'package:dartz/dartz.dart';
+
 import '../../core/errors/failures.dart';
 import '../../core/params/request_params.dart';
-import '../../data/models/book_model.dart';
 import '../../data/models/books_list_model.dart';
 import '../../data/models/function_response_model.dart';
-import 'package:dartz/dartz.dart';
 
 abstract class BooksRepository {
   Future<Either<Failure, BooksListModel>> getBooksFromRepo(

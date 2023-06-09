@@ -1,26 +1,24 @@
 import 'dart:async';
 
-import 'package:book_shop_admin_panel/presentation/widgets/book_item/book_item_mobile.dart';
-import 'package:book_shop_admin_panel/presentation/widgets/category_drowp_down_widget/category_drop_down_widget_mobile.dart';
+import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/constants/i_colors.dart';
 import '../../../core/constants/strings.dart';
-import '../../../core/utils/image_address_provider.dart';
 import '../../../core/utils/map_categories.dart';
 import '../../../core/utils/throttler.dart';
 import '../../../data/models/book_model.dart';
 import '../../bloc/books_bloc.dart';
-import '../../widgets/category_drowp_down_widget/category_dropdown_widget_desktop.dart';
+import '../../widgets/book_item/book_item_mobile.dart';
+import '../../widgets/category_drowp_down_widget/category_drop_down_widget_mobile.dart';
 import '../../widgets/custom_scroll_behavior.dart';
 import '../../widgets/global_class.dart';
 import '../../widgets/loading_widget.dart';
 import '../../widgets/nothing_found_widget.dart';
 import '../../widgets/pagination_loading_widget.dart';
 import '../../widgets/toast_widget.dart';
-import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 
 class BooksTabMobile extends StatefulWidget {
   const BooksTabMobile({Key? key}) : super(key: key);

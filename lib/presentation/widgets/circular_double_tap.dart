@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 import '../../core/constants/i_colors.dart';
@@ -5,7 +7,7 @@ import '../../core/constants/i_colors.dart';
 class CircularDoubleTap extends StatelessWidget {
   Widget child;
   Function onTap;
-  CircularDoubleTap({required this.child, required this.onTap});
+  CircularDoubleTap({super.key, required this.child, required this.onTap});
   @override
   Widget build(BuildContext context) {
     return Material(

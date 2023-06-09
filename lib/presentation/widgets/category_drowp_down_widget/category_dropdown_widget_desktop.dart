@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +42,7 @@ class _CategoryDropdownWidgetDesktopState extends State<CategoryDropdownWidgetDe
               color: IColors.black85,
               decoration: TextDecoration.none),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Container(
@@ -80,10 +82,10 @@ class _CategoryDropdownWidgetDesktopState extends State<CategoryDropdownWidgetDe
                                 fontSize: 14,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
-                            Container(
+                            SizedBox(
                                 width: 20,
                                 height: 25,
                                 child: Image.asset(e['image']!)),
@@ -144,7 +146,7 @@ class _CategoryDropdownWidgetDesktopState extends State<CategoryDropdownWidgetDe
               },
               buttonStyleData: ButtonStyleData(
                   height: 60,
-                  padding: EdgeInsets.only(left: 20, right: 10),
+                  padding: const EdgeInsets.only(left: 20, right: 10),
                   decoration: BoxDecoration(
                     color: IColors.lowBoldGreen,
                     borderRadius: BorderRadius.circular(8),
@@ -174,12 +176,12 @@ class _CategoryDropdownWidgetDesktopState extends State<CategoryDropdownWidgetDe
       value: 'دیجیتال',
       child: Row(
         children: [
-          Container(
+          SizedBox(
               width: 20, height: 25, child: Image.asset(Assets.hourglass)),
-          Text(
+          const Text(
             'دیجیتال',
             textDirection: TextDirection.rtl,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
             ),
           )

@@ -121,16 +121,21 @@ class Strings {
   static const String settingsTabWarning = "هشدار! ";
   static const String settingsTabWarningInfo =
       "با آپلود ورژن جدید اپ کاربر مجبور به بروزرسانی نرم افزار می شود و فقط با بروزرسانی اپ کاربر مجاز است از برنامه استفاده کند.";
-  static const String settingsTabSuccess =  "موفقیت!";
-  static const String settingsTabSuccessDesc = "اپلیکیشن با موفقیت بروزرسانی شد";
- static const String settingsTabFailure = "خطا !";
-  static const String settingsTabFailureDesc = "خطای هنگام بروزرسانی اپلیکیشن رخ داده است";
-
+  static const String settingsTabSuccess = "موفقیت!";
+  static const String settingsTabSuccessDesc =
+      "اپلیکیشن با موفقیت بروزرسانی شد";
+  static const String settingsTabFailure = "خطا !";
+  static const String settingsTabFailureDesc =
+      "خطای هنگام بروزرسانی اپلیکیشن رخ داده است";
 
 //********* WIDGETS*********************************************************
 //********************* APK PICKER  **************************************
   static const String apkPickerPickFile = "انتخاب فایل";
 //********************* UPDATE WARNING DIALOG  **************************************
-static const String updateDialogText =  "با انتشار نسخه جدید کاربر مجبور به بروزرسانی اپلیکیشن خواهد شد آیا شما مطمئن هستید؟";
-               
+  static const String updateDialogText =
+      "با انتشار نسخه جدید کاربر مجبور به بروزرسانی اپلیکیشن خواهد شد آیا شما مطمئن هستید؟";
+//********************************************* FILE PICKER   **************************************
+  static const String filePickerPleasePickaFile = 'لطفا تصویری انتخاب کنید';
+
+  static const String filePickerPleasePickaAPKFile = 'لطفا فایلی انتخاب کنید';
 }

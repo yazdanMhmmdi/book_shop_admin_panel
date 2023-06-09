@@ -13,7 +13,7 @@ class _BookShopClient implements BookShopClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.5/book_shop/v1.1/api/admin';
+    baseUrl ??= 'http://yazdanmohammadi.ir/book_shop/v1.1/api/admin';
   }
 
   final Dio _dio;

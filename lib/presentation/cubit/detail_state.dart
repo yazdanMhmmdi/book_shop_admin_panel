@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 part of 'detail_cubit.dart';
 
 abstract class DetailState extends Equatable {
@@ -23,10 +25,10 @@ class DetailStatus extends DetailState {
 
   @override
   List<Object> get props => [
-        this.maxBorderRadius,
-        this.borderRadius,
-        this.borderRadius,
-        this.draggableSize,
-        this.percent
+        maxBorderRadius,
+        borderRadius,
+        borderRadius,
+        draggableSize,
+        percent
       ];
 }

@@ -1,5 +1,8 @@
-import 'package:book_shop_admin_panel/core/utils/typogaphy.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+
+import '../../../core/utils/typogaphy.dart';
 
 class WarningBarMobile extends StatelessWidget {
   String text;
