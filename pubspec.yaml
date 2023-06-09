@@ -1,12 +1,12 @@
 name: book_shop_admin_panel
-description: A new Flutter project.
+description: Book Shop Admin Panel
 
 publish_to: "none"
 
-version: 1.1.0+1
+version: 2.1.0+1
 
 environment:
-  sdk: '>=3.0.3 <4.0.0'
+  sdk: ">=3.0.3 <4.0.0"
 
 dependencies:
   animated_floating_buttons: ^0.0.2
