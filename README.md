@@ -1,16 +1,7 @@
+
+![admin1](https://github.com/yazdanMhmmdi/book_shop_admin_panel/assets/71337251/555a1fbc-e003-4066-9f38-e1c6cc637cbd)
+
 # book_shop_admin_panel
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# v2.0.0
+- clean arch feature
